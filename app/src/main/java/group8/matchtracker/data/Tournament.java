@@ -1,26 +1,29 @@
 package group8.matchtracker.data;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
  * Created by dsoll on 2/19/2016.
  */
 public class Tournament {
-    private int tID;
+    private int id;
     private String name;
-    private Date start;
-    private Date end;
+    private int startTime;
+    private int endTime;
     private String location; // Change to a different data type later
     private String organizer;
     private List<Event> events;
 
-    public Tournament(int tID, String name, Date start, Date end, String location, String organizer) {
-        this.tID = tID;
+    public Tournament() {
+        this.events = new ArrayList<Event>();
+    }
+
+    public Tournament(int id, String name, int startTime, int endTime, String location, String organizer) {
+        this.id = id;
         this.name = name;
-        this.start = start;
-        this.end = end;
+        this.startTime = startTime;
+        this.endTime = endTime;
         this.location = location;
         this.organizer = organizer;
         this.events = new ArrayList<Event>();
@@ -30,21 +33,46 @@ public class Tournament {
         this.events.add(event);
     }
 
+    /* SETTERS */
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setStartTime(int startTime) {
+        this.startTime = startTime;
+    }
+
+    public void setEndTime(int endTime) {
+        this.endTime = endTime;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public void setOrganizer(String organizer) {
+        this.organizer = organizer;
+    }
+
     /* GETTERS */
-    public int gettID() {
-        return tID;
+    public int getId() {
+        return id;
     }
 
     public String getName() {
         return name;
     }
 
-    public Date getStartTime() {
-        return start;
+    public int getStartTime() {
+        return startTime;
     }
 
-    public Date getEndTime() {
-        return end;
+    public int getEndTime() {
+        return endTime;
     }
 
     public String getLocation() {
