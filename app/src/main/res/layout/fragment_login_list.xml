@@ -10,4 +10,10 @@
     tools:context=".activities.Login"
     tools:showIn="@layout/activity_login">
 
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/playerList"
+        android:layout_gravity="center_vertical"
+        android:choiceMode="singleChoice" />
 </LinearLayout>
