@@ -1,15 +1,17 @@
 package group8.matchtracker.activities;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.view.View;
 
-import group8.matchtracker.R;
+public class Login extends FragmentActivity implements View.OnClickListener {
 
-public class Login extends AppCompatActivity {
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+    public void onCreate(Bundle saveInstanceState){
+        super.onCreate(saveInstanceState);
     }
+
+    public void onClick(View v){
+
+    }
+
 }
