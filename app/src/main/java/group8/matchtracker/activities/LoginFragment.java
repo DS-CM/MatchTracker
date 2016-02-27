@@ -16,10 +16,13 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.util.Log;
 
+import java.util.ArrayList;
+
 import group8.matchtracker.R;
 
-public class LoginFragment extends Fragment {
+public class LoginFragment extends ListFragment {
 
+    ArrayList<String> nameList = new ArrayList<>();
 
     @Override
     public void onCreate(Bundle savedInstanceState){
@@ -29,21 +32,24 @@ public class LoginFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         View v = inflater.inflate(R.layout.login_fragment, container, false);
-        final ListView lv = (ListView)v.findViewById(android.R.id.list);
 
-        /*String[] names = new String[] {"Name1", "Name2", "Name3", "Name4"};
-        ArrayAdapter adapter = new ArrayAdapter(getActivity(),android.R.layout.simple_list_item_1, names);
-        ListFragment.setListAdapter(adapter);*/
+        nameList.add("Name1");
+        nameList.add("Name2");
+        nameList.add("Name3");
+        nameList.add("Name4");
+        nameList.add("Name5");
 
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String value = parent.getItemAtPosition(position).toString();
-                Log.println(Log.INFO, "TEST: ", value);
-            }
-        });
+        setListAdapter(new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, nameList));
 
         return v;
+    }
+
+    @Override
+    public void onListItemClick(ListView lv, View v, int position, long id){
+        super.onListItemClick(lv,v,position,id);
+
+        String value = lv.getItemAtPosition(position).toString();
+        Log.println(Log.INFO, "TEST: ", value);
     }
 
 }
