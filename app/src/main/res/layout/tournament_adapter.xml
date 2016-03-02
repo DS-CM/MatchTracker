@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <!-- TODO - Update the source -->
+    <ImageView
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:scaleType="center"
+        android:id="@+id/tournament_image_view"
+        android:src="@android:drawable/ic_menu_camera"
+        android:layout_gravity="center_horizontal"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tournament_name_textview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="8dp"
+            android:textSize="12sp"
+            android:textColor="@color/material_blue_grey_800"/>
+        <TextView
+            android:id="@+id/tournament_date_textview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="16dp"
+            android:maxLines="3"
+            android:textSize="16sp"
+            android:textColor="@color/material_deep_teal_500"/>
+    </LinearLayout>
+</LinearLayout>
