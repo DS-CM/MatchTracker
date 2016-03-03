@@ -17,22 +17,42 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+
         <TextView
             android:id="@+id/tournament_name_textview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:textSize="12sp"
-            android:textColor="@color/material_blue_grey_800"
+            android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="Name"/>
-        <TextView
-            android:id="@+id/tournament_date_textview"
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:maxLines="3"
-            android:textSize="16sp"
-            android:textColor="@color/material_deep_teal_500"
-            android:text="Date"/>
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/tournament_location_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Location"/>
+            <TextView
+                android:id="@+id/tournament_date_textview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:textAlignment="gravity"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/material_deep_teal_500"
+                android:text="1/2 to 1/3"/>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tournament_organizer_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="By Organizer"/>
+
     </LinearLayout>
 </LinearLayout>

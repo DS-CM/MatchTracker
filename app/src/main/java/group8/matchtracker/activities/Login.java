@@ -9,6 +9,8 @@ import group8.matchtracker.R;
 
 public class Login extends FragmentActivity {
 
+
+    @Override
     public void onCreate(Bundle saveInstanceState){
         super.onCreate(saveInstanceState);
         setContentView(R.layout.login);
