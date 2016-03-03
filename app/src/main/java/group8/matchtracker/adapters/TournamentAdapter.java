@@ -9,13 +9,17 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 import group8.matchtracker.R;
+import group8.matchtracker.data.Tournament;
 
 /**
  * Created by dsoll on 2/29/2016.
  */
 public class TournamentAdapter extends RecyclerView.Adapter<TournamentAdapter.ViewHolder> {
     private Context mContext;
+    private ArrayList<Tournament> mTournaments;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView mNameTextView;
@@ -26,8 +30,9 @@ public class TournamentAdapter extends RecyclerView.Adapter<TournamentAdapter.Vi
         }
     }
 
-    public TournamentAdapter(Context context) {
+    public TournamentAdapter(Context context, ArrayList<Tournament> tournaments) {
         mContext = context;
+        mTournaments = tournaments;
     }
 
     @Override
