@@ -22,9 +22,11 @@ public class TournamentAdapter extends RecyclerView.Adapter<TournamentAdapter.Vi
     private ArrayList<Tournament> mTournaments;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView mNameTextView;
-        public TextView mDateTextView;
         public ImageView mImageView;
+        public TextView mNameTextView;
+        public TextView mLocationTextView;
+        public TextView mDateTextView;
+        public TextView mOrganizerTextView;
         public ViewHolder(View v) {
             super (v);
         }
@@ -40,9 +42,12 @@ public class TournamentAdapter extends RecyclerView.Adapter<TournamentAdapter.Vi
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.tournament_adapter, parent, false);
         ViewHolder viewHolder = new ViewHolder(v);
 
-        viewHolder.mNameTextView = (TextView) v.findViewById(R.id.tournament_name_textview);
-        viewHolder.mDateTextView = (TextView) v.findViewById(R.id.tournament_date_textview);
+
         viewHolder.mImageView = (ImageView) v.findViewById(R.id.tournament_image_view);
+        viewHolder.mNameTextView = (TextView) v.findViewById(R.id.tournament_name_textview);
+        viewHolder.mLocationTextView = (TextView) v.findViewById(R.id.tournament_location_textview);
+        viewHolder.mDateTextView = (TextView) v.findViewById(R.id.tournament_date_textview);
+        viewHolder.mOrganizerTextView = (TextView) v.findViewById(R.id.tournament_organizer_textview);
 
         return viewHolder;
     }
@@ -55,12 +60,16 @@ public class TournamentAdapter extends RecyclerView.Adapter<TournamentAdapter.Vi
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Tournament currentTournament = mTournaments.get(position);
+        String dates = "" + currentTournament.getStartTime() + " to " + currentTournament.getEndTime();
 
-        holder.mNameTextView.setText(currentTournament.getName());
-        holder.mDateTextView.setText("" + currentTournament.getStartTime());
-
+        // TODO - holder.mImageView for logo
         if (false) { // is imageuri is != null enter
             holder.mImageView.setImageURI(Uri.parse("uri link"));
         }
+
+        holder.mNameTextView.setText(currentTournament.getName());
+        holder.mLocationTextView.setText(currentTournament.getLocation());
+        holder.mDateTextView.setText(dates);
+        holder.mOrganizerTextView.setText("By " + currentTournament.getOrganizer());
     }
 }
