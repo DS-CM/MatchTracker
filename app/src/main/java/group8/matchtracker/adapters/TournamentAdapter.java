@@ -49,15 +49,15 @@ public class TournamentAdapter extends RecyclerView.Adapter<TournamentAdapter.Vi
 
     @Override
     public int getItemCount() {
-        return 1; // TODO - Fix
+        return mTournaments.size();
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        // stuff
+        Tournament currentTournament = mTournaments.get(position);
 
-        holder.mNameTextView.setText("stuff"); /*TODO - add*/
-        holder.mDateTextView.setText("Date");
+        holder.mNameTextView.setText(currentTournament.getName());
+        holder.mDateTextView.setText("" + currentTournament.getStartTime());
 
         if (false) { // is imageuri is != null enter
             holder.mImageView.setImageURI(Uri.parse("uri link"));
