@@ -1,6 +1,7 @@
 package group8.matchtracker.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import group8.matchtracker.R;
+import group8.matchtracker.activities.Login;
 import group8.matchtracker.data.Tournament;
 
 /**
@@ -21,14 +23,27 @@ public class TournamentAdapter extends RecyclerView.Adapter<TournamentAdapter.Vi
     private Context mContext;
     private ArrayList<Tournament> mTournaments;
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        public int mTournamentId;
         public ImageView mImageView;
         public TextView mNameTextView;
         public TextView mLocationTextView;
         public TextView mDateTextView;
         public TextView mOrganizerTextView;
+
         public ViewHolder(View v) {
             super (v);
+            v.setOnClickListener(this);
+        }
+
+
+        @Override
+        public void onClick(View v) {
+            //if (mCrime != null) { // TODO - Figure out what shouldn't be null, taken from https://www.bignerdranch.com/blog/recyclerview-part-1-fundamentals-for-listview-experts/
+                Context context = itemView.getContext();
+                Intent i = new Intent(context, Login.class);
+                context.startActivity(i);
+            //}
         }
     }
 
@@ -41,7 +56,6 @@ public class TournamentAdapter extends RecyclerView.Adapter<TournamentAdapter.Vi
     public TournamentAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.tournament_adapter, parent, false);
         ViewHolder viewHolder = new ViewHolder(v);
-
 
         viewHolder.mImageView = (ImageView) v.findViewById(R.id.tournament_image_view);
         viewHolder.mNameTextView = (TextView) v.findViewById(R.id.tournament_name_textview);
@@ -61,6 +75,8 @@ public class TournamentAdapter extends RecyclerView.Adapter<TournamentAdapter.Vi
     public void onBindViewHolder(ViewHolder holder, int position) {
         Tournament currentTournament = mTournaments.get(position);
         String dates = "" + currentTournament.getStartTime() + " to " + currentTournament.getEndTime();
+
+        holder.mTournamentId = currentTournament.getId();
 
         // TODO - holder.mImageView for logo
         if (false) { // is imageuri is != null enter
