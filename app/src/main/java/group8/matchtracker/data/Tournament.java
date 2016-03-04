@@ -1,5 +1,7 @@
 package group8.matchtracker.data;
 
+import android.database.Cursor;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +18,7 @@ public class Tournament {
     private List<Event> events;
 
     public Tournament() {
-        this.events = new ArrayList<Event>();
+        this.events = new ArrayList<>();
     }
 
     public Tournament(int id, String name, int startTime, int endTime, String location, String organizer) {
@@ -26,7 +28,17 @@ public class Tournament {
         this.endTime = endTime;
         this.location = location;
         this.organizer = organizer;
-        this.events = new ArrayList<Event>();
+        this.events = new ArrayList<>();
+    }
+
+    public Tournament(Cursor cursor){
+        this.id = cursor.getInt(cursor.getColumnIndex("id"));
+        this.name = cursor.getString(cursor.getColumnIndex("name"));
+        this.startTime = cursor.getInt(cursor.getColumnIndex("start"));
+        this.endTime = cursor.getInt(cursor.getColumnIndex("end"));
+        this.location = cursor.getString(cursor.getColumnIndex("location"));
+        this.organizer = cursor.getString(cursor.getColumnIndex("organizer"));
+        this.events = new ArrayList<>();
     }
 
     public void addEvent(Event event) {

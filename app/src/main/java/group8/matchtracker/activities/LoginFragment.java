@@ -3,7 +3,9 @@ package group8.matchtracker.activities;
 
 import android.app.Fragment;
 import android.app.ListFragment;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -46,10 +48,14 @@ public class LoginFragment extends ListFragment {
 
     @Override
     public void onListItemClick(ListView lv, View v, int position, long id){
-        super.onListItemClick(lv,v,position,id);
+        super.onListItemClick(lv, v, position, id);
 
         String value = lv.getItemAtPosition(position).toString();
         Log.println(Log.INFO, "TEST: ", value);
+
+        Context context = v.getContext();
+        Intent i = new Intent(context, TabbedActivity.class);
+        context.startActivity(i);
     }
 
 }

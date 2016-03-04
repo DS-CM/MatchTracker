@@ -13,43 +13,88 @@ import java.util.List;
 
 import group8.matchtracker.data.Tournament;
 
-public class DatabaseHelper {
+public class DatabaseHelper extends SQLiteOpenHelper {
+    public static final String TAG = "DBHelper";
     private static final String DATABASE_NAME = "MatchTracker.db";
     private static final int DATABASE_VERSION = 1;
-    private static final String TABLE_TOURNAMENT = "Tournaments";
-    private static final String TABLE_EVENT = "Events";
-    private static final String TABLE_MATCH = "Matches";
-    private static final String TABLE_PLAYER = "Players";
-    private static final String TABLE_PLAYERS_IN_EVENT = "players_in_event";
-    private static final String TABLE_PLAYERS_IN_MATCH = "players_in_match";
-    private static final String TABLE_MATCHES_IN_EVENT = "matches_in_event";
-    private static final String TABLE_EVENTS_IN_TOURNAMENT = "events_in_tournaments";
+    public static final String TABLE_TOURNAMENT = "tournaments";
+    public static final String TABLE_EVENT = "events";
+    public static final String TABLE_MATCH = "matches";
+    public static final String TABLE_PLAYER = "players";
+    public static final String TABLE_PLAYERS_IN_EVENT = "players_in_event";
+    public static final String TABLE_PLAYERS_IN_MATCH = "players_in_match";
+    public static final String TABLE_MATCHES_IN_EVENT = "matches_in_event";
+    public static final String TABLE_EVENTS_IN_TOURNAMENT = "events_in_tournaments";
     private Context context;
     private SQLiteDatabase db;
-    private SQLiteStatement insertStmt; /*TODO: create insert statements for each table*/
-    private static final String INSERT = "" ; /*TODO: write insert strings for each table*/
 
     // Tournament
-    private static final String TOURNAMENT_ID = "tid";
-    private static final String TOURNAMENT_NAME = "name";
-    private static final String TOURNAMENT_START = "start";
-    private static final String TOURNAMENT_END = "end";
-    private static final String TOURNAMENT_LOCATION = "location";
-    private static final String TOURNAMENT_ORGANIZER = "organizer";
+    public static final String TOURNAMENT_ID = "id";
+    public static final String TOURNAMENT_NAME = "name";
+    public static final String TOURNAMENT_START = "start";
+    public static final String TOURNAMENT_END = "end";
+    public static final String TOURNAMENT_LOCATION = "location";
+    public static final String TOURNAMENT_ORGANIZER = "organizer";
+
+    // Event
+    public static final String EVENT_ID = "id";
+    public static final String EVENT_NAME = "name";
+
+    // Match
+    public static final String MATCH_ID = "id";
+    public static final String MATCH_ROUND = "round";
+    public static final String MATCH_IDENTIFIER = "identifier";
+    public static final String MATCH_RESULT = "result";
+
+    // Player
+    public static final String PLAYER_ID = "id";
+    public static final String PLAYER_NAME = "name";
+    public static final String PLAYER_IGN = "ign";
+
+    // p_i_e
+
+
+    // p_i_m
+
+
+    // m_i_e
+
+
+    // e_i_t
+
+    private static final String SQL_CREATE_TABLE_TOURNAMENTS = "CREATE TABLE "+TABLE_TOURNAMENT+" ("
+            +TOURNAMENT_ID+" INTEGER PRIMARY KEY, "
+            +TOURNAMENT_NAME+" STRING, "
+            +TOURNAMENT_START+" INTEGER, "
+            +TOURNAMENT_END+" INTEGER, "
+            +TOURNAMENT_LOCATION+" STRING, "
+            +TOURNAMENT_ORGANIZER+" STRING)";
+
+    private static final String SQL_CREATE_TABLE_PLAYERS = "CREATE TABLE "+TABLE_PLAYER+" ("
+            +PLAYER_ID+" INTEGER PRIMARY KEY, "
+            +PLAYER_NAME+" STRING, "
+            +PLAYER_IGN+" STRING)";
+
+    private static final String SQL_CREATE_TABLE_MATCHES = "CREATE TABLE "+TABLE_MATCH+" ("
+            +MATCH_ID+" INTEGER PRIMARY KEY, "
+            +MATCH_ROUND+" INTEGER, "
+            +MATCH_IDENTIFIER+" STRING, "
+            +MATCH_RESULT+" STRING)";
+
+    private static final String SQL_CREATE_TABLE_EVENTS = "CREATE TABLE "+TABLE_EVENT+" ("
+            +EVENT_ID+" INTEGER PRIMARY KEY, "
+            +EVENT_NAME+" STRING)";
 
 
     public DatabaseHelper(Context context) {
-        this.context = context;
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        /*this.context = context;
         MatchTrackerOpenHelper openHelper = new MatchTrackerOpenHelper(this.context);
         this.db = openHelper.getWritableDatabase();
-        this.insertStmt = this.db.compileStatement(INSERT);
+        this.insertStmt = this.db.compileStatement(INSERT);*/
     }
 
-    public void insert(){
-        /*TODO: Implement insert function*/
-    }
-
-    // Tournament
+   /* // Tournament
     public long createTournament(Tournament tournament) {
         ContentValues values = new ContentValues();
         values.put(TOURNAMENT_NAME, tournament.getName());
@@ -126,20 +171,37 @@ public class DatabaseHelper {
                 new String[] { String.valueOf(tournament_ID) });
     }
 
-
+*/
 
     public void deleteAll(){
         this.db.delete(TABLE_TOURNAMENT, null, null);
         this.db.delete(TABLE_EVENT, null, null);
         this.db.delete(TABLE_MATCH, null, null);
         this.db.delete(TABLE_PLAYER, null, null);
-        this.db.delete(TABLE_PLAYERS_IN_EVENT, null, null);
+/*        this.db.delete(TABLE_PLAYERS_IN_EVENT, null, null);
         this.db.delete(TABLE_PLAYERS_IN_MATCH, null, null);
         this.db.delete(TABLE_MATCHES_IN_EVENT, null, null);
-        this.db.delete(TABLE_EVENTS_IN_TOURNAMENT, null, null);
+        this.db.delete(TABLE_EVENTS_IN_TOURNAMENT, null, null);*/
     }
 
-    private static class MatchTrackerOpenHelper extends SQLiteOpenHelper{
+    @Override
+    public void onCreate(SQLiteDatabase db) {
+        db.execSQL(SQL_CREATE_TABLE_TOURNAMENTS);
+        db.execSQL(SQL_CREATE_TABLE_PLAYERS);
+        db.execSQL(SQL_CREATE_TABLE_MATCHES);
+        db.execSQL(SQL_CREATE_TABLE_EVENTS);
+    }
+
+    @Override
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        Log.w(TAG,"Upgrading the database from version " + oldVersion + " to "+ newVersion);
+        db.execSQL("DROP TABLE IF EXISTS "+TABLE_TOURNAMENT);
+        db.execSQL("DROP TABLE IF EXISTS "+TABLE_EVENT);
+        db.execSQL("DROP TABLE IF EXISTS "+TABLE_MATCH);
+        db.execSQL("DROP TABLE IF EXISTS "+TABLE_PLAYER);
+    }
+
+/*    private static class MatchTrackerOpenHelper extends SQLiteOpenHelper{
         MatchTrackerOpenHelper(Context context){
             super(context,DATABASE_NAME, null, DATABASE_VERSION);
         }
@@ -166,5 +228,5 @@ public class DatabaseHelper {
             db.execSQL("DROP TABLE IF EXISTS "+TABLE_PLAYERS_IN_MATCH);
             db.execSQL("DROP TABLE IF EXISTS "+TABLE_EVENTS_IN_TOURNAMENT);
         }
-    }
+    }*/
 }
