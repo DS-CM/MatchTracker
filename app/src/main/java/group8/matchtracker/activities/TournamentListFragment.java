@@ -6,6 +6,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,7 @@ import group8.matchtracker.database.tables.TournamentTable;
 
 
 public class TournamentListFragment extends Fragment {
+    private final String TAG = getClass().getSimpleName();
     private TournamentAdapter mTournamentAdapter;
     private ArrayList<Tournament> mTournaments;
 
@@ -29,6 +31,7 @@ public class TournamentListFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d(TAG, "onCreate");
 
         /*mTournaments = new ArrayList<Tournament>();
         mTournaments.add(new Tournament(1, "Shuffle VIII", 03122016, 03132016, "Ohio Union", "eSports Initiative"));
@@ -54,6 +57,7 @@ public class TournamentListFragment extends Fragment {
         mTournamentAdapter = new TournamentAdapter(v.getContext(), mTournaments);
         recyclerView.setAdapter(mTournamentAdapter);
 
+        Log.d(TAG, "OnCreateView");
         return v;
     }
 }

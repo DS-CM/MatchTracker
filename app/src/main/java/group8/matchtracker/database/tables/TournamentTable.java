@@ -15,7 +15,7 @@ import group8.matchtracker.database.DatabaseHelper;
 
 
 public class TournamentTable {
-    public final String TAG = "TournamentTable";
+    public final String TAG = getClass().getSimpleName();
 
     private SQLiteDatabase mDatabase;
     private DatabaseHelper mDbHelper;

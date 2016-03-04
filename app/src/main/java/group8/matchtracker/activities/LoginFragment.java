@@ -23,12 +23,13 @@ import java.util.ArrayList;
 import group8.matchtracker.R;
 
 public class LoginFragment extends ListFragment {
-
-    ArrayList<String> nameList = new ArrayList<>();
+    private final String TAG = getClass().getSimpleName();
+    private ArrayList<String> nameList = new ArrayList<>();
 
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
+        Log.d(TAG, "onCreate");
     }
 
     @Override
@@ -43,6 +44,7 @@ public class LoginFragment extends ListFragment {
 
         setListAdapter(new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, nameList));
 
+        Log.d(TAG, "onCreateView");
         return v;
     }
 
@@ -50,12 +52,12 @@ public class LoginFragment extends ListFragment {
     public void onListItemClick(ListView lv, View v, int position, long id){
         super.onListItemClick(lv, v, position, id);
 
-        String value = lv.getItemAtPosition(position).toString();
-        Log.println(Log.INFO, "TEST: ", value);
-
+        //String value = lv.getItemAtPosition(position).toString();
         Context context = v.getContext();
         Intent i = new Intent(context, TabbedActivity.class);
         context.startActivity(i);
+
+        Log.d(TAG, "onListItemClick");
     }
 
 }
