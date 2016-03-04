@@ -2,14 +2,11 @@ package group8.matchtracker.database.tables;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
-
 import android.database.SQLException;
 import android.util.Log;
-
 import group8.matchtracker.database.DatabaseHelper;
 
 public abstract class DBTable {
-
     protected SQLiteDatabase mDatabase;
     protected DatabaseHelper mDbHelper;
     protected Context mContext;
