@@ -15,14 +15,12 @@ import java.util.ArrayList;
 import group8.matchtracker.R;
 import group8.matchtracker.adapters.TournamentAdapter;
 import group8.matchtracker.data.Tournament;
-import group8.matchtracker.database.DatabaseHelper;
 import group8.matchtracker.database.tables.TournamentTable;
 
 
 public class TournamentListFragment extends Fragment {
     private TournamentAdapter mTournamentAdapter;
     private ArrayList<Tournament> mTournaments;
-    private DatabaseHelper mDbHelper;
 
     public TournamentListFragment() {
         // Required empty public constructor
@@ -31,6 +29,8 @@ public class TournamentListFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d(TAG, "onCreate");
+
         /*mTournaments = new ArrayList<Tournament>();
         mTournaments.add(new Tournament(1, "Shuffle VIII", 03122016, 03132016, "Ohio Union", "eSports Initiative"));
         mTournaments.add(new Tournament(2, "Big House", 05032016, 05042016, "U of M", "The school up north"));
@@ -41,13 +41,13 @@ public class TournamentListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v =  inflater.inflate(R.layout.tournament_list_fragment, container, false);
-        mDbHelper = new DatabaseHelper(v.getContext());
 
-        mDbHelper.mTournamentTable.createTournament(1, "Shuffle VIII", 03122016, 03132016, "Ohio Union", "eSports Initiative");
-        mDbHelper.mTournamentTable.createTournament(2, "Big House", 05032016, 05042016, "U of M", "The school up north");
-        mDbHelper.mTournamentTable.createTournament(3, "EVO", 22, 23, "Cali", "EVO LLC");
+        TournamentTable tournamentTable = new TournamentTable(v.getContext());
+        tournamentTable.createTournament(1, "Shuffle VIII", 03122016, 03132016, "Ohio Union", "eSports Initiative");
+        tournamentTable.createTournament(2, "Big House", 05032016, 05042016, "U of M", "The school up north");
+        tournamentTable.createTournament(3, "EVO", 22, 23, "Cali", "EVO LLC");
 
-        mTournaments = mDbHelper.mTournamentTable.getAllTournaments();
+        mTournaments = tournamentTable.getAllTournaments();
 
         RecyclerView recyclerView = (RecyclerView) v.findViewById(R.id.tournamentlist_recycler_view);
         LinearLayoutManager layoutManager = new LinearLayoutManager(v.getContext());
