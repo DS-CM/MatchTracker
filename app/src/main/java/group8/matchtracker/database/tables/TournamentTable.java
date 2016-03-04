@@ -14,26 +14,16 @@ import group8.matchtracker.data.Tournament;
 import group8.matchtracker.database.DatabaseHelper;
 
 
-public class TournamentTable {
+public class TournamentTable extends DBTable {
     public final String TAG = getClass().getSimpleName();
 
-    private SQLiteDatabase mDatabase;
-    private DatabaseHelper mDbHelper;
-    private Context mContext;
     private String[] mAllColumns = {mDbHelper.TOURNAMENT_ID, mDbHelper.TOURNAMENT_NAME,
             mDbHelper.TOURNAMENT_START, mDbHelper.TOURNAMENT_END, mDbHelper.TOURNAMENT_LOCATION,
             mDbHelper.TOURNAMENT_ORGANIZER};
 
-    public TournamentTable(Context context){
-        this.mContext = context;
-        mDbHelper = new DatabaseHelper(context);
+    public TournamentTable(Context context, DatabaseHelper dbHelper){
+        super(context, dbHelper);
 
-        try{
-            open();
-        }catch (SQLException e){
-            Log.e(TAG, "SQLException on opening database " + e.getMessage());
-            e.printStackTrace();
-        }
         mDatabase.execSQL("delete from "+mDbHelper.TABLE_TOURNAMENT); /*TODO: Get rid of this line eventually*/
     }
 
