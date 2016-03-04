@@ -47,12 +47,11 @@ public class TournamentListFragment extends Fragment {
         View v =  inflater.inflate(R.layout.tournament_list_fragment, container, false);
         mDbHelper = new DatabaseHelper(v.getContext());
 
-        TournamentTable tournamentTable = new TournamentTable(v.getContext(), mDbHelper);
-        tournamentTable.createTournament(1, "Shuffle VIII", 03122016, 03132016, "Ohio Union", "eSports Initiative");
-        tournamentTable.createTournament(2, "Big House", 05032016, 05042016, "U of M", "The school up north");
-        tournamentTable.createTournament(3, "EVO", 22, 23, "Cali", "EVO LLC");
+        mDbHelper.mTournamentTable.createTournament(1, "Shuffle VIII", 03122016, 03132016, "Ohio Union", "eSports Initiative");
+        mDbHelper.mTournamentTable.createTournament(2, "Big House", 05032016, 05042016, "U of M", "The school up north");
+        mDbHelper.mTournamentTable.createTournament(3, "EVO", 22, 23, "Cali", "EVO LLC");
 
-        mTournaments = tournamentTable.getAllTournaments();
+        mTournaments = mDbHelper.mTournamentTable.getAllTournaments();
 
         RecyclerView recyclerView = (RecyclerView) v.findViewById(R.id.tournamentlist_recycler_view);
         LinearLayoutManager layoutManager = new LinearLayoutManager(v.getContext());
