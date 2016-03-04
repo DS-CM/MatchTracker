@@ -12,6 +12,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import group8.matchtracker.data.Tournament;
+import group8.matchtracker.database.tables.EventTable;
+import group8.matchtracker.database.tables.MatchTable;
+import group8.matchtracker.database.tables.PlayerTable;
+import group8.matchtracker.database.tables.TournamentTable;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String TAG = "DBHelper";
@@ -25,6 +29,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String TABLE_PLAYERS_IN_MATCH = "players_in_match";
     public static final String TABLE_MATCHES_IN_EVENT = "matches_in_event";
     public static final String TABLE_EVENTS_IN_TOURNAMENT = "events_in_tournaments";
+    public TournamentTable mTournamentTable;
+    public PlayerTable mPlayerTable;
+    public EventTable mEventTable;
+    public MatchTable mMatchTable;
     private Context context;
     private SQLiteDatabase db;
 
@@ -88,6 +96,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        mTournamentTable = new TournamentTable(context, this);
+        mPlayerTable = new PlayerTable(context, this);
+        mEventTable = new EventTable(context, this);
+        mMatchTable = new MatchTable(context, this);
         /*this.context = context;
         MatchTrackerOpenHelper openHelper = new MatchTrackerOpenHelper(this.context);
         this.db = openHelper.getWritableDatabase();

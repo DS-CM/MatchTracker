@@ -1,5 +1,7 @@
 package group8.matchtracker.data;
 
+import android.database.Cursor;
+
 /**
  * Created by dsoll on 2/19/2016.
  */
@@ -10,6 +12,11 @@ public class Player {
     public Player(String name, String ign) {
         this.name = name;
         this.ign = ign;
+    }
+
+    public Player(Cursor cursor){
+        this.name = cursor.getString(cursor.getColumnIndex("name"));
+        this.ign = cursor.getString(cursor.getColumnIndex("ign"));
     }
 
     /* GETTERS */

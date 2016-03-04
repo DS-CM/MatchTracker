@@ -1,5 +1,7 @@
 package group8.matchtracker.data;
 
+import android.database.Cursor;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,6 +15,12 @@ public class Event {
 
     public Event(String name) {
         this.name = name;
+        this.players = new ArrayList<>();
+        this.matches = new ArrayList<>();
+    }
+
+    public Event(Cursor cursor){
+        this.name = cursor.getString(cursor.getColumnIndex("name"));
         this.players = new ArrayList<>();
         this.matches = new ArrayList<>();
     }
