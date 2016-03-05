@@ -6,9 +6,15 @@ import android.database.Cursor;
  * Created by dsoll on 2/19/2016.
  */
 public class Player {
+    private final String TAG = getClass().toString();
+
     private int id;
     private String name;
     private String ign; // In Game Name
+
+    public Player() {
+        // Empty :)
+    }
 
     public Player(int id, String name, String ign) {
         this.id = id;

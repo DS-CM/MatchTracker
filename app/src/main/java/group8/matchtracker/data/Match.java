@@ -6,6 +6,8 @@ import android.database.Cursor;
  * Created by dsoll on 2/19/2016.
  */
 public class Match {
+    private final String TAG = getClass().toString();
+
     private int id;
     private int round;
     private String identifier;

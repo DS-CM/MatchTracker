@@ -9,6 +9,8 @@ import java.util.List;
  * Created by dsoll on 2/19/2016.
  */
 public class Tournament {
+    private final String TAG = getClass().toString();
+
     private int id;
     private String name;
     private int startTime;

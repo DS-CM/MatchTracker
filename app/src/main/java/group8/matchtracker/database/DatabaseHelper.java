@@ -1,24 +1,18 @@
 package group8.matchtracker.database;
 
-import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.database.sqlite.SQLiteStatement;
 import android.util.Log;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import group8.matchtracker.data.Tournament;
 import group8.matchtracker.database.tables.EventTable;
 import group8.matchtracker.database.tables.MatchTable;
 import group8.matchtracker.database.tables.PlayerTable;
 import group8.matchtracker.database.tables.TournamentTable;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
-    public static final String TAG = "DBHelper";
+    private final String TAG = getClass().getSimpleName();
+
     private static final String DATABASE_NAME = "MatchTracker.db";
     private static final int DATABASE_VERSION = 1;
     public static final String TABLE_TOURNAMENT = "tournaments";
