@@ -9,17 +9,20 @@ import java.util.List;
  * Created by dsoll on 2/19/2016.
  */
 public class Event {
+    private int id;
     private String name;
     private List<Player> players;
     private List<Match> matches;
 
-    public Event(String name) {
+    public Event(int id, String name) {
+        this.id = id;
         this.name = name;
         this.players = new ArrayList<>();
         this.matches = new ArrayList<>();
     }
 
     public Event(Cursor cursor){
+        this.id = cursor.getInt(cursor.getColumnIndex("id"));
         this.name = cursor.getString(cursor.getColumnIndex("name"));
         this.players = new ArrayList<>();
         this.matches = new ArrayList<>();
