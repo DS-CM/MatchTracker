@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".activities.Login">
+    tools:context="group8.matchtracker.activities.Login">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -29,16 +29,16 @@
         android:layout_height="match_parent"
         android:layout_marginTop="70dip"
         android:orientation="vertical">
+
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Who Are You?"
-            android:id="@+id/textView"
-            android:layout_gravity="center_horizontal" />
+            android:layout_gravity="center_horizontal"/>
+
         <FrameLayout
             android:id="@+id/playerlist"
-            android:layout_weight="2"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
