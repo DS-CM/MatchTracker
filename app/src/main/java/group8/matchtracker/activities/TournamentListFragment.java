@@ -46,7 +46,7 @@ public class TournamentListFragment extends Fragment {
 
         mTournaments = mDbHelper.mTournamentTable.getAllTournaments();
 
-        RecyclerView recyclerView = (RecyclerView) v.findViewById(R.id.tournamentlist_recycler_view);
+        RecyclerView recyclerView = (RecyclerView) v.findViewById(R.id.tournament_list_fragment_recycler_view);
         LinearLayoutManager layoutManager = new LinearLayoutManager(v.getContext());
         recyclerView.setLayoutManager(layoutManager);
         mTournamentListAdapter = new TournamentListAdapter(v.getContext(), mTournaments);

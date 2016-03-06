@@ -58,10 +58,10 @@ public class TournamentListAdapter extends RecyclerView.Adapter<TournamentListAd
         ViewHolder viewHolder = new ViewHolder(v);
 
         viewHolder.mImageView = (ImageView) v.findViewById(R.id.tournament_image_view);
-        viewHolder.mNameTextView = (TextView) v.findViewById(R.id.tournament_name_textview);
-        viewHolder.mLocationTextView = (TextView) v.findViewById(R.id.tournament_location_textview);
-        viewHolder.mDateTextView = (TextView) v.findViewById(R.id.tournament_date_textview);
-        viewHolder.mOrganizerTextView = (TextView) v.findViewById(R.id.tournament_organizer_textview);
+        viewHolder.mNameTextView = (TextView) v.findViewById(R.id.tournament_list_adapter_name_textview);
+        viewHolder.mLocationTextView = (TextView) v.findViewById(R.id.tournament_list_adapter_location_textview);
+        viewHolder.mDateTextView = (TextView) v.findViewById(R.id.tournament_list_adapter_date_textview);
+        viewHolder.mOrganizerTextView = (TextView) v.findViewById(R.id.tournament_list_adapter_organizer_textview);
 
         return viewHolder;
     }

@@ -24,7 +24,7 @@
     </android.support.design.widget.AppBarLayout>
 
     <LinearLayout
-        android:id="@+id/tournamentlistdetails"
+        android:id="@+id/tournament_list_details"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="70dip"
@@ -37,7 +37,7 @@
             android:text="Choose a tournament:"/>
 
         <FrameLayout
-            android:id="@+id/tournamentlist"
+            android:id="@+id/tournament_list_fragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 

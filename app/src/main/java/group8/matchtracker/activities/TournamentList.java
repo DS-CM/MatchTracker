@@ -26,7 +26,7 @@ public class TournamentList extends AppCompatActivity {
         // Fragment stuff
         TournamentListFragment tournamentListFragment = new TournamentListFragment();
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-        fragmentTransaction.add(R.id.tournamentlist, tournamentListFragment);
+        fragmentTransaction.add(R.id.tournament_list_fragment, tournamentListFragment);
         fragmentTransaction.commit();
 
         // Search button
