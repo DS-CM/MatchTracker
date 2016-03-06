@@ -65,7 +65,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     // e_i_t
 
     private static final String SQL_CREATE_TABLE_TOURNAMENTS = "CREATE TABLE "+TABLE_TOURNAMENT+" ("
-            +TOURNAMENT_ID+" INTEGER PRIMARY KEY, "
+            +TOURNAMENT_ID+" INTEGER PRIMARY KEY ASC, "
             +TOURNAMENT_NAME+" STRING, "
             +TOURNAMENT_START+" INTEGER, "
             +TOURNAMENT_END+" INTEGER, "
@@ -73,18 +73,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             +TOURNAMENT_ORGANIZER+" STRING)";
 
     private static final String SQL_CREATE_TABLE_PLAYERS = "CREATE TABLE "+TABLE_PLAYER+" ("
-            +PLAYER_ID+" INTEGER PRIMARY KEY, "
+            +PLAYER_ID+" INTEGER PRIMARY KEY ASC NOT NULL, "
             +PLAYER_NAME+" STRING, "
             +PLAYER_IGN+" STRING)";
 
     private static final String SQL_CREATE_TABLE_MATCHES = "CREATE TABLE "+TABLE_MATCH+" ("
-            +MATCH_ID+" INTEGER PRIMARY KEY, "
+            +MATCH_ID+" INTEGER PRIMARY KEY ASC, "
             +MATCH_ROUND+" INTEGER, "
             +MATCH_IDENTIFIER+" STRING, "
             +MATCH_RESULT+" STRING)";
 
     private static final String SQL_CREATE_TABLE_EVENTS = "CREATE TABLE "+TABLE_EVENT+" ("
-            +EVENT_ID+" INTEGER PRIMARY KEY, "
+            +EVENT_ID+" INTEGER PRIMARY KEY ASC, "
             +EVENT_NAME+" STRING)";
 
 

@@ -19,30 +19,28 @@ public class PlayerTable extends DBTable {
 
     }
 
-    public Player createPlayer(int id, String name, String ign){
+    public Player createPlayer(String name, String ign){
         ContentValues values = new ContentValues();
-        values.put(mDbHelper.PLAYER_ID, id);
         values.put(mDbHelper.PLAYER_NAME, name);
         values.put(mDbHelper.PLAYER_IGN, ign);
 
         long insertId = mDatabase.insert(mDbHelper.TABLE_PLAYER, null, values);
-        Cursor cursor = mDatabase.query(mDbHelper.TABLE_PLAYER, mAllColumns, mDbHelper.PLAYER_ID
-                +" = "+insertId, null,null,null,null);
-        cursor.moveToFirst();
-        Player newPlayer = new Player(cursor);
-        cursor.close();
 
-        return newPlayer;
+        return new Player(insertId, name, ign);
     }
 
     public ArrayList<Player> getAllPlayers(){
-        ArrayList listPlayers = new ArrayList<>();
+        ArrayList<Player> listPlayers = new ArrayList<Player>();
         Cursor cursor = mDatabase.query(mDbHelper.TABLE_PLAYER, mAllColumns, null,null,null,null,null);
 
         if(cursor != null){
             cursor.moveToFirst();
             while(!cursor.isAfterLast()){
-                listPlayers.add(new Player(cursor));
+                long id = cursor.getInt(cursor.getColumnIndex(mDbHelper.PLAYER_ID));
+                String name = cursor.getString(cursor.getColumnIndex(mDbHelper.PLAYER_NAME));
+                String ign = cursor.getString(cursor.getColumnIndex(mDbHelper.PLAYER_IGN));
+
+                listPlayers.add(new Player(id, name, ign));
                 cursor.moveToNext();
             }
             cursor.close();

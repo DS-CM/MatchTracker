@@ -3,11 +3,12 @@ package group8.matchtracker.activities;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import group8.matchtracker.R;
 
-public class Login extends FragmentActivity {
+public class Login extends AppCompatActivity {
     private final String TAG = getClass().getSimpleName();
 
     @Override
@@ -16,7 +17,7 @@ public class Login extends FragmentActivity {
         setContentView(R.layout.login);
 
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-        fragmentTransaction.add(R.id.logindetails, new LoginFragment());
+        fragmentTransaction.add(R.id.playerlist, new LoginFragment());
         fragmentTransaction.commit();
 
         Log.d(TAG, "onCreate");
