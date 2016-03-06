@@ -24,7 +24,7 @@ public class LoginAdapter extends RecyclerView.Adapter<LoginAdapter.ViewHolder> 
     private ArrayList<Player> mPlayers;
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        public int mPlayerId;
+        public long mPlayerId;
         public TextView mNameTextView;
         public TextView mIgnTextView;
 
@@ -51,7 +51,7 @@ public class LoginAdapter extends RecyclerView.Adapter<LoginAdapter.ViewHolder> 
 
     @Override
     public LoginAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.tournament_adapter, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.login_adapter, parent, false);
         ViewHolder viewHolder = new ViewHolder(v);
 
         viewHolder.mNameTextView = (TextView) v.findViewById(R.id.login_name_textview);
