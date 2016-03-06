@@ -17,6 +17,7 @@ public class PlayerTable extends DBTable {
     public PlayerTable(Context context, DatabaseHelper dbHelper){
         super(context, dbHelper);
 
+        mDatabase.execSQL("delete from "+mDbHelper.TABLE_PLAYER); /*TODO: Get rid of this line eventually*/
     }
 
     public Player createPlayer(String name, String ign){
@@ -30,7 +31,7 @@ public class PlayerTable extends DBTable {
     }
 
     public ArrayList<Player> getAllPlayers(){
-        ArrayList<Player> listPlayers = new ArrayList<Player>();
+        ArrayList<Player> listPlayers = new ArrayList<>();
         Cursor cursor = mDatabase.query(mDbHelper.TABLE_PLAYER, mAllColumns, null,null,null,null,null);
 
         if(cursor != null){
