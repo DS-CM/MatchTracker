@@ -13,13 +13,13 @@ import android.util.Log;
 import java.util.ArrayList;
 
 import group8.matchtracker.R;
-import group8.matchtracker.adapters.LoginAdapter;
+import group8.matchtracker.adapters.PlayerListAdapter;
 import group8.matchtracker.data.Player;
 import group8.matchtracker.database.DatabaseHelper;
 
 public class LoginFragment extends Fragment {
     private final String TAG = getClass().getSimpleName();
-    private LoginAdapter mPlayerAdapter;
+    private PlayerListAdapter mPlayerListAdapter;
     private ArrayList<Player> mPlayers = new ArrayList<>();
     private DatabaseHelper mDbHelper;
 
@@ -31,7 +31,7 @@ public class LoginFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
-        View v = inflater.inflate(R.layout.login_fragment, container, false);
+        View v = inflater.inflate(R.layout.player_login_fragment, container, false);
 
         // TODO - Change away from this
         mDbHelper = new DatabaseHelper(v.getContext());
@@ -42,11 +42,11 @@ public class LoginFragment extends Fragment {
 
         mPlayers = mDbHelper.mPlayerTable.getAllPlayers();
 
-        RecyclerView recyclerView = (RecyclerView) v.findViewById(R.id.login_recycler_view);
+        RecyclerView recyclerView = (RecyclerView) v.findViewById(R.id.player_login_fragment_recycler_view);
         LinearLayoutManager layoutManager = new LinearLayoutManager(v.getContext());
         recyclerView.setLayoutManager(layoutManager);
-        mPlayerAdapter  = new LoginAdapter(v.getContext(), mPlayers);
-        recyclerView.setAdapter(mPlayerAdapter);
+        mPlayerListAdapter = new PlayerListAdapter(v.getContext(), mPlayers);
+        recyclerView.setAdapter(mPlayerListAdapter);
 
         Log.d(TAG, "onCreateView");
         return v;

@@ -6,12 +6,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="group8.matchtracker.activities.Login">
+    tools:context="group8.matchtracker.activities.TournamentList">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        android:theme="@style/AppTheme.NoActionBar.AppBarOverlay">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
@@ -23,8 +23,8 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/logindetails"
+    <LinearLayout
+        android:id="@+id/tournament_list_details"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="70dip"
@@ -34,14 +34,21 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Who Are You?"
-            android:layout_gravity="center_horizontal"/>
+            android:text="Choose a tournament:"/>
 
         <FrameLayout
-            android:id="@+id/playerlist"
+            android:id="@+id/tournament_list_fragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
     </LinearLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin"
+        android:src="@android:drawable/ic_search_category_default"/>
 
 </android.support.design.widget.CoordinatorLayout>

@@ -19,7 +19,7 @@ import group8.matchtracker.data.Tournament;
 /**
  * Created by dsoll on 2/29/2016.
  */
-public class TournamentAdapter extends RecyclerView.Adapter<TournamentAdapter.ViewHolder> {
+public class TournamentListAdapter extends RecyclerView.Adapter<TournamentListAdapter.ViewHolder> {
     private Context mContext;
     private ArrayList<Tournament> mTournaments;
 
@@ -47,21 +47,21 @@ public class TournamentAdapter extends RecyclerView.Adapter<TournamentAdapter.Vi
         }
     }
 
-    public TournamentAdapter(Context context, ArrayList<Tournament> tournaments) {
+    public TournamentListAdapter(Context context, ArrayList<Tournament> tournaments) {
         mContext = context;
         mTournaments = tournaments;
     }
 
     @Override
-    public TournamentAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.tournament_adapter, parent, false);
+    public TournamentListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.tournament_list_adapter, parent, false);
         ViewHolder viewHolder = new ViewHolder(v);
 
         viewHolder.mImageView = (ImageView) v.findViewById(R.id.tournament_image_view);
-        viewHolder.mNameTextView = (TextView) v.findViewById(R.id.tournament_name_textview);
-        viewHolder.mLocationTextView = (TextView) v.findViewById(R.id.tournament_location_textview);
-        viewHolder.mDateTextView = (TextView) v.findViewById(R.id.tournament_date_textview);
-        viewHolder.mOrganizerTextView = (TextView) v.findViewById(R.id.tournament_organizer_textview);
+        viewHolder.mNameTextView = (TextView) v.findViewById(R.id.tournament_list_adapter_name_textview);
+        viewHolder.mLocationTextView = (TextView) v.findViewById(R.id.tournament_list_adapter_location_textview);
+        viewHolder.mDateTextView = (TextView) v.findViewById(R.id.tournament_list_adapter_date_textview);
+        viewHolder.mOrganizerTextView = (TextView) v.findViewById(R.id.tournament_list_adapter_organizer_textview);
 
         return viewHolder;
     }

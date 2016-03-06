@@ -2,7 +2,6 @@ package group8.matchtracker.activities;
 
 import android.app.FragmentTransaction;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
@@ -14,10 +13,10 @@ public class Login extends AppCompatActivity {
     @Override
     public void onCreate(Bundle saveInstanceState){
         super.onCreate(saveInstanceState);
-        setContentView(R.layout.login);
+        setContentView(R.layout.player_login_activity);
 
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-        fragmentTransaction.add(R.id.playerlist, new LoginFragment());
+        fragmentTransaction.add(R.id.player_login_list_fragment, new LoginFragment());
         fragmentTransaction.commit();
 
         Log.d(TAG, "onCreate");

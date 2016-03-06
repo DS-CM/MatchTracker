@@ -17,7 +17,7 @@ public class TournamentList extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.tournament_list);
+        setContentView(R.layout.tournament_list_activity);
 
         // Toolbar (?_?)
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -26,7 +26,7 @@ public class TournamentList extends AppCompatActivity {
         // Fragment stuff
         TournamentListFragment tournamentListFragment = new TournamentListFragment();
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-        fragmentTransaction.add(R.id.tournamentlist, tournamentListFragment);
+        fragmentTransaction.add(R.id.tournament_list_fragment, tournamentListFragment);
         fragmentTransaction.commit();
 
         // Search button
