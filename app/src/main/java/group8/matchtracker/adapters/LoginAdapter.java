@@ -2,7 +2,6 @@ package group8.matchtracker.adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -51,7 +50,7 @@ public class LoginAdapter extends RecyclerView.Adapter<LoginAdapter.ViewHolder> 
 
     @Override
     public LoginAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.login_adapter, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.player_login_adapter, parent, false);
         ViewHolder viewHolder = new ViewHolder(v);
 
         viewHolder.mNameTextView = (TextView) v.findViewById(R.id.login_name_textview);

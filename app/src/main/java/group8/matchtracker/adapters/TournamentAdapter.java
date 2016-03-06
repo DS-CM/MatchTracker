@@ -54,7 +54,7 @@ public class TournamentAdapter extends RecyclerView.Adapter<TournamentAdapter.Vi
 
     @Override
     public TournamentAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.tournament_adapter, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.tournament_list_adapter, parent, false);
         ViewHolder viewHolder = new ViewHolder(v);
 
         viewHolder.mImageView = (ImageView) v.findViewById(R.id.tournament_image_view);
