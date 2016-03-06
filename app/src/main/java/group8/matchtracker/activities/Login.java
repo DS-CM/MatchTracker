@@ -16,7 +16,7 @@ public class Login extends AppCompatActivity {
         setContentView(R.layout.player_login_activity);
 
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-        fragmentTransaction.add(R.id.playerlist, new LoginFragment());
+        fragmentTransaction.add(R.id.player_login_list_fragment, new LoginFragment());
         fragmentTransaction.commit();
 
         Log.d(TAG, "onCreate");

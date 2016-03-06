@@ -24,7 +24,7 @@
     </android.support.design.widget.AppBarLayout>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/logindetails"
+        android:id="@+id/player_login_details"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="70dip"
@@ -38,7 +38,7 @@
             android:layout_gravity="center_horizontal"/>
 
         <FrameLayout
-            android:id="@+id/playerlist"
+            android:id="@+id/player_login_list_fragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 

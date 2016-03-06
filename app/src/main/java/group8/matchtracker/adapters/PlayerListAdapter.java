@@ -17,7 +17,7 @@ import group8.matchtracker.data.Player;
 /**
  * Created by dsoll on 2/29/2016.
  */
-public class LoginAdapter extends RecyclerView.Adapter<LoginAdapter.ViewHolder> {
+public class PlayerListAdapter extends RecyclerView.Adapter<PlayerListAdapter.ViewHolder> {
     private final String TAG = getClass().getSimpleName();
     private Context mContext;
     private ArrayList<Player> mPlayers;
@@ -43,18 +43,18 @@ public class LoginAdapter extends RecyclerView.Adapter<LoginAdapter.ViewHolder> 
         }
     }
 
-    public LoginAdapter(Context context, ArrayList<Player> players) {
+    public PlayerListAdapter(Context context, ArrayList<Player> players) {
         mContext = context;
         mPlayers = players;
     }
 
     @Override
-    public LoginAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public PlayerListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.player_login_adapter, parent, false);
         ViewHolder viewHolder = new ViewHolder(v);
 
-        viewHolder.mNameTextView = (TextView) v.findViewById(R.id.login_name_textview);
-        viewHolder.mIgnTextView = (TextView) v.findViewById(R.id.login_ign_textview);
+        viewHolder.mNameTextView = (TextView) v.findViewById(R.id.player_login_adapter_name_textview);
+        viewHolder.mIgnTextView = (TextView) v.findViewById(R.id.player_login_adapter_ign_textview);
 
         return viewHolder;
     }

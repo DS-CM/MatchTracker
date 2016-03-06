@@ -11,7 +11,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/login_name_textview"
+            android:id="@+id/player_login_adapter_name_textview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -29,7 +29,7 @@
                 android:textColor="@color/material_deep_teal_500"
                 android:text="IGN: "/>
             <TextView
-                android:id="@+id/login_ign_textview"
+                android:id="@+id/player_login_adapter_ign_textview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
