@@ -17,6 +17,7 @@ public class PlayerTable extends DBTable {
     public PlayerTable(Context context, DatabaseHelper dbHelper){
         super(context, dbHelper);
 
+        mDatabase.execSQL("delete from "+mDbHelper.TABLE_PLAYER); /*TODO: Get rid of this line eventually*/
     }
 
     public Player createPlayer(String name, String ign){

@@ -35,6 +35,7 @@ public class LoginFragment extends Fragment {
 
         // TODO - Change away from this
         mDbHelper = new DatabaseHelper(v.getContext());
+
         mDbHelper.mPlayerTable.createPlayer("Name1", "MrToast");
         mDbHelper.mPlayerTable.createPlayer("Name2", "MsButter");
         mDbHelper.mPlayerTable.createPlayer("Name3", "3ygun");
