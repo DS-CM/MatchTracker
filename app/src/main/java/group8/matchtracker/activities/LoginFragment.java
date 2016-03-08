@@ -40,7 +40,7 @@ public class LoginFragment extends Fragment {
         mDbHelper.mPlayerTable.createPlayer("Name3", "3ygun");
         mDbHelper.mPlayerTable.createPlayer("Name4", "J3rn");
 
-        mPlayers = mDbHelper.mPlayerTable.getAllPlayers();
+        mPlayers = mDbHelper.mPlayerTable.readAllPlayers();
 
         RecyclerView recyclerView = (RecyclerView) v.findViewById(R.id.player_login_fragment_recycler_view);
         LinearLayoutManager layoutManager = new LinearLayoutManager(v.getContext());
