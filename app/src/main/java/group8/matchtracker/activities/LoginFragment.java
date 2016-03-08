@@ -41,13 +41,16 @@ public class LoginFragment extends Fragment {
         mDbHelper.mPlayerTable.createPlayer("Name3", "3ygun");
         mDbHelper.mPlayerTable.createPlayer("Name4", "J3rn");
 
-        mPlayers = mDbHelper.mPlayerTable.readAllPlayers();
+        mPlayers = mDbHelper.mPlayerTable.getAllPlayers();
 
         RecyclerView recyclerView = (RecyclerView) v.findViewById(R.id.player_login_fragment_recycler_view);
         LinearLayoutManager layoutManager = new LinearLayoutManager(v.getContext());
         recyclerView.setLayoutManager(layoutManager);
         mPlayerListAdapter = new PlayerListAdapter(v.getContext(), mPlayers);
         recyclerView.setAdapter(mPlayerListAdapter);
+
+//        Player p = mDbHelper.mPlayerTable.getPlayer("3ygun");
+//        Log.d(TAG, p.getName());
 
         Log.d(TAG, "onCreateView");
         return v;
