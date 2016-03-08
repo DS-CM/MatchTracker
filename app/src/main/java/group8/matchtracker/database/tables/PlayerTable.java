@@ -30,6 +30,27 @@ public class PlayerTable extends DBTable {
         return new Player(insertId, name, ign);
     }
 
+    public Player getPlayer(long id){
+        Cursor cursor = mDatabase.query(mDbHelper.TABLE_PLAYER, mAllColumns, mDbHelper.PLAYER_ID
+                + " = ?", new String[]{String.valueOf(id)},null,null,null);
+        Player currentPlayer = null;
+
+        if(cursor != null){
+            cursor.moveToFirst();
+            while(!cursor.isAfterLast()){
+                currentPlayer = new Player(cursor);
+/*                long id = cursor.getInt(cursor.getColumnIndex(mDbHelper.PLAYER_ID));
+                String name = cursor.getString(cursor.getColumnIndex(mDbHelper.PLAYER_NAME));
+                String ign = cursor.getString(cursor.getColumnIndex(mDbHelper.PLAYER_IGN));
+
+                currentPlayer = new Player(id, name, ign);*/
+                cursor.moveToNext();
+            }
+            cursor.close();
+        }
+        return currentPlayer;
+    }
+
     public Player getPlayer(String ign){
         Cursor cursor = mDatabase.query(mDbHelper.TABLE_PLAYER, mAllColumns, mDbHelper.PLAYER_IGN
                 + " = ?", new String[]{ign},null,null,null);
