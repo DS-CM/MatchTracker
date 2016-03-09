@@ -1,5 +1,6 @@
 package group8.matchtracker.adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
@@ -14,16 +15,14 @@ import group8.matchtracker.R;
 import group8.matchtracker.activities.TabbedActivity;
 import group8.matchtracker.data.Player;
 
-/**
- * Created by dsoll on 2/29/2016.
- */
+
 public class PlayerListAdapter extends RecyclerView.Adapter<PlayerListAdapter.ViewHolder> {
     private final String TAG = getClass().getSimpleName();
     private Context mContext;
-    private ArrayList<Player> mPlayers;
+    private static ArrayList<Player> mPlayers;
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        public long mPlayerId;
+        public int mPlayerId;
         public TextView mNameTextView;
         public TextView mIgnTextView;
 
@@ -37,7 +36,11 @@ public class PlayerListAdapter extends RecyclerView.Adapter<PlayerListAdapter.Vi
         public void onClick(View v) {
             //if (mCrime != null) { // TODO - Figure out what shouldn't be null, taken from https://www.bignerdranch.com/blog/recyclerview-part-1-fundamentals-for-listview-experts/
                 Context context = itemView.getContext();
+                Intent x = ((Activity)context).getIntent();
                 Intent i = new Intent(context, TabbedActivity.class);
+                Player selectedPlayer = mPlayers.get(getLayoutPosition());
+                i.putExtra("SELECTED_PLAYER_ID", selectedPlayer.getId());
+                i.putExtra("TOURNAMENT_ID", x.getExtras().getInt("TOURNAMENT_ID"));
                 context.startActivity(i);
             //}
         }

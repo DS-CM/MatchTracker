@@ -16,12 +16,10 @@ import group8.matchtracker.R;
 import group8.matchtracker.activities.Login;
 import group8.matchtracker.data.Tournament;
 
-/**
- * Created by dsoll on 2/29/2016.
- */
+
 public class TournamentListAdapter extends RecyclerView.Adapter<TournamentListAdapter.ViewHolder> {
     private Context mContext;
-    private ArrayList<Tournament> mTournaments;
+    private static ArrayList<Tournament> mTournaments;
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public int mTournamentId;
@@ -42,6 +40,7 @@ public class TournamentListAdapter extends RecyclerView.Adapter<TournamentListAd
             //if (mCrime != null) { // TODO - Figure out what shouldn't be null, taken from https://www.bignerdranch.com/blog/recyclerview-part-1-fundamentals-for-listview-experts/
                 Context context = itemView.getContext();
                 Intent i = new Intent(context, Login.class);
+                i.putExtra("TOURNAMENT_ID", mTournaments.get(getLayoutPosition()).getId());
                 context.startActivity(i);
             //}
         }

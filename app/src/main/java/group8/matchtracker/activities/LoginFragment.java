@@ -49,9 +49,6 @@ public class LoginFragment extends Fragment {
         mPlayerListAdapter = new PlayerListAdapter(v.getContext(), mPlayers);
         recyclerView.setAdapter(mPlayerListAdapter);
 
-        Player p = mDbHelper.mPlayerTable.getPlayer(3);
-        Log.d(TAG, p.getName());
-
         Log.d(TAG, "onCreateView");
         return v;
     }

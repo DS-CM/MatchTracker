@@ -35,23 +35,17 @@ public class TournamentTable extends DBTable {
         mDbHelper.close();
     }
 
-    public Tournament createTournament(int id, String name, int start, int end, String location, String organizer) {
+    public Tournament createTournament(String name, int start, int end, String location, String organizer) {
         ContentValues values = new ContentValues();
-        values.put(mDbHelper.TOURNAMENT_ID, id);
         values.put(mDbHelper.TOURNAMENT_NAME, name);
         values.put(mDbHelper.TOURNAMENT_START, start);
         values.put(mDbHelper.TOURNAMENT_END, end);
         values.put(mDbHelper.TOURNAMENT_LOCATION, location);
         values.put(mDbHelper.TOURNAMENT_ORGANIZER, organizer);
 
-        long insertId = mDatabase.insert(mDbHelper.TABLE_TOURNAMENT, null, values);
-        Cursor cursor = mDatabase.query(mDbHelper.TABLE_TOURNAMENT, mAllColumns,
-                mDbHelper.TOURNAMENT_ID +" = " + insertId, null, null, null, null);
-        cursor.moveToFirst();
-        Tournament newTournament = new Tournament(cursor);
-        cursor.close();
+        int insertId = (int)mDatabase.insert(mDbHelper.TABLE_TOURNAMENT, null, values);
 
-        return newTournament;
+        return new Tournament(insertId, name, start, end, location, organizer);
     }
 
     public ArrayList<Tournament> getAllTournaments(){
