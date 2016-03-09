@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     tools:context=".activities.TabbedActivity">
+
     <RelativeLayout
         android:id="@+id/tabs"
         android:layout_width="match_parent"
@@ -38,5 +39,22 @@
             android:layout_width="match_parent"
             android:layout_height="fill_parent"
             android:layout_below="@id/tab_layout"/>
+
     </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/tabbed_activity_details"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="105dip"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:id="@+id/tabbed_activity_data_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+
+    </LinearLayout>
+
 </android.support.design.widget.CoordinatorLayout>
