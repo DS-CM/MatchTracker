@@ -25,7 +25,7 @@ public class PlayerTable extends DBTable {
         values.put(mDbHelper.PLAYER_NAME, name);
         values.put(mDbHelper.PLAYER_IGN, ign);
 
-        long insertId = mDatabase.insert(mDbHelper.TABLE_PLAYER, null, values);
+        int insertId = (int)mDatabase.insert(mDbHelper.TABLE_PLAYER, null, values);
 
         return new Player(insertId, name, ign);
     }
@@ -73,7 +73,7 @@ public class PlayerTable extends DBTable {
     }
 
     public ArrayList<Player> getAllPlayers(){
-        ArrayList<Player> listPlayers = new ArrayList<Player>();
+        ArrayList<Player> listPlayers = new ArrayList<>();
         Cursor cursor = mDatabase.query(mDbHelper.TABLE_PLAYER, mAllColumns, null,null,null,null,null);
 
         if(cursor != null){

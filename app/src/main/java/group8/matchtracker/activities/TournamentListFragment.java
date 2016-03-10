@@ -40,9 +40,9 @@ public class TournamentListFragment extends Fragment {
 
         // TODO - Remove
         mDbHelper = new DatabaseHelper(v.getContext());
-        mDbHelper.mTournamentTable.createTournament(1, "Shuffle VIII", 03122016, 03132016, "Ohio Union", "eSports Initiative");
-        mDbHelper.mTournamentTable.createTournament(2, "Big House", 05032016, 05042016, "U of M", "The school up north");
-        mDbHelper.mTournamentTable.createTournament(3, "EVO", 22, 23, "Cali", "EVO LLC");
+        mDbHelper.mTournamentTable.createTournament("Shuffle VIII", 03122016, 03132016, "Ohio Union", "eSports Initiative");
+        mDbHelper.mTournamentTable.createTournament("Big House", 05032016, 05042016, "U of M", "The school up north");
+        mDbHelper.mTournamentTable.createTournament("EVO", 22, 23, "Cali", "EVO LLC");
 
         mTournaments = mDbHelper.mTournamentTable.getAllTournaments();
 

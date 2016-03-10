@@ -23,6 +23,12 @@ public class TabbedActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        Bundle extras = getIntent().getExtras();
+        if(extras != null) {
+            Log.d(TAG, String.valueOf(extras.getInt("SELECTED_PLAYER_ID")));
+            Log.d("Tournament", String.valueOf(extras.getInt("TOURNAMENT_ID")));
+        }
+
         TabLayout tabLayout = (TabLayout)findViewById(R.id.tab_layout);
         tabLayout.addTab(tabLayout.newTab().setText("Match Feed"));
         tabLayout.addTab(tabLayout.newTab().setText("Tournament Feed"));
