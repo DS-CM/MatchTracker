@@ -52,6 +52,14 @@
                 android:textAlignment="center"
                 android:textAppearance="?android:attr/textAppearanceLarge"/>
 
+            <TextView
+                android:id="@+id/match_location"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Setup 40"
+                android:textAlignment="center"
+                android:textAppearance="?android:attr/textAppearanceLarge"/>
+
         </LinearLayout>
 
     </LinearLayout>
