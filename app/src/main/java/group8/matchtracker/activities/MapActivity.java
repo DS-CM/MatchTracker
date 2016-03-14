@@ -1,18 +1,27 @@
 package group8.matchtracker.activities;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.location.Location;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 
 import org.json.JSONObject;
@@ -31,48 +40,62 @@ import group8.matchtracker.DirectionsJSONParser;
 import group8.matchtracker.R;
 
 
-public class MapActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class MapActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
-    private GoogleMap googleMap;
-    private ArrayList<LatLng> markerPoints;
-    private String KEY = "AIzaSyAKChdKLPDuzi1EiDXNmdCTtkQm9us-iQA";
-    private LatLng origin = new LatLng(40.048445, -83.016127);
-    private LatLng destination = new LatLng(39.999469, -83.012756);
-    private LatLng camera = new LatLng((origin.latitude+destination.latitude)/2, (origin.longitude+destination.longitude)/2);
+    GoogleMap map;
+    LatLng origin;
+    LatLng dest;
+    ArrayList<LatLng> markerPoints;
+    GoogleApiClient googleApiClient;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState){
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.map_activity);
 
-        markerPoints = new ArrayList<>();
+        // Initializing
+        markerPoints = new ArrayList<LatLng>();
 
-        ((SupportMapFragment)getSupportFragmentManager().findFragmentById(R.id.map)).getMapAsync(this);
+        // Getting reference to SupportMapFragment of the activity_main
+        SupportMapFragment fm = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+
+        dest = new LatLng(39.997824, -83.008584);
+
+        // Getting Map for the SupportMapFragment
+        fm.getMapAsync(this);
     }
 
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        this.googleMap = googleMap;
-        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(camera, 13));
-        showDirections(parseDirections(downloadUrl(getDirectionUrl(origin, destination))));
-    }
+    private String getDirectionsUrl(LatLng origin, LatLng dest) {
 
-    private String getDirectionUrl(LatLng origin, LatLng destination){
-        String str_origin = "origin="+origin.latitude+","+origin.longitude;
-        String str_dest = "destination="+destination.latitude+","+destination.longitude;
-        String parameters = str_origin+"&"+str_dest+"&key=AIzaSyAKChdKLPDuzi1EiDXNmdCTtkQm9us-iQA";
+        // Origin of route
+        String str_origin = "origin=" + origin.latitude + "," + origin.longitude;
+
+        // Destination of route
+        String str_dest = "destination=" + dest.latitude + "," + dest.longitude;
+
+        // Sensor enabled
+        String sensor = "sensor=false";
+
+        // Building the parameters to the web service
+        String parameters = str_origin + "&" + str_dest + "&" + sensor;
+
+        // Output format
         String output = "json";
-        String url = "https://maps.googleapis.com/maps/api/directions/"+output+"?"+parameters;
+
+        // Building the url to the web service
+        String url = "https://maps.googleapis.com/maps/api/directions/" + output + "?" + parameters;
+
 
         return url;
     }
 
-    private String downloadUrl(String urlStr){
+    /** A method to download json data from url */
+    private String downloadUrl(String strUrl) throws IOException {
         String data = "";
         InputStream iStream = null;
         HttpURLConnection urlConnection = null;
-        try{
-            URL url = new URL(urlStr);
+        try {
+            URL url = new URL(strUrl);
 
             // Creating an http connection to communicate with url
             urlConnection = (HttpURLConnection) url.openConnection();
@@ -88,70 +111,223 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             StringBuffer sb = new StringBuffer();
 
             String line = "";
-            while( ( line = br.readLine()) != null){
+            while ((line = br.readLine()) != null) {
                 sb.append(line);
             }
-            iStream.close();
+
             data = sb.toString();
 
             br.close();
 
-        }catch(Exception e){
+        } catch (Exception e) {
             Log.d("Url exception", e.toString());
-        }finally{
+        } finally {
+            iStream.close();
             urlConnection.disconnect();
         }
         return data;
     }
 
-    private PolylineOptions parseDirections(String json){
-        JSONObject jObject;
-        List<List<HashMap<String, String>>> routes = new ArrayList<List<HashMap<String,String>>>();
-        ArrayList<LatLng> points = null;
-        PolylineOptions lineOptions = null;
-        MarkerOptions markerOptions = new MarkerOptions();
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        this.map = googleMap;
 
-        try{
-            jObject = new JSONObject(json);
-            DirectionsJSONParser parser = new DirectionsJSONParser();
+        if (map != null) {
 
-            // Starts parsing data
-            routes = parser.parse(jObject);
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-
-        for(int i=0;i<routes.size();i++){
-            points = new ArrayList<LatLng>();
-            lineOptions = new PolylineOptions();
-
-            // Fetching i-th route
-            List<HashMap<String, String>> path = routes.get(i);
-
-            // Fetching all the points in i-th route
-            for(int j=0;j<path.size();j++){
-                HashMap<String,String> point = path.get(j);
-
-                double lat = Double.parseDouble(point.get("lat"));
-                double lng = Double.parseDouble(point.get("lng"));
-                LatLng position = new LatLng(lat, lng);
-
-                points.add(position);
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                // TODO: Consider calling
+                //    ActivityCompat#requestPermissions
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for ActivityCompat#requestPermissions for more details.
+                return;
             }
+            map.setMyLocationEnabled(true);
 
-            // Adding all the points in the route to LineOptions
-            lineOptions.addAll(points);
-            lineOptions.width(2);
-            lineOptions.color(Color.RED);
+            googleApiClient = new GoogleApiClient.Builder(this)
+                    .addApi(LocationServices.API)
+                    .addConnectionCallbacks(this)
+                    .addOnConnectionFailedListener(this)
+                    .build();
+
+            googleApiClient.connect();
+
+            // Setting onclick event listener for the map
+            map.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+
+                @Override
+                public void onMapClick(LatLng point) {
+
+                    // Adding new item to the ArrayList
+                    origin = point;
+
+                    map.clear();
+
+                    // Creating MarkerOptions
+                    MarkerOptions options = new MarkerOptions();
+
+                    // Setting the position of the marker
+                    options.position(point);
+
+                    // Add new marker to the Google Map Android API V2
+                    map.addMarker(options);
+
+                    if (dest != null) {
+                        options.position(dest);
+                        map.addMarker(options);
+                        map.animateCamera(CameraUpdateFactory.newLatLngZoom(origin, 13));
+                        // Getting URL to the Google Directions API
+                        String url = getDirectionsUrl(origin, dest);
+
+                        DownloadTask downloadTask = new DownloadTask();
+
+                        // Start downloading json data from Google Directions API
+                        downloadTask.execute(url);
+                    }
+
+                }
+            });
         }
-        return lineOptions;
     }
 
-    public void showDirections(PolylineOptions pOptions){
-        googleMap.addMarker(new MarkerOptions().position(origin));
-        googleMap.addMarker(new MarkerOptions().position(destination));
-        if(pOptions != null) {
-            Polyline line = googleMap.addPolyline(pOptions);
+    @Override
+    public void onConnected(Bundle bundle) {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        Location myLocation = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
+        if(myLocation != null){
+            origin = new LatLng(myLocation.getLatitude(), myLocation.getLongitude());
+
+            MarkerOptions options = new MarkerOptions();
+            options.position(origin);
+            map.addMarker(options);
+
+            if (dest != null) {
+                options.position(dest);
+                map.addMarker(options);
+                map.animateCamera(CameraUpdateFactory.newLatLngZoom(origin, 13));
+                // Getting URL to the Google Directions API
+                String url = getDirectionsUrl(origin, dest);
+
+                DownloadTask downloadTask = new DownloadTask();
+
+                // Start downloading json data from Google Directions API
+                downloadTask.execute(url);
+            }
+        }
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+        Log.e("ERROR","Failed to get location");
+    }
+
+
+    // Fetches data from url passed
+    private class DownloadTask extends AsyncTask<String, Void, String> {
+
+        // Downloading data in non-ui thread
+        @Override
+        protected String doInBackground(String... url) {
+
+            // For storing data from web service
+            String data = "";
+
+            try{
+                // Fetching the data from web service
+                data = downloadUrl(url[0]);
+            }catch(Exception e){
+                Log.d("Background Task",e.toString());
+            }
+            return data;
+        }
+
+        // Executes in UI thread, after the execution of
+        // doInBackground()
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+
+            ParserTask parserTask = new ParserTask();
+
+            // Invokes the thread for parsing the JSON data
+            parserTask.execute(result);
+
+        }
+    }
+
+    /** A class to parse the Google Places in JSON format */
+    private class ParserTask extends AsyncTask<String, Integer, List<List<HashMap<String,String>>> >{
+
+        // Parsing the data in non-ui thread
+        @Override
+        protected List<List<HashMap<String, String>>> doInBackground(String... jsonData) {
+
+            JSONObject jObject;
+            List<List<HashMap<String, String>>> routes = null;
+
+            try{
+                jObject = new JSONObject(jsonData[0]);
+                DirectionsJSONParser parser = new DirectionsJSONParser();
+
+                // Starts parsing data
+                routes = parser.parse(jObject);
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+            return routes;
+        }
+
+        // Executes in UI thread, after the parsing process
+        @Override
+        protected void onPostExecute(List<List<HashMap<String, String>>> result) {
+            ArrayList<LatLng> points = null;
+            PolylineOptions lineOptions = null;
+            MarkerOptions markerOptions = new MarkerOptions();
+
+            // Traversing through all the routes
+            for(int i=0;i<result.size();i++){
+                points = new ArrayList<LatLng>();
+                lineOptions = new PolylineOptions();
+
+                // Fetching i-th route
+                List<HashMap<String, String>> path = result.get(i);
+
+                // Fetching all the points in i-th route
+                for(int j=0;j<path.size();j++){
+                    HashMap<String,String> point = path.get(j);
+
+                    double lat = Double.parseDouble(point.get("lat"));
+                    double lng = Double.parseDouble(point.get("lng"));
+                    LatLng position = new LatLng(lat, lng);
+
+                    points.add(position);
+                }
+
+                // Adding all the points in the route to LineOptions
+                lineOptions.addAll(points);
+                lineOptions.width(5);
+                lineOptions.color(Color.BLUE);
+
+            }
+
+            // Drawing polyline in the Google Map for the i-th route
+            map.addPolyline(lineOptions);
         }
     }
 }
