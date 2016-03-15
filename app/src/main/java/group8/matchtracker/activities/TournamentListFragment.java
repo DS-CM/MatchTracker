@@ -1,7 +1,6 @@
 package group8.matchtracker.activities;
 
 import android.app.Fragment;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -10,19 +9,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 
 import group8.matchtracker.R;
 import group8.matchtracker.adapters.TournamentListAdapter;
-import group8.matchtracker.async.RetrieveTournamentsTask;
 import group8.matchtracker.data.Tournament;
 import group8.matchtracker.database.DatabaseHelper;
 
@@ -48,7 +38,7 @@ public class TournamentListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final View v =  inflater.inflate(R.layout.tournament_list_fragment, container, false);
-        mDbHelper = new DatabaseHelper(v.getContext());
+
         mRecyclerView = (RecyclerView) v.findViewById(R.id.tournament_list_fragment_recycler_view);
         LinearLayoutManager layoutManager = new LinearLayoutManager(v.getContext());
         mRecyclerView.setLayoutManager(layoutManager);
@@ -71,7 +61,7 @@ public class TournamentListFragment extends Fragment {
 //        rt.execute();
 
         // TODO - Remove
-
+        mDbHelper = new DatabaseHelper(v.getContext());
         mDbHelper.mTournamentTable.createTournament("Shuffle VIII", 03122016, 03132016, "Ohio Union", "eSports Initiative");
         mDbHelper.mTournamentTable.createTournament("Big House", 05032016, 05042016, "U of M", "The school up north");
         mDbHelper.mTournamentTable.createTournament("EVO", 22, 23, "Cali", "EVO LLC");
