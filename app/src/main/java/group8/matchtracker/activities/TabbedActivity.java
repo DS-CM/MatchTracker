@@ -1,6 +1,7 @@
 package group8.matchtracker.activities;
 
 
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -55,6 +56,12 @@ public class TabbedActivity extends AppCompatActivity {
 
             }
         });
+
+        // Fragment stuff
+        TabMatchFeedFragment tabMatchFeedFragment = new TabMatchFeedFragment();
+        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+        fragmentTransaction.add(R.id.tabbed_activity_data_fragment, tabMatchFeedFragment);
+        fragmentTransaction.commit();
 
         Log.d(TAG, "onCreate");
     }

@@ -55,6 +55,11 @@ public class Match {
     public String getVersingPlayers() {
         StringBuilder verses = new StringBuilder();
 
+        // TODO - David - Fix so don't have to have check
+        if (players == null) {
+            return "ERROR";
+        }
+
         if (players.size() == 2) {
             verses.append(players.get(0));
             verses.append(VS);

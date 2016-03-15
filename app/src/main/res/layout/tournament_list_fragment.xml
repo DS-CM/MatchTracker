@@ -2,7 +2,7 @@
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
-             tools:context="group8.matchtracker.activities.TournamentListFragment">
+             tools:context=".activities.TournamentListFragment">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/tournament_list_fragment_recycler_view"
