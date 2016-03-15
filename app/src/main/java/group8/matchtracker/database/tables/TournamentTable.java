@@ -21,13 +21,13 @@ public class TournamentTable extends DBTable {
             mDbHelper.TOURNAMENT_START, mDbHelper.TOURNAMENT_END, mDbHelper.TOURNAMENT_LOCATION,
             mDbHelper.TOURNAMENT_ORGANIZER};
 
-    public TournamentTable(Context context, DatabaseHelper dbHelper){
+    public TournamentTable(Context context, DatabaseHelper dbHelper) {
         super(context, dbHelper);
 
-        mDatabase.execSQL("delete from "+mDbHelper.TABLE_TOURNAMENT); /*TODO: Get rid of this line eventually*/
+        mDatabase.execSQL("delete from " + mDbHelper.TABLE_TOURNAMENT); /*TODO: Get rid of this line eventually*/
     }
 
-    public void open() throws SQLException{
+    public void open() throws SQLException {
         mDatabase = mDbHelper.getWritableDatabase();
     }
 
@@ -43,18 +43,18 @@ public class TournamentTable extends DBTable {
         values.put(mDbHelper.TOURNAMENT_LOCATION, location);
         values.put(mDbHelper.TOURNAMENT_ORGANIZER, organizer);
 
-        int insertId = (int)mDatabase.insert(mDbHelper.TABLE_TOURNAMENT, null, values);
+        int insertId = (int) mDatabase.insert(mDbHelper.TABLE_TOURNAMENT, null, values);
 
         return new Tournament(insertId, name, start, end, location, organizer);
     }
 
-    public ArrayList<Tournament> getAllTournaments(){
+    public ArrayList<Tournament> getAllTournaments() {
         ArrayList<Tournament> listTournaments = new ArrayList<>();
-        Cursor cursor = mDatabase.query(mDbHelper.TABLE_TOURNAMENT, mAllColumns, null,null,null,null,null);
+        Cursor cursor = mDatabase.query(mDbHelper.TABLE_TOURNAMENT, mAllColumns, null, null, null, null, null);
 
-        if(cursor != null){
+        if (cursor != null) {
             cursor.moveToFirst();
-            while(!cursor.isAfterLast()){
+            while (!cursor.isAfterLast()) {
                 listTournaments.add(new Tournament(cursor));
                 cursor.moveToNext();
             }
@@ -63,10 +63,10 @@ public class TournamentTable extends DBTable {
         return listTournaments;
     }
 
-    public Tournament getTournamentByName(String name){
+    public Tournament getTournamentByName(String name) {
         Cursor cursor = mDatabase.query(mDbHelper.TABLE_TOURNAMENT, mAllColumns,
-                mDbHelper.TOURNAMENT_NAME +" = ?", new String[]{name},null,null,null);
-        if(cursor != null)
+                mDbHelper.TOURNAMENT_NAME + " = ?", new String[]{name}, null, null, null);
+        if (cursor != null)
             cursor.moveToFirst();
 
         return new Tournament(cursor);

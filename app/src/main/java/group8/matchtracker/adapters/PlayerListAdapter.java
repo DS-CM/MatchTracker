@@ -22,7 +22,7 @@ public class PlayerListAdapter extends RecyclerView.Adapter<PlayerListAdapter.Vi
     private static ArrayList<Player> mPlayers;
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        public int mPlayerId;
+        public long mPlayerId;
         public TextView mNameTextView;
         public TextView mIgnTextView;
 
