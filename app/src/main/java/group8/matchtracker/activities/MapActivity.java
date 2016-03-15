@@ -10,6 +10,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -24,6 +25,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -47,11 +49,15 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     LatLng dest;
     ArrayList<LatLng> markerPoints;
     GoogleApiClient googleApiClient;
+    protected String duration;
+    protected String distance;
+    TextView travelInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.map_activity);
+        travelInfo = (TextView)this.findViewById(R.id.travel_info);
 
         // Initializing
         markerPoints = new ArrayList<LatLng>();
@@ -285,6 +291,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 jObject = new JSONObject(jsonData[0]);
                 DirectionsJSONParser parser = new DirectionsJSONParser();
 
+                JSONArray jRoutes = jObject.getJSONArray("routes");
+                JSONArray jLegs = ((JSONObject)jRoutes.get(0)).getJSONArray("legs");
+                duration = (String)((JSONObject)((JSONObject)jLegs.get(0)).get("duration")).get("text");
+                distance = (String)((JSONObject)((JSONObject)jLegs.get(0)).get("distance")).get("text");
                 // Starts parsing data
                 routes = parser.parse(jObject);
             }catch(Exception e){
@@ -328,6 +338,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
             // Drawing polyline in the Google Map for the i-th route
             map.addPolyline(lineOptions);
+            travelInfo.setText("Distance: "+distance+"\nDuration: "+duration);
+
         }
     }
 }
