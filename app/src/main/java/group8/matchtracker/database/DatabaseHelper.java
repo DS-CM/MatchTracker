@@ -46,7 +46,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String MATCH_ID = "id";
     public static final String MATCH_ROUND = "round";
     public static final String MATCH_IDENTIFIER = "identifier";
-    public static final String MATCH_RESULT = "result";
+    public static final String MATCH_RESULT_1 = "result1";
+    public static final String MATCH_RESULT_2 = "result2";
+    public static final String MATCH_TYPE = "type";
+    public static final String MATCH_LOCATION = "location";
+    public static final String MATCH_TIME = "time";
 
     // Player
     public static final String PLAYER_ID = "id";
@@ -81,7 +85,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             +MATCH_ID+" INTEGER PRIMARY KEY ASC, "
             +MATCH_ROUND+" INTEGER, "
             +MATCH_IDENTIFIER+" STRING, "
-            +MATCH_RESULT+" STRING)";
+            +MATCH_RESULT_1+" INT, "
+            +MATCH_RESULT_2+" INT, "
+            +MATCH_TYPE+" STRING, "
+            +MATCH_LOCATION+" STRING, "
+            +MATCH_TIME+ " STRING)";
 
     private static final String SQL_CREATE_TABLE_EVENTS = "CREATE TABLE "+TABLE_EVENT+" ("
             +EVENT_ID+" INTEGER PRIMARY KEY ASC, "
