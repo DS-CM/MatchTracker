@@ -6,8 +6,10 @@
     <string name="title_activity_login">Login</string>
     <string name="title_activity_tournament_list">TournamentList</string>
     <string name="title_tabbed_activity">Feeds</string>
+    <string name="google_app_id">723373379524</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_maps">Map</string>
+    <string name="directions_option">Directions</string>
 </resources>

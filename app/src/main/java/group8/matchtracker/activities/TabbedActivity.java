@@ -2,6 +2,7 @@ package group8.matchtracker.activities;
 
 
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -16,6 +17,7 @@ import group8.matchtracker.adapters.PagerAdapter;
 
 public class TabbedActivity extends AppCompatActivity {
     private final String TAG = getClass().getSimpleName();
+    private int tid;
 
     @Override
     public void onCreate(Bundle saveInstanceState) {
@@ -27,7 +29,8 @@ public class TabbedActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         if(extras != null) {
             Log.d(TAG, String.valueOf(extras.getInt("SELECTED_PLAYER_ID")));
-            Log.d("Tournament", String.valueOf(extras.getInt("TOURNAMENT_ID")));
+            tid = extras.getInt("TOURNAMENT_ID");
+            Log.d("Tournament", String.valueOf(tid));
         }
 
         TabLayout tabLayout = (TabLayout)findViewById(R.id.tab_layout);
@@ -68,7 +71,7 @@ public class TabbedActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
-        getMenuInflater().inflate(R.menu.menu_tournament_list, menu);
+        getMenuInflater().inflate(R.menu.menu_feed_activity, menu);
 
         Log.d(TAG, "onCreateOptionsMenu");
         return true;
@@ -77,8 +80,14 @@ public class TabbedActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
+        switch(id){
+            case R.id.directions:
+                Intent i = new Intent(this,MapActivity.class);
+                i.putExtra("TOURNAMENT_ID", tid);
+                startActivity(i);
+                break;
+            case R.id.action_settings:
+                break;
         }
 
         Log.d(TAG, "onOptionsItemSelected");

@@ -1,12 +1,15 @@
 package group8.matchtracker.activities;
 
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
 import group8.matchtracker.R;
@@ -40,6 +43,31 @@ public class TournamentList extends AppCompatActivity {
         });
 
         Log.d(TAG, "onCreate");
+    }
+
+    /**MENU STUFF FOR TESTING PURPOSES*/
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        getMenuInflater().inflate(R.menu.menu_feed_activity, menu);
+
+        Log.d(TAG, "onCreateOptionsMenu");
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        switch(id){
+            case R.id.directions:
+                Intent i = new Intent(this,MapActivity.class);
+                startActivity(i);
+                break;
+            case R.id.action_settings:
+                break;
+        }
+
+        Log.d(TAG, "onOptionsItemSelected");
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
