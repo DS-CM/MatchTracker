@@ -81,12 +81,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             +PLAYER_NAME+" STRING, "
             +PLAYER_IGN+" STRING)";
 
-    private static final String SQL_CREATE_TABLE_MATCHES = "CREATE TABLE "+TABLE_MATCH+" ("
+    public static final String SQL_CREATE_TABLE_MATCHES = "CREATE TABLE "+TABLE_MATCH+" ("
             +MATCH_ID+" INTEGER PRIMARY KEY ASC, "
             +MATCH_ROUND+" INTEGER, "
             +MATCH_IDENTIFIER+" STRING, "
-            +MATCH_RESULT_1+" INT, "
-            +MATCH_RESULT_2+" INT, "
+            +MATCH_RESULT_1+" INTEGER, "
+            +MATCH_RESULT_2+" INTEGER, "
             +MATCH_TYPE+" STRING, "
             +MATCH_LOCATION+" STRING, "
             +MATCH_TIME+ " STRING)";

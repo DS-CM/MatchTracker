@@ -16,7 +16,7 @@ public class Match {
     private long eventId;
     private int round;
     private String identifier;
-    private int[] result; // Fix the data type
+    private int[] result = new int[2]; // Fix the data type
     private String type;
     private String location;
     private String time;
@@ -49,7 +49,10 @@ public class Match {
         this.id = cursor.getInt(cursor.getColumnIndex("id"));
         this.round = cursor.getInt(cursor.getColumnIndex("round"));
         this.identifier = cursor.getString(cursor.getColumnIndex("identifier"));
-        //this.result = cursor.getString(cursor.getColumnIndex("result"));
+        this.result[0] = cursor.getInt(cursor.getColumnIndex("result1"));
+        this.result[1] = cursor.getInt(cursor.getColumnIndex("result2"));
+        this.location = cursor.getString(cursor.getColumnIndex("location"));
+        this.time = cursor.getString(cursor.getColumnIndex("time"));
     }
 
     public String getVersingPlayers() {

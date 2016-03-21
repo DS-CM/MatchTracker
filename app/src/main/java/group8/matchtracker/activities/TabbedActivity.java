@@ -61,10 +61,10 @@ public class TabbedActivity extends AppCompatActivity {
         });
 
         // Fragment stuff
-        TabMatchFeedFragment tabMatchFeedFragment = new TabMatchFeedFragment();
-        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-        fragmentTransaction.add(R.id.tabbed_activity_data_fragment, tabMatchFeedFragment);
-        fragmentTransaction.commit();
+//        TabMatchFeedFragment tabMatchFeedFragment = new TabMatchFeedFragment();
+//        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+//        fragmentTransaction.add(R.id.tabbed_activity_data_fragment, tabMatchFeedFragment);
+//        fragmentTransaction.commit();
 
         Log.d(TAG, "onCreate");
     }
