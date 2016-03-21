@@ -45,31 +45,6 @@ public class TournamentList extends AppCompatActivity {
         Log.d(TAG, "onCreate");
     }
 
-    /**MENU STUFF FOR TESTING PURPOSES*/
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu){
-        getMenuInflater().inflate(R.menu.menu_feed_activity, menu);
-
-        Log.d(TAG, "onCreateOptionsMenu");
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        switch(id){
-            case R.id.directions:
-                Intent i = new Intent(this,MapActivity.class);
-                startActivity(i);
-                break;
-            case R.id.action_settings:
-                break;
-        }
-
-        Log.d(TAG, "onOptionsItemSelected");
-        return super.onOptionsItemSelected(item);
-    }
-
     @Override
     protected void onStart() {
         super.onStart();
