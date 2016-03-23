@@ -1,9 +1,9 @@
 package group8.matchtracker.database.tables;
 
-import android.content.ContentValues;
 import android.content.Context;
+import android.content.ContentValues;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
+import android.database.SQLException;
 
 import java.util.ArrayList;
 
@@ -12,40 +12,100 @@ import group8.matchtracker.database.DatabaseHelper;
 
 
 public class EventTable extends DBTable {
+    public final String TAG = getClass().getSimpleName();
+    public int entries = 0;
 
-    private String[] mAllColumns = {mDbHelper.EVENT_ID, mDbHelper.EVENT_NAME};
+    private String[] mAllColumns = {mDbHelper.EVENT_ID, mDbHelper.EVENT_NAME,
+            mDbHelper.EVENT_START, mDbHelper.EVENT_END, mDbHelper.EVENT_LOCATION,
+            mDbHelper.EVENT_ORGANIZER, mDbHelper.EVENT_URL};
 
-    public EventTable(Context context, DatabaseHelper dbHelper){
+    public EventTable(Context context, DatabaseHelper dbHelper) {
         super(context, dbHelper);
-
+        //mDatabase.execSQL("DROP TABLE IF EXISTS " + dbHelper.TABLE_EVENT);
+        //mDatabase.execSQL(mDbHelper.SQL_CREATE_TABLE_EVENTS);
     }
 
-    public Event createEvent(int id, String name){
+    public void open() throws SQLException {
+        mDatabase = mDbHelper.getWritableDatabase();
+    }
+
+    public void close() {
+        mDbHelper.close();
+    }
+
+    public Event createEvent(String name, int start, int end, String location, String organizer, String url) {
         ContentValues values = new ContentValues();
-        values.put(mDbHelper.EVENT_ID, id);
         values.put(mDbHelper.EVENT_NAME, name);
+        values.put(mDbHelper.EVENT_START, start);
+        values.put(mDbHelper.EVENT_END, end);
+        values.put(mDbHelper.EVENT_LOCATION, location);
+        values.put(mDbHelper.EVENT_ORGANIZER, organizer);
+        values.put(mDbHelper.EVENT_URL, url);
 
-        long insertId = mDatabase.insert(mDbHelper.TABLE_EVENT, null, values);
-        Cursor cursor = mDatabase.query(mDbHelper.TABLE_EVENT, mAllColumns, mDbHelper.EVENT_ID
-                +" = "+insertId, null, null, null, null);
-        cursor.moveToFirst();
-        Event newEvent = new Event(cursor);
-        cursor.close();
+        int insertId = (int) mDatabase.insert(mDbHelper.TABLE_EVENT, null, values);
 
-        return newEvent;
+        entries++;
+
+        return new Event(insertId, name, start, end, location, organizer, url);
     }
 
-    public ArrayList<Event> getAllEvents(){
-        ArrayList<Event> listEvents = new ArrayList<>();
-        Cursor cursor = mDatabase.query(mDbHelper.TABLE_EVENT, mAllColumns, null,null,null,null,null);
+    public Event getEvent(int id){
+        Cursor cursor = mDatabase.query(mDbHelper.TABLE_EVENT,mAllColumns,mDbHelper.EVENT_ID +" = ?",
+                new String[]{String.valueOf(id)},null,null,null);
 
-        if(cursor != null){
-            while(!cursor.isAfterLast()){
-                listEvents.add(new Event(cursor));
+        if(cursor != null) {
+            cursor.moveToFirst();
+
+            return new Event(cursor.getInt(cursor.getColumnIndex("id")),
+                    cursor.getString(cursor.getColumnIndex("name")),
+                    cursor.getInt(cursor.getColumnIndex("start")),
+                    cursor.getInt(cursor.getColumnIndex("end")),
+                    cursor.getString(cursor.getColumnIndex("location")),
+                    cursor.getString(cursor.getColumnIndex("organizer")),
+                    cursor.getString(cursor.getColumnIndex("url")));
+        }
+        return new Event();
+    }
+
+    public ArrayList<Event> getAllEvents() {
+        ArrayList<Event> listEvents = new ArrayList<>();
+        Cursor cursor = mDatabase.query(mDbHelper.TABLE_EVENT, mAllColumns, null, null, null, null, null);
+
+        if (cursor != null) {
+            cursor.moveToFirst();
+            while (!cursor.isAfterLast()) {
+                listEvents.add(new Event( cursor.getInt(cursor.getColumnIndex("id")),
+                        cursor.getString(cursor.getColumnIndex("name")),
+                        cursor.getInt(cursor.getColumnIndex("start")),
+                        cursor.getInt(cursor.getColumnIndex("end")),
+                        cursor.getString(cursor.getColumnIndex("location")),
+                        cursor.getString(cursor.getColumnIndex("organizer")),
+                        cursor.getString(cursor.getColumnIndex("url"))));
                 cursor.moveToNext();
             }
             cursor.close();
         }
         return listEvents;
     }
+
+    public Event getEventByName(String name) {
+        Cursor cursor = mDatabase.query(mDbHelper.TABLE_EVENT, mAllColumns,
+                mDbHelper.EVENT_NAME + " = ?", new String[]{name}, null, null, null);
+        if (cursor != null)
+            cursor.moveToFirst();
+
+        return new Event( cursor.getInt(cursor.getColumnIndex("id")),
+                cursor.getString(cursor.getColumnIndex("name")),
+                cursor.getInt(cursor.getColumnIndex("start")),
+                cursor.getInt(cursor.getColumnIndex("end")),
+                cursor.getString(cursor.getColumnIndex("location")),
+                cursor.getString(cursor.getColumnIndex("organizer")),
+                cursor.getString(cursor.getColumnIndex("url")));
+    }
+
+    public void removeAllEvents(){
+        mDatabase.execSQL("delete from " + mDbHelper.TABLE_EVENT);
+        entries = 0;
+    }
+
 }

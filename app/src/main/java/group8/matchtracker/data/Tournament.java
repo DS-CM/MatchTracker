@@ -13,97 +13,45 @@ public class Tournament {
 
     private int id;
     private String name;
-    private int startTime;
-    private int endTime;
-    private String location; // Change to a different data type later
-    private String organizer;
-    private String url;
-    private List<Event> events;
+    private List<Player> players;
+    private List<Match> matches;
 
     public Tournament() {
-        this.events = new ArrayList<>();
+        // Empty :)
     }
 
-    public Tournament(int id, String name, int startTime, int endTime, String location, String organizer, String url) {
+    public Tournament(int id, String name) {
         this.id = id;
         this.name = name;
-        this.startTime = startTime;
-        this.endTime = endTime;
-        this.location = location;
-        this.organizer = organizer;
-        this.url = url;
-        this.events = new ArrayList<>();
+        this.players = new ArrayList<>();
+        this.matches = new ArrayList<>();
     }
 
-    public Tournament(Cursor cursor, String url){
+    public Tournament(Cursor cursor){
         this.id = cursor.getInt(cursor.getColumnIndex("id"));
         this.name = cursor.getString(cursor.getColumnIndex("name"));
-        this.startTime = cursor.getInt(cursor.getColumnIndex("start"));
-        this.endTime = cursor.getInt(cursor.getColumnIndex("end"));
-        this.location = cursor.getString(cursor.getColumnIndex("location"));
-        this.organizer = cursor.getString(cursor.getColumnIndex("organizer"));
-        this.url = url;
-        this.events = new ArrayList<>();
+        this.players = new ArrayList<>();
+        this.matches = new ArrayList<>();
     }
 
-    public void addEvent(Event event) {
-        this.events.add(event);
+    public void addPlayer(Player player) {
+        this.players.add(player);
     }
 
-    /* SETTERS */
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setStartTime(int startTime) {
-        this.startTime = startTime;
-    }
-
-    public void setEndTime(int endTime) {
-        this.endTime = endTime;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
-    }
-
-    public void setOrganizer(String organizer) {
-        this.organizer = organizer;
+    public void addMatch(Match match) {
+        this.matches.add(match);
     }
 
     /* GETTERS */
-    public int getId() {
-        return id;
-    }
-
     public String getName() {
         return name;
     }
 
-    public int getStartTime() {
-        return startTime;
+    public List<Player> getPlayers() {
+        return players;
     }
 
-    public int getEndTime() {
-        return endTime;
+    public List<Match> getMatches() {
+        return matches;
     }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public String getOrganizer() {
-        return organizer;
-    }
-
-    public String getUrl() { return url; }
-
-    public List<Event> getEvents() {
-        return events;
-    }
-
 }

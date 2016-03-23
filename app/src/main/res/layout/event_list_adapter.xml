@@ -7,7 +7,7 @@
 
     <ImageView
         android:scaleType="center"
-        android:id="@+id/tournament_image_view"
+        android:id="@+id/event_list_adapter_image_view"
         android:src="@android:drawable/ic_menu_camera"
         android:layout_gravity="center_horizontal"
         android:layout_width="90dp"
@@ -19,7 +19,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/tournament_list_adapter_name_textview"
+            android:id="@+id/event_list_adapter_name_textview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -31,13 +31,13 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
             <TextView
-                android:id="@+id/tournament_list_adapter_location_textview"
+                android:id="@+id/event_list_adapter_location_textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="Location"/>
             <TextView
-                android:id="@+id/tournament_list_adapter_date_textview"
+                android:id="@+id/event_list_adapter_date_textview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="end"
@@ -48,7 +48,7 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/tournament_list_adapter_organizer_textview"
+            android:id="@+id/event_list_adapter_organizer_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
