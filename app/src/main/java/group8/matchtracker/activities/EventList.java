@@ -1,26 +1,23 @@
 package group8.matchtracker.activities;
 
 import android.app.FragmentTransaction;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 
 import group8.matchtracker.R;
 
-public class TournamentList extends AppCompatActivity {
+public class EventList extends AppCompatActivity {
     private final String TAG = getClass().getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.tournament_list_activity);
+        setContentView(R.layout.event_list_activity);
 
         // Toolbar (?_?)
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -29,7 +26,7 @@ public class TournamentList extends AppCompatActivity {
         // Fragment stuff
         TournamentListFragment tournamentListFragment = new TournamentListFragment();
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-        fragmentTransaction.add(R.id.tournament_list_fragment, tournamentListFragment);
+        fragmentTransaction.add(R.id.event_list_fragment, tournamentListFragment);
         fragmentTransaction.commit();
 
         // Search button

@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="group8.matchtracker.activities.TournamentList">
+    tools:context=".activities.EventList">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -34,10 +34,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Choose a tournament:"/>
+            android:text="@string/event_prompt"/>
 
         <FrameLayout
-            android:id="@+id/tournament_list_fragment"
+            android:id="@+id/event_list_fragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
