@@ -18,14 +18,14 @@ import java.util.ArrayList;
 import group8.matchtracker.R;
 import group8.matchtracker.adapters.EventListAdapter;
 import group8.matchtracker.async.RetrieveTournamentsTask;
-import group8.matchtracker.data.Tournament;
+import group8.matchtracker.data.Event;
 import group8.matchtracker.database.DatabaseHelper;
 
 
 public class EventListFragment extends Fragment {
     private final String TAG = getClass().getSimpleName();
     private EventListAdapter mEventListAdapter;
-    protected ArrayList<Tournament> mTournaments = new ArrayList<>();
+    protected ArrayList<Event> mEvents = new ArrayList<>();
     protected DatabaseHelper mDbHelper;
     private RecyclerView mRecyclerView;
 
@@ -49,7 +49,7 @@ public class EventListFragment extends Fragment {
         mRecyclerView.setLayoutManager(layoutManager);
         mDbHelper = new DatabaseHelper(v.getContext());
 
-        mDbHelper.mTournamentTable.removeAllTournaments(); /*TODO: remove*/
+        mDbHelper.mEventTable.removeAllEvents(); /*TODO: remove*/
 
         RetrieveTournamentsTask rt = new RetrieveTournamentsTask();
         rt.setJsonDownloadListener(new RetrieveTournamentsTask.JsonDownloadListener() {
@@ -59,7 +59,7 @@ public class EventListFragment extends Fragment {
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject object = jsonArray.getJSONObject(i);
                         object = object.getJSONObject("tournament");
-                        mTournaments.add(mDbHelper.mTournamentTable.createTournament(object.getString("name"), 0, 0, "Ohio Union", "esi",object.getString("url")));
+                        mEvents.add(mDbHelper.mEventTable.createEvent(object.getString("name"), 0, 0, "Ohio Union", "esi",object.getString("url")));
                         populateList(v);
                     }
                 } catch (JSONException e) {
@@ -70,11 +70,11 @@ public class EventListFragment extends Fragment {
         rt.execute();
 
         // TODO - Remove
-/*        mDbHelper.mTournamentTable.createTournament("Shuffle VIII", 03122016, 03132016, "Ohio Union", "eSports Initiative");
-        mDbHelper.mTournamentTable.createTournament("Big House", 05032016, 05042016, "U of M", "The school up north");
-        mDbHelper.mTournamentTable.createTournament("EVO", 22, 23, "Cali", "EVO LLC");*/
+/*        mDbHelper.mEventTable.createEvent("Shuffle VIII", 03122016, 03132016, "Ohio Union", "eSports Initiative");
+        mDbHelper.mEventTable.createEvent("Big House", 05032016, 05042016, "U of M", "The school up north");
+        mDbHelper.mEventTable.createEvent("EVO", 22, 23, "Cali", "EVO LLC");*/
 
-        mTournaments = mDbHelper.mTournamentTable.getAllTournaments();
+        mEvents = mDbHelper.mEventTable.getAllEvents();
         populateList(v);
 
 
@@ -82,7 +82,7 @@ public class EventListFragment extends Fragment {
     }
 
     public void populateList(View v) {
-        mEventListAdapter = new EventListAdapter(v.getContext(), mTournaments);
+        mEventListAdapter = new EventListAdapter(v.getContext(), mEvents);
         mRecyclerView.setAdapter(mEventListAdapter);
     }
 }

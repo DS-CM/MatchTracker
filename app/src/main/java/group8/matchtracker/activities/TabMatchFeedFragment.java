@@ -53,7 +53,7 @@ public class TabMatchFeedFragment extends Fragment {
         //mDbHelper.mMatchTable.createMatch(0, "A", new int[]{0, 0}, "BO5", "Seat 33", "12:00pm");
 
         Intent updateEvent = new Intent(this.getContext(),EventUpdateService.class);
-        updateEvent.putExtra("TOURNAMENT_ID", ((TabbedActivity) getActivity()).getTid());
+        updateEvent.putExtra("EVENT_ID", ((TabbedActivity) getActivity()).getTid());
         getContext().startService(updateEvent);
 
         mMatches = mDbHelper.mMatchTable.getAllMatches();
