@@ -22,14 +22,14 @@ import group8.matchtracker.data.Tournament;
 import group8.matchtracker.database.DatabaseHelper;
 
 
-public class TournamentListFragment extends Fragment {
+public class EventListFragment extends Fragment {
     private final String TAG = getClass().getSimpleName();
     private EventListAdapter mEventListAdapter;
     protected ArrayList<Tournament> mTournaments = new ArrayList<>();
     protected DatabaseHelper mDbHelper;
     private RecyclerView mRecyclerView;
 
-    public TournamentListFragment() {
+    public EventListFragment() {
         // Required empty public constructor
     }
 
@@ -42,9 +42,9 @@ public class TournamentListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        final View v = inflater.inflate(R.layout.tournament_list_fragment, container, false);
+        final View v = inflater.inflate(R.layout.event_list_fragment, container, false);
 
-        mRecyclerView = (RecyclerView) v.findViewById(R.id.tournament_list_fragment_recycler_view);
+        mRecyclerView = (RecyclerView) v.findViewById(R.id.event_list_fragment_recycler_view);
         LinearLayoutManager layoutManager = new LinearLayoutManager(v.getContext());
         mRecyclerView.setLayoutManager(layoutManager);
         mDbHelper = new DatabaseHelper(v.getContext());

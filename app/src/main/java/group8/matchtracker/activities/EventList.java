@@ -24,9 +24,9 @@ public class EventList extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         // Fragment stuff
-        TournamentListFragment tournamentListFragment = new TournamentListFragment();
+        EventListFragment eventListFragment = new EventListFragment();
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-        fragmentTransaction.add(R.id.event_list_fragment, tournamentListFragment);
+        fragmentTransaction.add(R.id.event_list_fragment, eventListFragment);
         fragmentTransaction.commit();
 
         // Search button
