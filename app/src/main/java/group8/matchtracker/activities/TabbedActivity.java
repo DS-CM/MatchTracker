@@ -28,7 +28,7 @@ public class TabbedActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         if(extras != null) {
             Log.d(TAG, String.valueOf(extras.getInt("SELECTED_PLAYER_ID")));
-            tid = extras.getInt("TOURNAMENT_ID");
+            tid = extras.getInt("EVENT_ID");
             Log.d("Event", String.valueOf(tid));
         }
 
@@ -76,7 +76,7 @@ public class TabbedActivity extends AppCompatActivity {
         switch(id){
             case R.id.directions:
                 Intent i = new Intent(this,MapActivity.class);
-                i.putExtra("TOURNAMENT_ID", tid);
+                i.putExtra("EVENT_ID", tid);
                 startActivity(i);
                 break;
             case R.id.action_settings:

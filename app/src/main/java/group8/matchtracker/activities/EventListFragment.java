@@ -49,7 +49,7 @@ public class EventListFragment extends Fragment {
         mRecyclerView.setLayoutManager(layoutManager);
         mDbHelper = new DatabaseHelper(v.getContext());
 
-        mDbHelper.mTournamentTable.removeAllTournaments(); /*TODO: remove*/
+        mDbHelper.mEventTable.removeAllEvents(); /*TODO: remove*/
 
         RetrieveTournamentsTask rt = new RetrieveTournamentsTask();
         rt.setJsonDownloadListener(new RetrieveTournamentsTask.JsonDownloadListener() {
@@ -59,7 +59,7 @@ public class EventListFragment extends Fragment {
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject object = jsonArray.getJSONObject(i);
                         object = object.getJSONObject("tournament");
-                        mEvents.add(mDbHelper.mTournamentTable.createTournament(object.getString("name"), 0, 0, "Ohio Union", "esi",object.getString("url")));
+                        mEvents.add(mDbHelper.mEventTable.createEvent(object.getString("name"), 0, 0, "Ohio Union", "esi",object.getString("url")));
                         populateList(v);
                     }
                 } catch (JSONException e) {
@@ -70,11 +70,11 @@ public class EventListFragment extends Fragment {
         rt.execute();
 
         // TODO - Remove
-/*        mDbHelper.mTournamentTable.createTournament("Shuffle VIII", 03122016, 03132016, "Ohio Union", "eSports Initiative");
-        mDbHelper.mTournamentTable.createTournament("Big House", 05032016, 05042016, "U of M", "The school up north");
-        mDbHelper.mTournamentTable.createTournament("EVO", 22, 23, "Cali", "EVO LLC");*/
+/*        mDbHelper.mEventTable.createEvent("Shuffle VIII", 03122016, 03132016, "Ohio Union", "eSports Initiative");
+        mDbHelper.mEventTable.createEvent("Big House", 05032016, 05042016, "U of M", "The school up north");
+        mDbHelper.mEventTable.createEvent("EVO", 22, 23, "Cali", "EVO LLC");*/
 
-        mEvents = mDbHelper.mTournamentTable.getAllTournaments();
+        mEvents = mDbHelper.mEventTable.getAllEvents();
         populateList(v);
 
 

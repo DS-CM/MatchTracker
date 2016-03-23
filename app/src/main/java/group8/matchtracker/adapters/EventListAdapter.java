@@ -40,7 +40,7 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.View
             //if (mCrime != null) { // TODO - Figure out what shouldn't be null, taken from https://www.bignerdranch.com/blog/recyclerview-part-1-fundamentals-for-listview-experts/
                 Context context = itemView.getContext();
                 Intent i = new Intent(context, Login.class);
-                i.putExtra("TOURNAMENT_ID", sMEvents.get(getLayoutPosition()).getId());
+                i.putExtra("EVENT_ID", sMEvents.get(getLayoutPosition()).getId());
                 context.startActivity(i);
             //}
         }

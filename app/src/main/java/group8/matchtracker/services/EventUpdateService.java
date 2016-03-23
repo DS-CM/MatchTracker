@@ -31,12 +31,12 @@ public class EventUpdateService extends IntentService {
     @Override
     protected void onHandleIntent(Intent intent) {
         String API_KEY = "JSDvdSusuXhmamjxPcukkXOhw8fnDeTAyMYroYIV";//intent.getStringExtra("API_KEY");
-        int tournamentId = intent.getIntExtra("TOURNAMENT_ID",0);
+        int event_id = intent.getIntExtra("EVENT_ID",0);
         dbHelper = new DatabaseHelper(this);
 
-        Log.d("INFO",""+tournamentId);
+        Log.d("INFO",""+event_id);
 
-        Event t = dbHelper.mTournamentTable.getTournament(tournamentId);
+        Event t = dbHelper.mEventTable.getEvent(event_id);
         tournamentName = t.getUrl();
 
         try{
