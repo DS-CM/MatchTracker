@@ -14,6 +14,8 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import group8.matchtracker.activities.TabMatchFeedFragment;
+import group8.matchtracker.data.Match;
 import group8.matchtracker.data.Tournament;
 import group8.matchtracker.database.DatabaseHelper;
 
@@ -52,6 +54,12 @@ public class EventUpdateService extends IntentService {
                 }
                 in.close();
                 parseJSON(new JSONArray(stringBuilder.toString()));
+
+                Intent broadcastIntent = new Intent();
+                broadcastIntent.setAction(TabMatchFeedFragment.ResponseReceiver.PROCESS_RESPONSE);
+                broadcastIntent.addCategory(Intent.CATEGORY_DEFAULT);
+                broadcastIntent.putExtra("RESPONSE_MESSAGE", "Done");
+                sendBroadcast(broadcastIntent);
             }finally {
                 urlConnection.disconnect();
             }
@@ -64,8 +72,8 @@ public class EventUpdateService extends IntentService {
         JSONObject match = null;
         try {
             for (int i = 0; i < jArray.length(); i++) {
-                match = jArray.getJSONObject(i);
-                dbHelper.mMatchTable.createMatch(match.getInt("round"),
+                match = jArray.getJSONObject(i).getJSONObject("match");
+                Match m = dbHelper.mMatchTable.createMatch(match.getInt("round"),
                         match.getString("identifier"),
                         new int[]{0,0}, //replace with real data
                         "1 v 1",    //replace with real data

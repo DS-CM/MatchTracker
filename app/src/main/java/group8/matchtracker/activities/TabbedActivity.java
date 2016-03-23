@@ -59,12 +59,6 @@ public class TabbedActivity extends AppCompatActivity {
             }
         });
 
-
-        Intent updateEvent = new Intent(this,EventUpdateService.class);
-        updateEvent.putExtra("TOURNAMENT_ID", tid);
-        startService(updateEvent);
-
-
         Log.d(TAG, "onCreate");
     }
 
@@ -135,5 +129,9 @@ public class TabbedActivity extends AppCompatActivity {
         super.onDestroy();
 
         Log.d(TAG, "onDestroy");
+    }
+
+    public int getTid(){
+        return tid;
     }
 }
