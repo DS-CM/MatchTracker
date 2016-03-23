@@ -16,6 +16,7 @@ import group8.matchtracker.database.DatabaseHelper;
 
 public class TournamentTable extends DBTable {
     public final String TAG = getClass().getSimpleName();
+    public int entries = 0;
 
     private String[] mAllColumns = {mDbHelper.TOURNAMENT_ID, mDbHelper.TOURNAMENT_NAME,
             mDbHelper.TOURNAMENT_START, mDbHelper.TOURNAMENT_END, mDbHelper.TOURNAMENT_LOCATION,
@@ -24,7 +25,6 @@ public class TournamentTable extends DBTable {
     public TournamentTable(Context context, DatabaseHelper dbHelper) {
         super(context, dbHelper);
 
-        mDatabase.execSQL("delete from " + mDbHelper.TABLE_TOURNAMENT); /*TODO: Get rid of this line eventually*/
     }
 
     public void open() throws SQLException {
@@ -45,7 +45,22 @@ public class TournamentTable extends DBTable {
 
         int insertId = (int) mDatabase.insert(mDbHelper.TABLE_TOURNAMENT, null, values);
 
+        entries++;
+
         return new Tournament(insertId, name, start, end, location, organizer);
+    }
+
+    public Tournament getTournament(int id){
+        Cursor cursor = mDatabase.query(mDbHelper.TABLE_TOURNAMENT,mAllColumns,mDbHelper.TOURNAMENT_ID+" = ?",
+                new String[]{String.valueOf(id)},null,null,null);
+
+        if(cursor != null){
+            cursor.moveToFirst();
+        }
+
+        Log.d("CursorSize", String.valueOf(cursor.getCount()));
+
+        return new Tournament(cursor);
     }
 
     public ArrayList<Tournament> getAllTournaments() {
@@ -70,6 +85,11 @@ public class TournamentTable extends DBTable {
             cursor.moveToFirst();
 
         return new Tournament(cursor);
+    }
+
+    public void removeAllTournaments(){
+        mDatabase.execSQL("delete from " + mDbHelper.TABLE_TOURNAMENT);
+        entries = 0;
     }
 
 }

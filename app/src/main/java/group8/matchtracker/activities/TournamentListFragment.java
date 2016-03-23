@@ -1,6 +1,7 @@
 package group8.matchtracker.activities;
 
 import android.app.Fragment;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -26,7 +27,7 @@ public class TournamentListFragment extends Fragment {
     private final String TAG = getClass().getSimpleName();
     private TournamentListAdapter mTournamentListAdapter;
     protected ArrayList<Tournament> mTournaments = new ArrayList<>();
-    private DatabaseHelper mDbHelper;
+    protected DatabaseHelper mDbHelper;
     private RecyclerView mRecyclerView;
 
     public TournamentListFragment() {
@@ -42,11 +43,14 @@ public class TournamentListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        final View v =  inflater.inflate(R.layout.tournament_list_fragment, container, false);
+        final View v = inflater.inflate(R.layout.tournament_list_fragment, container, false);
 
         mRecyclerView = (RecyclerView) v.findViewById(R.id.tournament_list_fragment_recycler_view);
         LinearLayoutManager layoutManager = new LinearLayoutManager(v.getContext());
         mRecyclerView.setLayoutManager(layoutManager);
+        mDbHelper = new DatabaseHelper(v.getContext());
+
+        mDbHelper.mTournamentTable.removeAllTournaments(); /*TODO: remove*/
 
         RetrieveTournamentsTask rt = new RetrieveTournamentsTask();
         rt.setJsonDownloadListener(new RetrieveTournamentsTask.JsonDownloadListener() {
@@ -66,7 +70,6 @@ public class TournamentListFragment extends Fragment {
         rt.execute();
 
         // TODO - Remove
-        mDbHelper = new DatabaseHelper(v.getContext());
 /*        mDbHelper.mTournamentTable.createTournament("Shuffle VIII", 03122016, 03132016, "Ohio Union", "eSports Initiative");
         mDbHelper.mTournamentTable.createTournament("Big House", 05032016, 05042016, "U of M", "The school up north");
         mDbHelper.mTournamentTable.createTournament("EVO", 22, 23, "Cali", "EVO LLC");*/
@@ -78,7 +81,7 @@ public class TournamentListFragment extends Fragment {
         return v;
     }
 
-    public void populateList(View v){
+    public void populateList(View v) {
         mTournamentListAdapter = new TournamentListAdapter(v.getContext(), mTournaments);
         mRecyclerView.setAdapter(mTournamentListAdapter);
     }

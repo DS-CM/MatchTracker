@@ -14,6 +14,7 @@ import android.view.MenuItem;
 
 import group8.matchtracker.R;
 import group8.matchtracker.adapters.PagerAdapter;
+import group8.matchtracker.services.EventUpdateService;
 
 public class TabbedActivity extends AppCompatActivity {
     private final String TAG = getClass().getSimpleName();
@@ -59,12 +60,12 @@ public class TabbedActivity extends AppCompatActivity {
 
             }
         });
+/*
 
-        // Fragment stuff
-//        TabMatchFeedFragment tabMatchFeedFragment = new TabMatchFeedFragment();
-//        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-//        fragmentTransaction.add(R.id.tabbed_activity_data_fragment, tabMatchFeedFragment);
-//        fragmentTransaction.commit();
+        Intent updateEvent = new Intent(this,EventUpdateService.class);
+        updateEvent.putExtra("TOURNAMENT_ID", tid);
+        startService(updateEvent);
+*/
 
         Log.d(TAG, "onCreate");
     }
