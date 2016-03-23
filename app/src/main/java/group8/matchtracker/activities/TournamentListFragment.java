@@ -1,7 +1,6 @@
 package group8.matchtracker.activities;
 
 import android.app.Fragment;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,7 +16,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 import group8.matchtracker.R;
-import group8.matchtracker.adapters.TournamentListAdapter;
+import group8.matchtracker.adapters.EventListAdapter;
 import group8.matchtracker.async.RetrieveTournamentsTask;
 import group8.matchtracker.data.Tournament;
 import group8.matchtracker.database.DatabaseHelper;
@@ -25,7 +24,7 @@ import group8.matchtracker.database.DatabaseHelper;
 
 public class TournamentListFragment extends Fragment {
     private final String TAG = getClass().getSimpleName();
-    private TournamentListAdapter mTournamentListAdapter;
+    private EventListAdapter mEventListAdapter;
     protected ArrayList<Tournament> mTournaments = new ArrayList<>();
     protected DatabaseHelper mDbHelper;
     private RecyclerView mRecyclerView;
@@ -83,7 +82,7 @@ public class TournamentListFragment extends Fragment {
     }
 
     public void populateList(View v) {
-        mTournamentListAdapter = new TournamentListAdapter(v.getContext(), mTournaments);
-        mRecyclerView.setAdapter(mTournamentListAdapter);
+        mEventListAdapter = new EventListAdapter(v.getContext(), mTournaments);
+        mRecyclerView.setAdapter(mEventListAdapter);
     }
 }
