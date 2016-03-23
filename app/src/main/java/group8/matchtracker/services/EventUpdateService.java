@@ -16,7 +16,7 @@ import java.net.URL;
 
 import group8.matchtracker.activities.TabMatchFeedFragment;
 import group8.matchtracker.data.Match;
-import group8.matchtracker.data.Tournament;
+import group8.matchtracker.data.Event;
 import group8.matchtracker.database.DatabaseHelper;
 
 public class EventUpdateService extends IntentService {
@@ -36,7 +36,7 @@ public class EventUpdateService extends IntentService {
 
         Log.d("INFO",""+tournamentId);
 
-        Tournament t = dbHelper.mTournamentTable.getTournament(tournamentId);
+        Event t = dbHelper.mTournamentTable.getTournament(tournamentId);
         tournamentName = t.getUrl();
 
         try{

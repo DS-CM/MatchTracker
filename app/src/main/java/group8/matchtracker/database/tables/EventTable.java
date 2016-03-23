@@ -3,11 +3,10 @@ package group8.matchtracker.database.tables;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 
 import java.util.ArrayList;
 
-import group8.matchtracker.data.Event;
+import group8.matchtracker.data.Tournament;
 import group8.matchtracker.database.DatabaseHelper;
 
 
@@ -20,7 +19,7 @@ public class EventTable extends DBTable {
 
     }
 
-    public Event createEvent(int id, String name){
+    public Tournament createEvent(int id, String name){
         ContentValues values = new ContentValues();
         values.put(mDbHelper.EVENT_ID, id);
         values.put(mDbHelper.EVENT_NAME, name);
@@ -29,23 +28,23 @@ public class EventTable extends DBTable {
         Cursor cursor = mDatabase.query(mDbHelper.TABLE_EVENT, mAllColumns, mDbHelper.EVENT_ID
                 +" = "+insertId, null, null, null, null);
         cursor.moveToFirst();
-        Event newEvent = new Event(cursor);
+        Tournament newTournament = new Tournament(cursor);
         cursor.close();
 
-        return newEvent;
+        return newTournament;
     }
 
-    public ArrayList<Event> getAllEvents(){
-        ArrayList<Event> listEvents = new ArrayList<>();
+    public ArrayList<Tournament> getAllEvents(){
+        ArrayList<Tournament> listTournaments = new ArrayList<>();
         Cursor cursor = mDatabase.query(mDbHelper.TABLE_EVENT, mAllColumns, null,null,null,null,null);
 
         if(cursor != null){
             while(!cursor.isAfterLast()){
-                listEvents.add(new Event(cursor));
+                listTournaments.add(new Tournament(cursor));
                 cursor.moveToNext();
             }
             cursor.close();
         }
-        return listEvents;
+        return listTournaments;
     }
 }

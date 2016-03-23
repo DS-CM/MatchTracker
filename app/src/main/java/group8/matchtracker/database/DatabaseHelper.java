@@ -30,7 +30,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private Context context;
     private SQLiteDatabase db;
 
-    // Tournament
+    // Event
     public static final String TOURNAMENT_ID = "id";
     public static final String TOURNAMENT_NAME = "name";
     public static final String TOURNAMENT_START = "start";
@@ -39,7 +39,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String TOURNAMENT_ORGANIZER = "organizer";
     public static final String TOURNAMENT_URL = "url";
 
-    // Event
+    // Tournament
     public static final String EVENT_ID = "id";
     public static final String EVENT_NAME = "name";
 

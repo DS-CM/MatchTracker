@@ -14,12 +14,12 @@ import java.util.ArrayList;
 
 import group8.matchtracker.R;
 import group8.matchtracker.activities.Login;
-import group8.matchtracker.data.Tournament;
+import group8.matchtracker.data.Event;
 
 
 public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.ViewHolder> {
     private Context mContext;
-    private static ArrayList<Tournament> mTournaments;
+    private static ArrayList<Event> sMEvents;
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public int mTournamentId;
@@ -40,15 +40,15 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.View
             //if (mCrime != null) { // TODO - Figure out what shouldn't be null, taken from https://www.bignerdranch.com/blog/recyclerview-part-1-fundamentals-for-listview-experts/
                 Context context = itemView.getContext();
                 Intent i = new Intent(context, Login.class);
-                i.putExtra("TOURNAMENT_ID", mTournaments.get(getLayoutPosition()).getId());
+                i.putExtra("TOURNAMENT_ID", sMEvents.get(getLayoutPosition()).getId());
                 context.startActivity(i);
             //}
         }
     }
 
-    public EventListAdapter(Context context, ArrayList<Tournament> tournaments) {
+    public EventListAdapter(Context context, ArrayList<Event> events) {
         mContext = context;
-        mTournaments = tournaments;
+        sMEvents = events;
     }
 
     @Override
@@ -67,24 +67,24 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.View
 
     @Override
     public int getItemCount() {
-        return mTournaments.size();
+        return sMEvents.size();
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Tournament currentTournament = mTournaments.get(position);
-        String dates = "" + currentTournament.getStartTime() + " to " + currentTournament.getEndTime();
+        Event currentEvent = sMEvents.get(position);
+        String dates = "" + currentEvent.getStartTime() + " to " + currentEvent.getEndTime();
 
-        holder.mTournamentId = currentTournament.getId();
+        holder.mTournamentId = currentEvent.getId();
 
         // TODO - holder.mImageView for logo
         if (false) { // is imageuri is != null enter
             holder.mImageView.setImageURI(Uri.parse("uri link"));
         }
 
-        holder.mNameTextView.setText(currentTournament.getName());
-        holder.mLocationTextView.setText(currentTournament.getLocation());
+        holder.mNameTextView.setText(currentEvent.getName());
+        holder.mLocationTextView.setText(currentEvent.getLocation());
         holder.mDateTextView.setText(dates);
-        holder.mOrganizerTextView.setText("By " + currentTournament.getOrganizer());
+        holder.mOrganizerTextView.setText("By " + currentEvent.getOrganizer());
     }
 }

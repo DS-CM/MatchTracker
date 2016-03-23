@@ -29,12 +29,12 @@ public class TabbedActivity extends AppCompatActivity {
         if(extras != null) {
             Log.d(TAG, String.valueOf(extras.getInt("SELECTED_PLAYER_ID")));
             tid = extras.getInt("TOURNAMENT_ID");
-            Log.d("Tournament", String.valueOf(tid));
+            Log.d("Event", String.valueOf(tid));
         }
 
         TabLayout tabLayout = (TabLayout)findViewById(R.id.tab_layout);
         tabLayout.addTab(tabLayout.newTab().setText("Match Feed"));
-        tabLayout.addTab(tabLayout.newTab().setText("Tournament Feed"));
+        tabLayout.addTab(tabLayout.newTab().setText("Event Feed"));
         tabLayout.addTab(tabLayout.newTab().setText("Events"));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 

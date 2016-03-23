@@ -4,13 +4,10 @@ import android.content.Context;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.SQLException;
-import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import group8.matchtracker.data.Tournament;
+import group8.matchtracker.data.Event;
 import group8.matchtracker.database.DatabaseHelper;
 
 
@@ -36,7 +33,7 @@ public class TournamentTable extends DBTable {
         mDbHelper.close();
     }
 
-    public Tournament createTournament(String name, int start, int end, String location, String organizer, String url) {
+    public Event createTournament(String name, int start, int end, String location, String organizer, String url) {
         ContentValues values = new ContentValues();
         values.put(mDbHelper.TOURNAMENT_NAME, name);
         values.put(mDbHelper.TOURNAMENT_START, start);
@@ -49,17 +46,17 @@ public class TournamentTable extends DBTable {
 
         entries++;
 
-        return new Tournament(insertId, name, start, end, location, organizer, url);
+        return new Event(insertId, name, start, end, location, organizer, url);
     }
 
-    public Tournament getTournament(int id){
+    public Event getTournament(int id){
         Cursor cursor = mDatabase.query(mDbHelper.TABLE_TOURNAMENT,mAllColumns,mDbHelper.TOURNAMENT_ID+" = ?",
                 new String[]{String.valueOf(id)},null,null,null);
 
         if(cursor != null) {
             cursor.moveToFirst();
 
-            return new Tournament(cursor.getInt(cursor.getColumnIndex("id")),
+            return new Event(cursor.getInt(cursor.getColumnIndex("id")),
                     cursor.getString(cursor.getColumnIndex("name")),
                     cursor.getInt(cursor.getColumnIndex("start")),
                     cursor.getInt(cursor.getColumnIndex("end")),
@@ -67,17 +64,17 @@ public class TournamentTable extends DBTable {
                     cursor.getString(cursor.getColumnIndex("organizer")),
                     cursor.getString(cursor.getColumnIndex("url")));
         }
-        return new Tournament();
+        return new Event();
     }
 
-    public ArrayList<Tournament> getAllTournaments() {
-        ArrayList<Tournament> listTournaments = new ArrayList<>();
+    public ArrayList<Event> getAllTournaments() {
+        ArrayList<Event> listEvents = new ArrayList<>();
         Cursor cursor = mDatabase.query(mDbHelper.TABLE_TOURNAMENT, mAllColumns, null, null, null, null, null);
 
         if (cursor != null) {
             cursor.moveToFirst();
             while (!cursor.isAfterLast()) {
-                listTournaments.add(new Tournament( cursor.getInt(cursor.getColumnIndex("id")),
+                listEvents.add(new Event( cursor.getInt(cursor.getColumnIndex("id")),
                         cursor.getString(cursor.getColumnIndex("name")),
                         cursor.getInt(cursor.getColumnIndex("start")),
                         cursor.getInt(cursor.getColumnIndex("end")),
@@ -88,16 +85,16 @@ public class TournamentTable extends DBTable {
             }
             cursor.close();
         }
-        return listTournaments;
+        return listEvents;
     }
 
-    public Tournament getTournamentByName(String name) {
+    public Event getTournamentByName(String name) {
         Cursor cursor = mDatabase.query(mDbHelper.TABLE_TOURNAMENT, mAllColumns,
                 mDbHelper.TOURNAMENT_NAME + " = ?", new String[]{name}, null, null, null);
         if (cursor != null)
             cursor.moveToFirst();
 
-        return new Tournament( cursor.getInt(cursor.getColumnIndex("id")),
+        return new Event( cursor.getInt(cursor.getColumnIndex("id")),
                 cursor.getString(cursor.getColumnIndex("name")),
                 cursor.getInt(cursor.getColumnIndex("start")),
                 cursor.getInt(cursor.getColumnIndex("end")),
