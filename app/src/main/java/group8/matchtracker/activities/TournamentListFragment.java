@@ -59,7 +59,8 @@ public class TournamentListFragment extends Fragment {
                 try {
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject object = jsonArray.getJSONObject(i);
-                        mTournaments.add(mDbHelper.mTournamentTable.createTournament(object.getJSONObject("tournament").getString("name"), 0, 0, "Ohio Union", "esi"));
+                        object = object.getJSONObject("tournament");
+                        mTournaments.add(mDbHelper.mTournamentTable.createTournament(object.getString("name"), 0, 0, "Ohio Union", "esi",object.getString("url")));
                         populateList(v);
                     }
                 } catch (JSONException e) {

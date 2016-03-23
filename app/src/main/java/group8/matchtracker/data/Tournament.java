@@ -17,29 +17,32 @@ public class Tournament {
     private int endTime;
     private String location; // Change to a different data type later
     private String organizer;
+    private String url;
     private List<Event> events;
 
     public Tournament() {
         this.events = new ArrayList<>();
     }
 
-    public Tournament(int id, String name, int startTime, int endTime, String location, String organizer) {
+    public Tournament(int id, String name, int startTime, int endTime, String location, String organizer, String url) {
         this.id = id;
         this.name = name;
         this.startTime = startTime;
         this.endTime = endTime;
         this.location = location;
         this.organizer = organizer;
+        this.url = url;
         this.events = new ArrayList<>();
     }
 
-    public Tournament(Cursor cursor){
+    public Tournament(Cursor cursor, String url){
         this.id = cursor.getInt(cursor.getColumnIndex("id"));
         this.name = cursor.getString(cursor.getColumnIndex("name"));
         this.startTime = cursor.getInt(cursor.getColumnIndex("start"));
         this.endTime = cursor.getInt(cursor.getColumnIndex("end"));
         this.location = cursor.getString(cursor.getColumnIndex("location"));
         this.organizer = cursor.getString(cursor.getColumnIndex("organizer"));
+        this.url = url;
         this.events = new ArrayList<>();
     }
 
@@ -96,6 +99,8 @@ public class Tournament {
     public String getOrganizer() {
         return organizer;
     }
+
+    public String getUrl() { return url; }
 
     public List<Event> getEvents() {
         return events;

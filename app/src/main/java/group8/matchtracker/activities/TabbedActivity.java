@@ -1,7 +1,5 @@
 package group8.matchtracker.activities;
 
-
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -60,12 +58,12 @@ public class TabbedActivity extends AppCompatActivity {
 
             }
         });
-/*
+
 
         Intent updateEvent = new Intent(this,EventUpdateService.class);
         updateEvent.putExtra("TOURNAMENT_ID", tid);
         startService(updateEvent);
-*/
+
 
         Log.d(TAG, "onCreate");
     }

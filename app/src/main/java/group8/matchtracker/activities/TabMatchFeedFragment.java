@@ -46,7 +46,7 @@ public class TabMatchFeedFragment extends Fragment {
 
         // TODO - Change away from this
         mDbHelper = new DatabaseHelper(v.getContext());
-        mDbHelper.mMatchTable.createMatch(0, "A", new int[]{0, 0}, "BO5", "Seat 33", "12:00pm");
+        //mDbHelper.mMatchTable.createMatch(0, "A", new int[]{0, 0}, "BO5", "Seat 33", "12:00pm");
 
         mMatches = mDbHelper.mMatchTable.getAllMatches();
         populateList(v);

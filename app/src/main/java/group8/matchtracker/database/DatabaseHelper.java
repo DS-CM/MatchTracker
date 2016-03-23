@@ -14,7 +14,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private final String TAG = getClass().getSimpleName();
 
     private static final String DATABASE_NAME = "MatchTracker.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 5;
     public static final String TABLE_TOURNAMENT = "tournaments";
     public static final String TABLE_EVENT = "events";
     public static final String TABLE_MATCH = "matches";
@@ -37,6 +37,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String TOURNAMENT_END = "end";
     public static final String TOURNAMENT_LOCATION = "location";
     public static final String TOURNAMENT_ORGANIZER = "organizer";
+    public static final String TOURNAMENT_URL = "url";
 
     // Event
     public static final String EVENT_ID = "id";
@@ -68,13 +69,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     // e_i_t
 
-    private static final String SQL_CREATE_TABLE_TOURNAMENTS = "CREATE TABLE "+TABLE_TOURNAMENT+" ("
+    public static final String SQL_CREATE_TABLE_TOURNAMENTS = "CREATE TABLE "+TABLE_TOURNAMENT+" ("
             +TOURNAMENT_ID+" INTEGER PRIMARY KEY ASC, "
             +TOURNAMENT_NAME+" STRING, "
             +TOURNAMENT_START+" INTEGER, "
             +TOURNAMENT_END+" INTEGER, "
             +TOURNAMENT_LOCATION+" STRING, "
-            +TOURNAMENT_ORGANIZER+" STRING)";
+            +TOURNAMENT_ORGANIZER+" STRING, "
+            +TOURNAMENT_URL+" STRING)";
 
     private static final String SQL_CREATE_TABLE_PLAYERS = "CREATE TABLE "+TABLE_PLAYER+" ("
             +PLAYER_ID+" INTEGER PRIMARY KEY ASC NOT NULL, "
@@ -108,85 +110,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         this.insertStmt = this.db.compileStatement(INSERT);*/
     }
 
-   /* // Tournament
-    public long createTournament(Tournament tournament) {
-        ContentValues values = new ContentValues();
-        values.put(TOURNAMENT_NAME, tournament.getName());
-        values.put(TOURNAMENT_START, tournament.getStartTime());
-        values.put(TOURNAMENT_END, tournament.getEndTime());
-        values.put(TOURNAMENT_LOCATION, tournament.getLocation());
-        values.put(TOURNAMENT_ORGANIZER, tournament.getOrganizer());
-
-        // insert row
-        long tournament_ID = this.db.insert(TABLE_TOURNAMENT, null, values);
-
-        return tournament_ID;
-    }
-
-    public Tournament getTournament(long tournament_ID) {
-        String selectQuery = "SELECT  * FROM " + TABLE_TOURNAMENT + " WHERE "
-                + TOURNAMENT_ID + " = " + tournament_ID;
-
-        Cursor c = db.rawQuery(selectQuery, null);
-
-        if (c != null)
-            c.moveToFirst();
-
-        Tournament tournament = new Tournament();
-        tournament.setId(c.getInt(c.getColumnIndex(TOURNAMENT_ID)));
-        tournament.setName((c.getString(c.getColumnIndex(TOURNAMENT_NAME))));
-        tournament.setStartTime(c.getInt(c.getColumnIndex(TOURNAMENT_START)));
-        tournament.setEndTime(c.getInt(c.getColumnIndex(TOURNAMENT_END)));
-        tournament.setLocation((c.getString(c.getColumnIndex(TOURNAMENT_LOCATION))));
-        tournament.setOrganizer((c.getString(c.getColumnIndex(TOURNAMENT_ORGANIZER))));
-
-        return tournament;
-    }
-
-    public List<Tournament> getAllTournaments() {
-        List<Tournament> tournaments = new ArrayList<Tournament>();
-        String selectQuery = "SELECT * FROM " + TABLE_TOURNAMENT;
-
-        Cursor c = db.rawQuery(selectQuery, null);
-
-        if (c.moveToFirst()) {
-            do {
-                Tournament tournament = new Tournament();
-                tournament.setId(c.getInt(c.getColumnIndex(TOURNAMENT_ID)));
-                tournament.setName((c.getString(c.getColumnIndex(TOURNAMENT_NAME))));
-                tournament.setStartTime(c.getInt(c.getColumnIndex(TOURNAMENT_START)));
-                tournament.setEndTime(c.getInt(c.getColumnIndex(TOURNAMENT_END)));
-                tournament.setLocation((c.getString(c.getColumnIndex(TOURNAMENT_LOCATION))));
-                tournament.setOrganizer((c.getString(c.getColumnIndex(TOURNAMENT_ORGANIZER))));
-
-                // adding to Tournament List
-                tournaments.add(tournament);
-            } while (c.moveToNext());
-        }
-
-        return tournaments;
-    }
-
-    public int updateTournament(Tournament tournament) {
-        ContentValues values = new ContentValues();
-        values.put(TOURNAMENT_NAME, tournament.getName());
-        values.put(TOURNAMENT_START, tournament.getStartTime());
-        values.put(TOURNAMENT_END, tournament.getEndTime());
-        values.put(TOURNAMENT_LOCATION, tournament.getLocation());
-        values.put(TOURNAMENT_ORGANIZER, tournament.getOrganizer());
-
-        // updating row
-        return db.update(TABLE_TOURNAMENT, values, TOURNAMENT_ID + " = ?",
-                new String[] { String.valueOf(tournament.getId()) });
-    }
-
-    public void deleteTournament(long tournament_ID) {
-        db.delete(TABLE_TOURNAMENT, TOURNAMENT_ID + " = ?",
-                new String[] { String.valueOf(tournament_ID) });
-    }
-
-*/
-
     public void deleteAll(){
         this.db.delete(TABLE_TOURNAMENT, null, null);
         this.db.delete(TABLE_EVENT, null, null);
@@ -213,6 +136,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS "+TABLE_EVENT);
         db.execSQL("DROP TABLE IF EXISTS "+TABLE_MATCH);
         db.execSQL("DROP TABLE IF EXISTS "+TABLE_PLAYER);
+
+        db.execSQL(SQL_CREATE_TABLE_TOURNAMENTS);
+        db.execSQL(SQL_CREATE_TABLE_PLAYERS);
+        db.execSQL(SQL_CREATE_TABLE_MATCHES);
+        db.execSQL(SQL_CREATE_TABLE_EVENTS);
     }
 
 /*    private static class MatchTrackerOpenHelper extends SQLiteOpenHelper{

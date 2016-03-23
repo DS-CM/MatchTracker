@@ -35,7 +35,7 @@ public class EventUpdateService extends IntentService {
         Log.d("INFO",""+tournamentId);
 
         Tournament t = dbHelper.mTournamentTable.getTournament(tournamentId);
-        tournamentName = t.getName();
+        tournamentName = t.getUrl();
 
         try{
             String API_URL = "https://api.challonge.com/v1/tournaments/"+tournamentName+"/matches.json?api_key="+API_KEY;
