@@ -3,6 +3,7 @@ package group8.matchtracker.activities;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.ResultReceiver;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -31,12 +32,16 @@ public class TabMatchFeedFragment extends Fragment {
     protected View v;
 
     public TabMatchFeedFragment() {
-        // Required empty public constructor
+
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
+        getActivity().registerReceiver(this.broadcastReceiver, new IntentFilter("bcReceiver"));
+        Intent updateEvent = new Intent(this.getContext(),EventUpdateService.class);
+        updateEvent.putExtra("EVENT_ID", ((TabbedActivity) getActivity()).getTid());
+        getContext().startService(updateEvent);
         Log.d(TAG, "onCreate");
     }
 
@@ -52,10 +57,6 @@ public class TabMatchFeedFragment extends Fragment {
         mDbHelper = new DatabaseHelper(v.getContext());
         //mDbHelper.mMatchTable.createMatch(0, "A", new int[]{0, 0}, "BO5", "Seat 33", "12:00pm");
 
-        Intent updateEvent = new Intent(this.getContext(),EventUpdateService.class);
-        updateEvent.putExtra("EVENT_ID", ((TabbedActivity) getActivity()).getTid());
-        getContext().startService(updateEvent);
-
         mMatches = mDbHelper.mMatchTable.getAllMatches();
         populateList(v);
 
@@ -68,14 +69,17 @@ public class TabMatchFeedFragment extends Fragment {
         mRecyclerView.setAdapter(mMatchAdapter);
     }
 
-    public class ResponseReceiver extends BroadcastReceiver {
-        public static final String PROCESS_RESPONSE = "group8.matchtracker.intent.action.PROCESS_RESPONSE";
-
+    BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             mMatches = mDbHelper.mMatchTable.getAllMatches();
-            Log.d("Matches",String.valueOf(mMatches.size()));
             populateList(v);
         }
+    };
+
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        getActivity().unregisterReceiver(broadcastReceiver);
     }
 }

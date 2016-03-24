@@ -3,6 +3,7 @@ package group8.matchtracker.services;
 
 import android.app.IntentService;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -54,12 +55,6 @@ public class EventUpdateService extends IntentService {
                 }
                 in.close();
                 parseJSON(new JSONArray(stringBuilder.toString()));
-
-                Intent broadcastIntent = new Intent();
-                broadcastIntent.setAction(TabMatchFeedFragment.ResponseReceiver.PROCESS_RESPONSE);
-                broadcastIntent.addCategory(Intent.CATEGORY_DEFAULT);
-                broadcastIntent.putExtra("RESPONSE_MESSAGE", "Done");
-                sendBroadcast(broadcastIntent);
             }finally {
                 urlConnection.disconnect();
             }
@@ -70,18 +65,24 @@ public class EventUpdateService extends IntentService {
 
     private void parseJSON(JSONArray jArray){
         JSONObject match = null;
+        SQLiteDatabase database = dbHelper.getWritableDatabase();
+        database.execSQL("delete from " + dbHelper.TABLE_MATCH); /*TODO: Get rid of this line eventually*/
+
+
         try {
             for (int i = 0; i < jArray.length(); i++) {
                 match = jArray.getJSONObject(i).getJSONObject("match");
-                Match m = dbHelper.mMatchTable.createMatch(match.getInt("round"),
+                dbHelper.mMatchTable.createMatch(match.getInt("round"),
                         match.getString("identifier"),
                         new int[]{0,0}, //replace with real data
                         "1 v 1",    //replace with real data
-                        match.getString("location"),
-                        match.getString("scheduled_time"));
+                        "Ohio Union",   //replace with real data
+                        "12:00pm"); //replace with real data
             }
         }catch(JSONException e){
             e.printStackTrace();
         }catch (Exception e){}
+
+        this.sendBroadcast(new Intent().setAction("bcReceiver"));
     }
 }

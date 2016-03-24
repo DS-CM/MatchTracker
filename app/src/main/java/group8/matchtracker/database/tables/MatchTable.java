@@ -22,10 +22,9 @@ public class MatchTable extends DBTable {
     public MatchTable(Context context, DatabaseHelper dbHelper) {
         super(context, dbHelper);
 
-        //mDatabase.execSQL("delete from " + mDbHelper.TABLE_MATCH); /*TODO: Get rid of this line eventually*/
-        /*mDatabase.execSQL("DROP TABLE IF EXISTS " + dbHelper.TABLE_MATCH);
-        mDatabase.execSQL(mDbHelper.SQL_CREATE_TABLE_MATCHES);
-
+        //mDatabase.execSQL("DROP TABLE IF EXISTS " + dbHelper.TABLE_MATCH);
+        //mDatabase.execSQL(mDbHelper.SQL_CREATE_TABLE_MATCHES);
+/*
         StringBuilder columns = new StringBuilder();
         String[] cNames = mDatabase.query(mDbHelper.TABLE_MATCH,null,null,null,null,null,null).getColumnNames();
         for(int i = 0;i<cNames.length;i++){
