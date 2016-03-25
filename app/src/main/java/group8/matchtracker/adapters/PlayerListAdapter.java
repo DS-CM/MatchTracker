@@ -15,6 +15,7 @@ import java.util.List;
 import group8.matchtracker.R;
 import group8.matchtracker.activities.TabbedActivity;
 import group8.matchtracker.data.Player;
+import group8.matchtracker.database.DatabaseHelper;
 
 
 public class PlayerListAdapter extends RecyclerView.Adapter<PlayerListAdapter.ViewHolder> {
@@ -37,11 +38,10 @@ public class PlayerListAdapter extends RecyclerView.Adapter<PlayerListAdapter.Vi
         public void onClick(View v) {
             //if (mCrime != null) { // TODO - Figure out what shouldn't be null, taken from https://www.bignerdranch.com/blog/recyclerview-part-1-fundamentals-for-listview-experts/
                 Context context = itemView.getContext();
-                Intent x = ((Activity)context).getIntent();
                 Intent i = new Intent(context, TabbedActivity.class);
                 Player selectedPlayer = mPlayers.get(getLayoutPosition());
-                i.putExtra("SELECTED_PLAYER_ID", selectedPlayer.getId());
-                i.putExtra("EVENT_ID", x.getExtras().getInt("EVENT_ID"));
+                i.putExtra(DatabaseHelper.EVENT_ID, ((Activity)context).getIntent().getExtras().getInt(DatabaseHelper.EVENT_ID));
+                i.putExtra(DatabaseHelper.PLAYER_ID, selectedPlayer.getId());
                 context.startActivity(i);
             //}
         }

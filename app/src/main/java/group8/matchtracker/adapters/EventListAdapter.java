@@ -15,11 +15,12 @@ import java.util.ArrayList;
 import group8.matchtracker.R;
 import group8.matchtracker.activities.Login;
 import group8.matchtracker.data.Event;
+import group8.matchtracker.database.DatabaseHelper;
 
 
 public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.ViewHolder> {
     private Context mContext;
-    private static ArrayList<Event> sMEvents;
+    private static ArrayList<Event> mEvents;
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public int mTournamentId;
@@ -40,7 +41,7 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.View
             //if (mCrime != null) { // TODO - Figure out what shouldn't be null, taken from https://www.bignerdranch.com/blog/recyclerview-part-1-fundamentals-for-listview-experts/
                 Context context = itemView.getContext();
                 Intent i = new Intent(context, Login.class);
-                i.putExtra("EVENT_ID", sMEvents.get(getLayoutPosition()).getId());
+                i.putExtra(DatabaseHelper.EVENT_ID, mEvents.get(getLayoutPosition()).getId());
                 context.startActivity(i);
             //}
         }
@@ -48,7 +49,7 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.View
 
     public EventListAdapter(Context context, ArrayList<Event> events) {
         mContext = context;
-        sMEvents = events;
+        mEvents = events;
     }
 
     @Override
@@ -67,12 +68,12 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.View
 
     @Override
     public int getItemCount() {
-        return sMEvents.size();
+        return mEvents.size();
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Event currentEvent = sMEvents.get(position);
+        Event currentEvent = mEvents.get(position);
         String dates = "" + currentEvent.getStartTime() + " to " + currentEvent.getEndTime();
 
         holder.mTournamentId = currentEvent.getId();
