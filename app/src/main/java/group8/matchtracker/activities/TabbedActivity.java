@@ -12,7 +12,6 @@ import android.view.MenuItem;
 
 import group8.matchtracker.R;
 import group8.matchtracker.adapters.PagerAdapter;
-import group8.matchtracker.services.EventUpdateService;
 
 public class TabbedActivity extends AppCompatActivity {
     private final String TAG = getClass().getSimpleName();

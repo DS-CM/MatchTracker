@@ -19,7 +19,7 @@ import group8.matchtracker.R;
 import group8.matchtracker.adapters.MatchAdapter;
 import group8.matchtracker.data.Match;
 import group8.matchtracker.database.DatabaseHelper;
-import group8.matchtracker.services.EventUpdateService;
+import group8.matchtracker.services.MatchUpdateService;
 
 public class TabMatchFeedFragment extends Fragment {
     private final String TAG = getClass().getSimpleName();
@@ -37,7 +37,7 @@ public class TabMatchFeedFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         getActivity().registerReceiver(this.matchBroadcastReceiver, new IntentFilter("bcReceiver"));
-        Intent updateEvent = new Intent(this.getContext(),EventUpdateService.class);
+        Intent updateEvent = new Intent(this.getContext(),MatchUpdateService.class);
         updateEvent.putExtra("EVENT_ID", ((TabbedActivity) getActivity()).getTid());
         getContext().startService(updateEvent);
         Log.d(TAG, "onCreate");

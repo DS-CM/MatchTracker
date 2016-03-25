@@ -20,13 +20,13 @@ import group8.matchtracker.data.Match;
 import group8.matchtracker.data.Event;
 import group8.matchtracker.database.DatabaseHelper;
 
-public class EventUpdateService extends IntentService {
+public class MatchUpdateService extends IntentService {
 
     DatabaseHelper dbHelper;
     String tournamentName;
 
-    public EventUpdateService(){
-        super("EventUpdateService");
+    public MatchUpdateService(){
+        super("MatchUpdateService");
     }
 
     @Override

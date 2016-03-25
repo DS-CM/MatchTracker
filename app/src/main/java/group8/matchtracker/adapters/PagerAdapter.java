@@ -1,18 +1,13 @@
 package group8.matchtracker.adapters;
 
-import android.content.ContentValues;
 import android.content.Context;
-import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import group8.matchtracker.activities.Events;
-import group8.matchtracker.activities.MatchFeed;
 import group8.matchtracker.activities.TabMatchFeedFragment;
-import group8.matchtracker.activities.TabbedActivity;
 import group8.matchtracker.activities.TournamentFeed;
-import group8.matchtracker.services.EventUpdateService;
 
 
 public class PagerAdapter extends FragmentStatePagerAdapter {
