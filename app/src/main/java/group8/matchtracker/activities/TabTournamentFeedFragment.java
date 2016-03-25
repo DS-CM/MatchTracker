@@ -11,14 +11,14 @@ import android.view.ViewGroup;
 
 import group8.matchtracker.R;
 
-public class TournamentFeed extends Fragment {
+public class TabTournamentFeedFragment extends Fragment {
     private final String TAG = getClass().getSimpleName();
 
-    public TournamentFeed(){}
+    public TabTournamentFeedFragment(){}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
-        View v = inflater.inflate(R.layout.tab_fragment_2, container, false);
+        View v = inflater.inflate(R.layout.tab_fragment_tournament_feed, container, false);
 
         Log.d(TAG, "onCreateView");
         return v;
