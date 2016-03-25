@@ -16,7 +16,7 @@ public class TabTournamentBracketFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
-        View v = inflater.inflate(R.layout.tab_fragment_3, container, false);
+        View v = inflater.inflate(R.layout.tab_fragment_tournament_bracket, container, false);
 
         Log.d(TAG, "onCreateView");
         return v;
