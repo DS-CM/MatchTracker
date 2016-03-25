@@ -3,9 +3,9 @@ package group8.matchtracker.database.tables;
 import android.database.sqlite.SQLiteDatabase;
 
 
-public class PlayersInMatchEventTable {
+public class PlayersInMatchTable {
 
-    public PlayersInMatchEventTable(SQLiteDatabase database){
+    public PlayersInMatchTable(SQLiteDatabase database){
 
     }
 }

@@ -9,14 +9,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import group8.matchtracker.R;
 
-public class Events extends Fragment {
+public class TabTournamentBracketFragment extends Fragment {
     private final String TAG = getClass().getSimpleName();
 
-    public Events(){}
+    public TabTournamentBracketFragment(){}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
-        View v = inflater.inflate(R.layout.tab_fragment_3, container, false);
+        View v = inflater.inflate(R.layout.tab_fragment_tournament_bracket, container, false);
 
         Log.d(TAG, "onCreateView");
         return v;

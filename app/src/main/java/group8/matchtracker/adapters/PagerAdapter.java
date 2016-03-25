@@ -5,10 +5,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import group8.matchtracker.activities.Events;
+import group8.matchtracker.activities.TabTournamentBracketFragment;
 import group8.matchtracker.activities.TabMatchFeedFragment;
-import group8.matchtracker.activities.TournamentFeed;
-
+import group8.matchtracker.activities.TabTournamentFeedFragment;
 
 public class PagerAdapter extends FragmentStatePagerAdapter {
 
@@ -25,14 +24,14 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
     public Fragment getItem(int position) {
         switch(position){
             case 0:
-                TabMatchFeedFragment tab1 = new TabMatchFeedFragment();
-                return tab1;
+                TabMatchFeedFragment left = new TabMatchFeedFragment();
+                return left;
             case 1:
-                TournamentFeed tab2 = new TournamentFeed();
-                return tab2;
+                TabTournamentFeedFragment middle = new TabTournamentFeedFragment();
+                return middle;
             case 2:
-                Events tab3 = new Events();
-                return tab3;
+                TabTournamentBracketFragment right = new TabTournamentBracketFragment();
+                return right;
             default:
                 TabMatchFeedFragment defaultTab = new TabMatchFeedFragment();
                 return defaultTab;
