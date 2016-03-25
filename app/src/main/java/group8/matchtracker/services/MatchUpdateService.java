@@ -32,7 +32,7 @@ public class MatchUpdateService extends IntentService {
     @Override
     protected void onHandleIntent(Intent intent) {
         String API_KEY = "JSDvdSusuXhmamjxPcukkXOhw8fnDeTAyMYroYIV";//intent.getStringExtra("API_KEY");
-        int event_id = intent.getIntExtra("EVENT_ID",0);
+        int event_id = intent.getIntExtra(DatabaseHelper.TOURNAMENT_ID, 0);
         dbHelper = new DatabaseHelper(this);
 
         Log.d("INFO",""+event_id);

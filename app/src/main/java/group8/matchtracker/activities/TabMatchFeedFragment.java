@@ -37,9 +37,11 @@ public class TabMatchFeedFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         getActivity().registerReceiver(this.matchBroadcastReceiver, new IntentFilter("bcReceiver"));
+
         Intent updateEvent = new Intent(this.getContext(),MatchUpdateService.class);
-        updateEvent.putExtra("EVENT_ID", ((TabbedActivity) getActivity()).getTid());
+        updateEvent.putExtra(DatabaseHelper.TOURNAMENT_ID, ((TabbedActivity) getActivity()).getTid());
         getContext().startService(updateEvent);
+
         Log.d(TAG, "onCreate");
     }
 
