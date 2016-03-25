@@ -5,20 +5,6 @@
               android:orientation="vertical"
               tools:context="group8.matchtracker.activities.LoginFragment">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingLeft="15dp"
-            android:layout_gravity="center_vertical"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Search: "/>
-
-    </LinearLayout>
-
     <android.support.v7.widget.RecyclerView
         android:id="@+id/player_login_fragment_recycler_view"
         android:scrollbars="vertical"
