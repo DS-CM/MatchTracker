@@ -34,8 +34,8 @@ public class TabbedActivity extends AppCompatActivity {
 
         TabLayout tabLayout = (TabLayout)findViewById(R.id.tab_layout);
         tabLayout.addTab(tabLayout.newTab().setText("Match Feed"));
-        tabLayout.addTab(tabLayout.newTab().setText("Event Feed"));
-        tabLayout.addTab(tabLayout.newTab().setText("Events"));
+        tabLayout.addTab(tabLayout.newTab().setText("Tournament Feed"));
+        tabLayout.addTab(tabLayout.newTab().setText("Bracket"));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
         final ViewPager viewPager = (ViewPager)findViewById(R.id.pager);
