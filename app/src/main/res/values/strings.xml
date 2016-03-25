@@ -3,6 +3,7 @@
     <string name="tournament_activity_title">Current Tournaments</string>
     <string name="login_activity_title">Who Are You?</string>
     <string name="action_settings">Settings</string>
+    <string name="action_search">Search</string>
     <string name="title_activity_login">Login</string>
     <string name="title_activity_tournament_list">TournamentList</string>
     <string name="title_tabbed_activity">Feeds</string>

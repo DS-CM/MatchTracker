@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import group8.matchtracker.R;
 import group8.matchtracker.activities.TabbedActivity;
@@ -74,5 +75,11 @@ public class PlayerListAdapter extends RecyclerView.Adapter<PlayerListAdapter.Vi
         holder.mPlayerId = currentPlayer.getId();
         holder.mNameTextView.setText(currentPlayer.getName());
         holder.mIgnTextView.setText(currentPlayer.getIgn());
+    }
+
+    public void setFilter(List<Player> players){
+        mPlayers = new ArrayList<>();
+        mPlayers.addAll(players);
+        notifyDataSetChanged();
     }
 }

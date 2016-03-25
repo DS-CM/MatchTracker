@@ -4,7 +4,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.os.ResultReceiver;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,7 +12,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -38,7 +36,7 @@ public class TabMatchFeedFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        getActivity().registerReceiver(this.broadcastReceiver, new IntentFilter("bcReceiver"));
+        getActivity().registerReceiver(this.matchBroadcastReceiver, new IntentFilter("bcReceiver"));
         Intent updateEvent = new Intent(this.getContext(),EventUpdateService.class);
         updateEvent.putExtra("EVENT_ID", ((TabbedActivity) getActivity()).getTid());
         getContext().startService(updateEvent);
@@ -69,7 +67,7 @@ public class TabMatchFeedFragment extends Fragment {
         mRecyclerView.setAdapter(mMatchAdapter);
     }
 
-    BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+    BroadcastReceiver matchBroadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             mMatches = mDbHelper.mMatchTable.getAllMatches();
@@ -80,6 +78,6 @@ public class TabMatchFeedFragment extends Fragment {
     @Override
     public void onDestroy(){
         super.onDestroy();
-        getActivity().unregisterReceiver(broadcastReceiver);
+        getActivity().unregisterReceiver(matchBroadcastReceiver);
     }
 }
