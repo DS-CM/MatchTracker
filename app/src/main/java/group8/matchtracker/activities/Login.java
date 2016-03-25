@@ -19,7 +19,9 @@ public class Login extends AppCompatActivity {
         super.onCreate(saveInstanceState);
         setContentView(R.layout.player_login_activity);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.inflateMenu(R.menu.search_menu);
         setSupportActionBar(toolbar);
+
 
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
         fragmentTransaction.add(R.id.player_login_list_fragment, new LoginFragment());
