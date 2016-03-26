@@ -152,6 +152,6 @@ public class LoginFragment extends Fragment implements SearchView.OnQueryTextLis
                 }
             }
         });
-        rp.execute(mDbHelper.mEventTable.getEvent(tid).getUrl());
+        rp.execute(mDbHelper.mTournamentTable.getTournament(tid).getUrl());
     }
 }

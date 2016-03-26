@@ -45,7 +45,7 @@ public class EventTable extends DBTable {
         return new Event(insertId, name, start, end, location, organizer);
     }
 
-    public Event getEvent(int id) {
+    public Event getEvent(long id) {
         Cursor cursor = mDatabase.query(mDbHelper.TABLE_EVENT, mAllColumns, mDbHelper.EVENT_ID + " = ?",
                 new String[]{String.valueOf(id)}, null, null, null);
 
