@@ -64,7 +64,7 @@ public class LoginFragment extends Fragment implements SearchView.OnQueryTextLis
 //        mDbHelper.mPlayerTable.createPlayer("Name3", "3ygun");
 //        mDbHelper.mPlayerTable.createPlayer("Name4", "J3rn");
 
-        mPlayers = mDbHelper.mPlayerTable.getAllPlayers();
+        //mPlayers = mDbHelper.mPlayerTable.getAllPlayers();
         populateList(v);
 
 
@@ -73,6 +73,7 @@ public class LoginFragment extends Fragment implements SearchView.OnQueryTextLis
     }
 
     public void populateList(View v) {
+        mPlayers = mDbHelper.mPlayerTable.getAllPlayers();
         mPlayerListAdapter = new PlayerListAdapter(v.getContext(), mPlayers);
         recyclerView.setAdapter(mPlayerListAdapter);
     }
@@ -140,13 +141,16 @@ public class LoginFragment extends Fragment implements SearchView.OnQueryTextLis
         rp.setJsonDownloadListener(new RetrievePlayersTask.JsonDownloadListener() {
             @Override
             public void jsonDownloadedSuccessfully(JSONArray jsonArray) {
+                mDbHelper.mPlayerTable.clearTable();
                 try {
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject object = jsonArray.getJSONObject(i);
                         object = object.getJSONObject("participant");
-                        mPlayers.add(mDbHelper.mPlayerTable.createPlayer(object.getString("username"), object.getString("name")));
-                        populateList(v);
+                        if(!(mDbHelper.mPlayerTable.isInTable(object.getString("name")))) {
+                            mPlayers.add(mDbHelper.mPlayerTable.createPlayer(object.getString("username"), object.getString("name")));
+                        }
                     }
+                    populateList(v);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

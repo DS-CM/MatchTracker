@@ -72,7 +72,7 @@ public class MatchUpdateService extends IntentService {
         String location = "setup #13";
         String time = "12:00pm";
 
-        //database.execSQL("delete from " + dbHelper.TABLE_MATCH); /*TODO: Get rid of this line eventually*/
+        dbHelper.mMatchTable.clearTable(); /*TODO: Get rid of this line eventually*/
 
         //long[] matchsOfEvent = dbHelper.
 

@@ -53,7 +53,7 @@ public class TabMatchFeedFragment extends Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(v.getContext());
         mRecyclerView.setLayoutManager(layoutManager);
 
-        // TODO - Change away from this
+        //TODO - Change away from this
         mDbHelper = new DatabaseHelper(v.getContext());
         //mDbHelper.mMatchTable.createMatch(0, "A", new int[]{0, 0}, "BO5", "Seat 33", "12:00pm");
 

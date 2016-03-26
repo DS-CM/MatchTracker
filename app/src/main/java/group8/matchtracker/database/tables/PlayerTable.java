@@ -13,11 +13,11 @@ import group8.matchtracker.database.DatabaseHelper;
 public class PlayerTable extends DBTable {
 
     private String[] mAllColumns = {mDbHelper.PLAYER_ID, mDbHelper.PLAYER_NAME, mDbHelper.PLAYER_IGN};
+    private int playerNum = 0;
 
     public PlayerTable(Context context, DatabaseHelper dbHelper){
         super(context, dbHelper);
-
-        mDatabase.execSQL("delete from "+mDbHelper.TABLE_PLAYER); /*TODO: Get rid of this line eventually*/
+        clearTable(); /*TODO: Get rid of this line eventually*/
     }
 
     public Player createPlayer(String name, String ign){
@@ -26,6 +26,7 @@ public class PlayerTable extends DBTable {
         values.put(mDbHelper.PLAYER_IGN, ign);
 
         int insertId = (int)mDatabase.insert(mDbHelper.TABLE_PLAYER, null, values);
+        playerNum++;
 
         return new Player(insertId, name, ign);
     }
@@ -97,5 +98,11 @@ public class PlayerTable extends DBTable {
                 + " = ?", new String[]{ign},null,null,null);
 
         return cursor.getCount() > 0;
+    }
+
+    public int getPlayerNum(){return playerNum;}
+    public void clearTable(){
+        mDatabase.execSQL("delete from "+mDbHelper.TABLE_PLAYER);
+        playerNum = 0;
     }
 }
