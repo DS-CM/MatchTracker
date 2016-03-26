@@ -11,7 +11,7 @@ import java.util.List;
 public class Tournament {
     private final String TAG = getClass().toString();
 
-    private int id;
+    private long id;
     private String name;
     private String url;
     private List<Player> players;
@@ -21,7 +21,7 @@ public class Tournament {
         // Empty :)
     }
 
-    public Tournament(int id, String name, String url) {
+    public Tournament(long id, String name, String url) {
         this.id = id;
         this.name = name;
         this.url = url;
@@ -32,6 +32,7 @@ public class Tournament {
     public Tournament(Cursor cursor){
         this.id = cursor.getInt(cursor.getColumnIndex("id"));
         this.name = cursor.getString(cursor.getColumnIndex("name"));
+        this.url = cursor.getString(cursor.getColumnIndex("url"));
         this.players = new ArrayList<>();
         this.matches = new ArrayList<>();
     }
@@ -66,7 +67,7 @@ public class Tournament {
     }
 
     /* GETTERS */
-    public int getId() {
+    public long getId() {
         return id;
     }
 

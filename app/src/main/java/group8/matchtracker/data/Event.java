@@ -11,7 +11,7 @@ import java.util.List;
 public class Event {
     private final String TAG = getClass().toString();
 
-    private int id;
+    private long id;
     private String name;
     private int startTime;
     private int endTime;
@@ -23,7 +23,7 @@ public class Event {
         this.mTournaments = new ArrayList<>();
     }
 
-    public Event(int id, String name, int startTime, int endTime, String location, String organizer) {
+    public Event(long id, String name, int startTime, int endTime, String location, String organizer) {
         this.id = id;
         this.name = name;
         this.startTime = startTime;
@@ -73,7 +73,7 @@ public class Event {
     }
 
     /* GETTERS */
-    public int getId() {
+    public long getId() {
         return id;
     }
 
