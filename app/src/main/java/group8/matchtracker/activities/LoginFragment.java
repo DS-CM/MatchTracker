@@ -2,6 +2,9 @@ package group8.matchtracker.activities;
 
 
 import android.app.Fragment;
+
+import android.app.SearchManager;
+import android.content.ClipData;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.LinearLayoutManager;
@@ -35,6 +38,7 @@ public class LoginFragment extends Fragment implements SearchView.OnQueryTextLis
     private DatabaseHelper mDbHelper;
     private RecyclerView recyclerView;
     private View v;
+    private long tid;
 
     @Override
     public void onCreate(Bundle savedInstanceState){
@@ -46,31 +50,14 @@ public class LoginFragment extends Fragment implements SearchView.OnQueryTextLis
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         v = inflater.inflate(R.layout.player_login_fragment, container, false);
-        int tid = getActivity().getIntent().getIntExtra(DatabaseHelper.EVENT_ID, 0);
+        tid = getActivity().getIntent().getIntExtra(DatabaseHelper.EVENT_ID, 0);
 
         recyclerView = (RecyclerView) v.findViewById(R.id.player_login_fragment_recycler_view);
         LinearLayoutManager layoutManager = new LinearLayoutManager(v.getContext());
         recyclerView.setLayoutManager(layoutManager);
         // TODO - Change away from this
         mDbHelper = new DatabaseHelper(v.getContext());
-
-        RetrievePlayersTask rp = new RetrievePlayersTask();
-        rp.setJsonDownloadListener(new RetrievePlayersTask.JsonDownloadListener() {
-            @Override
-            public void jsonDownloadedSuccessfully(JSONArray jsonArray) {
-                try {
-                    for (int i = 0; i < jsonArray.length(); i++) {
-                        JSONObject object = jsonArray.getJSONObject(i);
-                        object = object.getJSONObject("participant");
-                        mPlayers.add(mDbHelper.mPlayerTable.createPlayer(object.getString("username"), object.getString("name")));
-                        populateList(v);
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-        rp.execute(mDbHelper.mTournamentTable.getTournament(tid).getUrl());
+        executeRetrievePlayerTask();
 
 //        mDbHelper.mPlayerTable.createPlayer("Name1", "MrToast");
 //        mDbHelper.mPlayerTable.createPlayer("Name2", "MsButter");
@@ -113,6 +100,17 @@ public class LoginFragment extends Fragment implements SearchView.OnQueryTextLis
     }
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        switch (item.getItemId()){
+            case R.id.action_refresh:
+                executeRetrievePlayerTask();
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     public boolean onQueryTextSubmit(String query) {
         return false;
     }
@@ -135,5 +133,25 @@ public class LoginFragment extends Fragment implements SearchView.OnQueryTextLis
             }
         }
         return filteredPlayerList;
+    }
+
+    private void executeRetrievePlayerTask(){
+        RetrievePlayersTask rp = new RetrievePlayersTask();
+        rp.setJsonDownloadListener(new RetrievePlayersTask.JsonDownloadListener() {
+            @Override
+            public void jsonDownloadedSuccessfully(JSONArray jsonArray) {
+                try {
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject object = jsonArray.getJSONObject(i);
+                        object = object.getJSONObject("participant");
+                        mPlayers.add(mDbHelper.mPlayerTable.createPlayer(object.getString("username"), object.getString("name")));
+                        populateList(v);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        rp.execute(mDbHelper.mEventTable.getEvent(tid).getUrl());
     }
 }

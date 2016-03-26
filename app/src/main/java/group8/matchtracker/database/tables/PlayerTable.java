@@ -91,4 +91,11 @@ public class PlayerTable extends DBTable {
         }
         return listPlayers;
     }
+
+    public boolean isInTable(String ign){
+        Cursor cursor = mDatabase.query(mDbHelper.TABLE_PLAYER, mAllColumns, mDbHelper.PLAYER_IGN
+                + " = ?", new String[]{ign},null,null,null);
+
+        return cursor.getCount() > 0;
+    }
 }
