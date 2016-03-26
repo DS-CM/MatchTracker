@@ -13,7 +13,6 @@ import group8.matchtracker.database.DatabaseHelper;
 
 public class EventTable extends DBTable {
     public final String TAG = getClass().getSimpleName();
-    public int entries = 0;
 
     private String[] mAllColumns = {mDbHelper.EVENT_ID, mDbHelper.EVENT_NAME,
             mDbHelper.EVENT_START, mDbHelper.EVENT_END, mDbHelper.EVENT_LOCATION,
@@ -41,9 +40,7 @@ public class EventTable extends DBTable {
         values.put(mDbHelper.EVENT_LOCATION, location);
         values.put(mDbHelper.EVENT_ORGANIZER, organizer);
 
-        int insertId = (int) mDatabase.insert(mDbHelper.TABLE_EVENT, null, values);
-
-        entries++;
+        long insertId =  mDatabase.insert(mDbHelper.TABLE_EVENT, null, values);
 
         return new Event(insertId, name, start, end, location, organizer);
     }
@@ -101,7 +98,6 @@ public class EventTable extends DBTable {
 
     public void removeAllEvents() {
         mDatabase.execSQL("delete from " + mDbHelper.TABLE_EVENT);
-        entries = 0;
     }
 
 }

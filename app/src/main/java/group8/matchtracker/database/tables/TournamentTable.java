@@ -19,20 +19,14 @@ public class TournamentTable extends DBTable {
 
     }
 
-    public Tournament createTournament(int id, String name, String url){
+    public Tournament createTournament(String name, String url){
         ContentValues values = new ContentValues();
-        values.put(mDbHelper.TOURNAMENT_ID, id);
         values.put(mDbHelper.TOURNAMENT_NAME, name);
         values.put(mDbHelper.TOURNAMENT_URL, url);
 
         long insertId = mDatabase.insert(mDbHelper.TABLE_TOURNAMENT, null, values);
-        Cursor cursor = mDatabase.query(mDbHelper.TABLE_TOURNAMENT, mAllColumns, mDbHelper.TOURNAMENT_ID
-                +" = "+insertId, null, null, null, null);
-        cursor.moveToFirst();
-        Tournament newTournament = new Tournament(cursor);
-        cursor.close();
 
-        return newTournament;
+        return new Tournament(insertId, name, url);
     }
 
     public ArrayList<Tournament> getAllTournaments(){
@@ -40,6 +34,7 @@ public class TournamentTable extends DBTable {
         Cursor cursor = mDatabase.query(mDbHelper.TABLE_TOURNAMENT, mAllColumns, null,null,null,null,null);
 
         if(cursor != null){
+            cursor.moveToFirst();
             while(!cursor.isAfterLast()){
                 listTournaments.add(new Tournament(cursor));
                 cursor.moveToNext();
@@ -49,8 +44,16 @@ public class TournamentTable extends DBTable {
         return listTournaments;
     }
 
-    public Tournament getTournaments(long tid) {
+    public Tournament getTournament(long tid) {
+        Tournament t = null;
+        Cursor cursor = mDatabase.query(mDbHelper.TABLE_TOURNAMENT, mAllColumns, null,null,null,null,null);
 
-        return null;
+        if(cursor != null){
+            cursor.moveToFirst();
+            t = new Tournament(cursor);
+            cursor.close();
+        }
+
+        return t;
     }
 }

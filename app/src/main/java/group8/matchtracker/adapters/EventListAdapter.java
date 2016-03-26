@@ -23,7 +23,7 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.View
     private static ArrayList<Event> mEvents;
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        public int mTournamentId;
+        public long mEventId;
         public ImageView mImageView;
         public TextView mNameTextView;
         public TextView mLocationTextView;
@@ -41,7 +41,9 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.View
             //if (mCrime != null) { // TODO - Figure out what shouldn't be null, taken from https://www.bignerdranch.com/blog/recyclerview-part-1-fundamentals-for-listview-experts/
                 Context context = itemView.getContext();
                 Intent i = new Intent(context, Login.class);
-                i.putExtra(DatabaseHelper.EVENT_ID, mEvents.get(getLayoutPosition()).getId());
+                // TODO (David): Fix to send Event_ID as it would give all tournaments
+                //i.putExtra(DatabaseHelper.EVENT_ID, mEvents.get(getLayoutPosition()).getId());
+                i.putExtra(DatabaseHelper.TOURNAMENT_ID, mEvents.get(getLayoutPosition()).getTournaments().get(0).getId());
                 context.startActivity(i);
             //}
         }
@@ -76,7 +78,7 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.View
         Event currentEvent = mEvents.get(position);
         String dates = "" + currentEvent.getStartTime() + " to " + currentEvent.getEndTime();
 
-        holder.mTournamentId = currentEvent.getId();
+        holder.mEventId = currentEvent.getId();
 
         // TODO - holder.mImageView for logo
         if (false) { // is imageuri is != null enter

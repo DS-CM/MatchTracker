@@ -40,7 +40,8 @@ public class PlayerListAdapter extends RecyclerView.Adapter<PlayerListAdapter.Vi
                 Context context = itemView.getContext();
                 Intent i = new Intent(context, TabbedActivity.class);
                 Player selectedPlayer = mPlayers.get(getLayoutPosition());
-                i.putExtra(DatabaseHelper.EVENT_ID, ((Activity)context).getIntent().getExtras().getInt(DatabaseHelper.EVENT_ID));
+                //i.putExtra(DatabaseHelper.EVENT_ID, ((Activity)context).getIntent().getExtras().getInt(DatabaseHelper.EVENT_ID));
+                i.putExtra(DatabaseHelper.TOURNAMENT_ID, ((Activity)context).getIntent().getExtras().getInt(DatabaseHelper.TOURNAMENT_ID));
                 i.putExtra(DatabaseHelper.PLAYER_ID, selectedPlayer.getId());
                 context.startActivity(i);
             //}

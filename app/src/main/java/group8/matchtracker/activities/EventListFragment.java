@@ -19,6 +19,7 @@ import group8.matchtracker.R;
 import group8.matchtracker.adapters.EventListAdapter;
 import group8.matchtracker.async.RetrieveTournamentsTask;
 import group8.matchtracker.data.Event;
+import group8.matchtracker.data.Tournament;
 import group8.matchtracker.database.DatabaseHelper;
 
 
@@ -59,7 +60,11 @@ public class EventListFragment extends Fragment {
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject object = jsonArray.getJSONObject(i);
                         object = object.getJSONObject("tournament");
-                        mEvents.add(mDbHelper.mEventTable.createEvent(object.getString("name"), 0, 0, "Ohio Union", "esi",object.getString("url")));
+                        Event event = mDbHelper.mEventTable.createEvent(object.getString("name"), 0, 0, "Ohio Union", "esi");
+                        Tournament tournament = mDbHelper.mTournamentTable.createTournament(object.getString("name"), object.getString("url"));
+
+                        event.addTournament(tournament);
+                        mEvents.add(event);
                         populateList(v);
                     }
                 } catch (JSONException e) {

@@ -2,7 +2,6 @@ package group8.matchtracker.activities;
 
 
 import android.app.Fragment;
-import android.app.SearchManager;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.LinearLayoutManager;
@@ -24,10 +23,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import group8.matchtracker.R;
-import group8.matchtracker.adapters.EventListAdapter;
 import group8.matchtracker.adapters.PlayerListAdapter;
 import group8.matchtracker.async.RetrievePlayersTask;
-import group8.matchtracker.data.Event;
 import group8.matchtracker.data.Player;
 import group8.matchtracker.database.DatabaseHelper;
 
@@ -73,7 +70,7 @@ public class LoginFragment extends Fragment implements SearchView.OnQueryTextLis
                 }
             }
         });
-        rp.execute(mDbHelper.mEventTable.getEvent(tid).getUrl());
+        rp.execute(mDbHelper.mTournamentTable.getTournament(tid).getUrl());
 
 //        mDbHelper.mPlayerTable.createPlayer("Name1", "MrToast");
 //        mDbHelper.mPlayerTable.createPlayer("Name2", "MsButter");
