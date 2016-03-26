@@ -37,11 +37,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String EVENT_END = "end";
     public static final String EVENT_LOCATION = "location";
     public static final String EVENT_ORGANIZER = "organizer";
-    public static final String EVENT_URL = "url";
 
     // Tournament
     public static final String TOURNAMENT_ID = "id";
     public static final String TOURNAMENT_NAME = "name";
+    public static final String TOURNAMENT_URL = "url";
 
     // Match
     public static final String MATCH_ID = "id";
@@ -77,7 +77,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + EVENT_END +" INTEGER, "
             + EVENT_LOCATION +" STRING, "
             + EVENT_ORGANIZER +" STRING, "
-            + EVENT_URL +" STRING)";
+            + TOURNAMENT_URL +" STRING)";
 
     private static final String SQL_CREATE_TABLE_PLAYERS = "CREATE TABLE "+TABLE_PLAYER+" ("
             +PLAYER_ID+" INTEGER PRIMARY KEY ASC NOT NULL, "

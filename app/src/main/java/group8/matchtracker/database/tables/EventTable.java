@@ -17,7 +17,7 @@ public class EventTable extends DBTable {
 
     private String[] mAllColumns = {mDbHelper.EVENT_ID, mDbHelper.EVENT_NAME,
             mDbHelper.EVENT_START, mDbHelper.EVENT_END, mDbHelper.EVENT_LOCATION,
-            mDbHelper.EVENT_ORGANIZER, mDbHelper.EVENT_URL};
+            mDbHelper.EVENT_ORGANIZER};
 
     public EventTable(Context context, DatabaseHelper dbHelper) {
         super(context, dbHelper);
@@ -33,27 +33,26 @@ public class EventTable extends DBTable {
         mDbHelper.close();
     }
 
-    public Event createEvent(String name, int start, int end, String location, String organizer, String url) {
+    public Event createEvent(String name, int start, int end, String location, String organizer) {
         ContentValues values = new ContentValues();
         values.put(mDbHelper.EVENT_NAME, name);
         values.put(mDbHelper.EVENT_START, start);
         values.put(mDbHelper.EVENT_END, end);
         values.put(mDbHelper.EVENT_LOCATION, location);
         values.put(mDbHelper.EVENT_ORGANIZER, organizer);
-        values.put(mDbHelper.EVENT_URL, url);
 
         int insertId = (int) mDatabase.insert(mDbHelper.TABLE_EVENT, null, values);
 
         entries++;
 
-        return new Event(insertId, name, start, end, location, organizer, url);
+        return new Event(insertId, name, start, end, location, organizer);
     }
 
-    public Event getEvent(int id){
-        Cursor cursor = mDatabase.query(mDbHelper.TABLE_EVENT,mAllColumns,mDbHelper.EVENT_ID +" = ?",
-                new String[]{String.valueOf(id)},null,null,null);
+    public Event getEvent(int id) {
+        Cursor cursor = mDatabase.query(mDbHelper.TABLE_EVENT, mAllColumns, mDbHelper.EVENT_ID + " = ?",
+                new String[]{String.valueOf(id)}, null, null, null);
 
-        if(cursor != null) {
+        if (cursor != null) {
             cursor.moveToFirst();
 
             return new Event(cursor.getInt(cursor.getColumnIndex("id")),
@@ -61,8 +60,7 @@ public class EventTable extends DBTable {
                     cursor.getInt(cursor.getColumnIndex("start")),
                     cursor.getInt(cursor.getColumnIndex("end")),
                     cursor.getString(cursor.getColumnIndex("location")),
-                    cursor.getString(cursor.getColumnIndex("organizer")),
-                    cursor.getString(cursor.getColumnIndex("url")));
+                    cursor.getString(cursor.getColumnIndex("organizer")));
         }
         return new Event();
     }
@@ -74,13 +72,12 @@ public class EventTable extends DBTable {
         if (cursor != null) {
             cursor.moveToFirst();
             while (!cursor.isAfterLast()) {
-                listEvents.add(new Event( cursor.getInt(cursor.getColumnIndex("id")),
+                listEvents.add(new Event(cursor.getInt(cursor.getColumnIndex("id")),
                         cursor.getString(cursor.getColumnIndex("name")),
                         cursor.getInt(cursor.getColumnIndex("start")),
                         cursor.getInt(cursor.getColumnIndex("end")),
                         cursor.getString(cursor.getColumnIndex("location")),
-                        cursor.getString(cursor.getColumnIndex("organizer")),
-                        cursor.getString(cursor.getColumnIndex("url"))));
+                        cursor.getString(cursor.getColumnIndex("organizer"))));
                 cursor.moveToNext();
             }
             cursor.close();
@@ -94,16 +91,15 @@ public class EventTable extends DBTable {
         if (cursor != null)
             cursor.moveToFirst();
 
-        return new Event( cursor.getInt(cursor.getColumnIndex("id")),
+        return new Event(cursor.getInt(cursor.getColumnIndex("id")),
                 cursor.getString(cursor.getColumnIndex("name")),
                 cursor.getInt(cursor.getColumnIndex("start")),
                 cursor.getInt(cursor.getColumnIndex("end")),
                 cursor.getString(cursor.getColumnIndex("location")),
-                cursor.getString(cursor.getColumnIndex("organizer")),
-                cursor.getString(cursor.getColumnIndex("url")));
+                cursor.getString(cursor.getColumnIndex("organizer")));
     }
 
-    public void removeAllEvents(){
+    public void removeAllEvents() {
         mDatabase.execSQL("delete from " + mDbHelper.TABLE_EVENT);
         entries = 0;
     }

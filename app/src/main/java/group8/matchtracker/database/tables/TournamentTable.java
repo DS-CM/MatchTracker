@@ -12,17 +12,18 @@ import group8.matchtracker.database.DatabaseHelper;
 
 public class TournamentTable extends DBTable {
 
-    private String[] mAllColumns = {mDbHelper.TOURNAMENT_ID, mDbHelper.TOURNAMENT_NAME};
+    private String[] mAllColumns = {mDbHelper.TOURNAMENT_ID, mDbHelper.TOURNAMENT_NAME, mDbHelper.TOURNAMENT_URL};
 
     public TournamentTable(Context context, DatabaseHelper dbHelper){
         super(context, dbHelper);
 
     }
 
-    public Tournament createTournament(int id, String name){
+    public Tournament createTournament(int id, String name, String url){
         ContentValues values = new ContentValues();
         values.put(mDbHelper.TOURNAMENT_ID, id);
         values.put(mDbHelper.TOURNAMENT_NAME, name);
+        values.put(mDbHelper.TOURNAMENT_URL, url);
 
         long insertId = mDatabase.insert(mDbHelper.TABLE_TOURNAMENT, null, values);
         Cursor cursor = mDatabase.query(mDbHelper.TABLE_TOURNAMENT, mAllColumns, mDbHelper.TOURNAMENT_ID
@@ -46,5 +47,10 @@ public class TournamentTable extends DBTable {
             cursor.close();
         }
         return listTournaments;
+    }
+
+    public Tournament getTournaments(long tid) {
+
+        return null;
     }
 }
