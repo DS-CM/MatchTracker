@@ -1,6 +1,5 @@
 package group8.matchtracker.services;
 
-
 import android.app.IntentService;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
@@ -15,29 +14,27 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import group8.matchtracker.activities.TabMatchFeedFragment;
-import group8.matchtracker.data.Match;
-import group8.matchtracker.data.Event;
+import group8.matchtracker.data.Tournament;
 import group8.matchtracker.database.DatabaseHelper;
 
-public class EventUpdateService extends IntentService {
+public class MatchUpdateService extends IntentService {
 
     DatabaseHelper dbHelper;
     String tournamentName;
 
-    public EventUpdateService(){
-        super("EventUpdateService");
+    public MatchUpdateService(){
+        super("MatchUpdateService");
     }
 
     @Override
     protected void onHandleIntent(Intent intent) {
         String API_KEY = "JSDvdSusuXhmamjxPcukkXOhw8fnDeTAyMYroYIV";//intent.getStringExtra("API_KEY");
-        int event_id = intent.getIntExtra("EVENT_ID",0);
+        long tid = intent.getIntExtra(DatabaseHelper.TOURNAMENT_ID, 0);
         dbHelper = new DatabaseHelper(this);
 
-        Log.d("INFO",""+event_id);
+        Log.d("INFO",""+tid);
 
-        Event t = dbHelper.mEventTable.getEvent(event_id);
+        Tournament t = dbHelper.mTournamentTable.getTournament(tid);
         tournamentName = t.getUrl();
 
         try{
@@ -65,19 +62,28 @@ public class EventUpdateService extends IntentService {
 
     private void parseJSON(JSONArray jArray){
         JSONObject match = null;
-        SQLiteDatabase database = dbHelper.getWritableDatabase();
-        database.execSQL("delete from " + dbHelper.TABLE_MATCH); /*TODO: Get rid of this line eventually*/
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
 
+        int round;
+        String identifier;
+        // TODO (David): \/ replace with real data \/
+        int[] result = new int[]{0,0};
+        String type = "1 v 1";
+        String location = "setup #13";
+        String time = "12:00pm";
+
+        //database.execSQL("delete from " + dbHelper.TABLE_MATCH); /*TODO: Get rid of this line eventually*/
+
+        //long[] matchsOfEvent = dbHelper.
 
         try {
             for (int i = 0; i < jArray.length(); i++) {
                 match = jArray.getJSONObject(i).getJSONObject("match");
-                dbHelper.mMatchTable.createMatch(match.getInt("round"),
-                        match.getString("identifier"),
-                        new int[]{0,0}, //replace with real data
-                        "1 v 1",    //replace with real data
-                        "Ohio Union",   //replace with real data
-                        "12:00pm"); //replace with real data
+
+                round = match.getInt("round");
+                identifier = match.getString("identifier");
+
+                dbHelper.mMatchTable.createMatch(round, identifier, result, type, location, time);
             }
         }catch(JSONException e){
             e.printStackTrace();

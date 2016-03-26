@@ -2,6 +2,7 @@ package group8.matchtracker.activities;
 
 
 import android.app.Fragment;
+
 import android.app.SearchManager;
 import android.content.ClipData;
 import android.os.Bundle;
@@ -25,10 +26,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import group8.matchtracker.R;
-import group8.matchtracker.adapters.EventListAdapter;
 import group8.matchtracker.adapters.PlayerListAdapter;
 import group8.matchtracker.async.RetrievePlayersTask;
-import group8.matchtracker.data.Event;
 import group8.matchtracker.data.Player;
 import group8.matchtracker.database.DatabaseHelper;
 
@@ -39,7 +38,7 @@ public class LoginFragment extends Fragment implements SearchView.OnQueryTextLis
     private DatabaseHelper mDbHelper;
     private RecyclerView recyclerView;
     private View v;
-    private int tid;
+    private long tid;
 
     @Override
     public void onCreate(Bundle savedInstanceState){
@@ -51,14 +50,13 @@ public class LoginFragment extends Fragment implements SearchView.OnQueryTextLis
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         v = inflater.inflate(R.layout.player_login_fragment, container, false);
-        tid = getActivity().getIntent().getIntExtra("EVENT_ID", 0);
+        tid = getActivity().getIntent().getIntExtra(DatabaseHelper.EVENT_ID, 0);
 
         recyclerView = (RecyclerView) v.findViewById(R.id.player_login_fragment_recycler_view);
         LinearLayoutManager layoutManager = new LinearLayoutManager(v.getContext());
         recyclerView.setLayoutManager(layoutManager);
         // TODO - Change away from this
         mDbHelper = new DatabaseHelper(v.getContext());
-
         executeRetrievePlayerTask();
 
 //        mDbHelper.mPlayerTable.createPlayer("Name1", "MrToast");
@@ -154,6 +152,6 @@ public class LoginFragment extends Fragment implements SearchView.OnQueryTextLis
                 }
             }
         });
-        rp.execute(mDbHelper.mEventTable.getEvent(tid).getUrl());
+        rp.execute(mDbHelper.mTournamentTable.getTournament(tid).getUrl());
     }
 }

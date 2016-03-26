@@ -11,42 +11,39 @@ import java.util.List;
 public class Event {
     private final String TAG = getClass().toString();
 
-    private int id;
+    private long id;
     private String name;
     private int startTime;
     private int endTime;
     private String location; // Change to a different data type later
     private String organizer;
-    private String url;
     private List<Tournament> mTournaments;
 
     public Event() {
         this.mTournaments = new ArrayList<>();
     }
 
-    public Event(int id, String name, int startTime, int endTime, String location, String organizer, String url) {
+    public Event(long id, String name, int startTime, int endTime, String location, String organizer) {
         this.id = id;
         this.name = name;
         this.startTime = startTime;
         this.endTime = endTime;
         this.location = location;
         this.organizer = organizer;
-        this.url = url;
         this.mTournaments = new ArrayList<>();
     }
 
-    public Event(Cursor cursor, String url){
+    public Event(Cursor cursor){
         this.id = cursor.getInt(cursor.getColumnIndex("id"));
         this.name = cursor.getString(cursor.getColumnIndex("name"));
         this.startTime = cursor.getInt(cursor.getColumnIndex("start"));
         this.endTime = cursor.getInt(cursor.getColumnIndex("end"));
         this.location = cursor.getString(cursor.getColumnIndex("location"));
         this.organizer = cursor.getString(cursor.getColumnIndex("organizer"));
-        this.url = url;
         this.mTournaments = new ArrayList<>();
     }
 
-    public void addEvent(Tournament tournament) {
+    public void addTournament(Tournament tournament) {
         this.mTournaments.add(tournament);
     }
 
@@ -76,7 +73,7 @@ public class Event {
     }
 
     /* GETTERS */
-    public int getId() {
+    public long getId() {
         return id;
     }
 
@@ -99,8 +96,6 @@ public class Event {
     public String getOrganizer() {
         return organizer;
     }
-
-    public String getUrl() { return url; }
 
     public List<Tournament> getTournaments() {
         return mTournaments;

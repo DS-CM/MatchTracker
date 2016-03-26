@@ -12,11 +12,12 @@ import android.view.MenuItem;
 
 import group8.matchtracker.R;
 import group8.matchtracker.adapters.PagerAdapter;
-import group8.matchtracker.services.EventUpdateService;
+import group8.matchtracker.database.DatabaseHelper;
 
 public class TabbedActivity extends AppCompatActivity {
     private final String TAG = getClass().getSimpleName();
     private int tid;
+    private int playerid;
 
     @Override
     public void onCreate(Bundle saveInstanceState) {
@@ -27,9 +28,10 @@ public class TabbedActivity extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
         if(extras != null) {
-            Log.d(TAG, String.valueOf(extras.getInt("SELECTED_PLAYER_ID")));
-            tid = extras.getInt("EVENT_ID");
-            Log.d("Event", String.valueOf(tid));
+            tid = extras.getInt(DatabaseHelper.TOURNAMENT_ID);
+            playerid = extras.getInt(DatabaseHelper.PLAYER_ID);
+            Log.d(TAG, DatabaseHelper.TOURNAMENT_ID + ": " + String.valueOf(tid));
+            Log.d(TAG, DatabaseHelper.PLAYER_ID + ": " + String.valueOf(playerid));
         }
 
         TabLayout tabLayout = (TabLayout)findViewById(R.id.tab_layout);
@@ -76,7 +78,7 @@ public class TabbedActivity extends AppCompatActivity {
         switch(id){
             case R.id.directions:
                 Intent i = new Intent(this,MapActivity.class);
-                i.putExtra("EVENT_ID", tid);
+                i.putExtra(DatabaseHelper.TOURNAMENT_ID, tid);
                 startActivity(i);
                 break;
             case R.id.action_settings:

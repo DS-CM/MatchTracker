@@ -9,7 +9,6 @@ import group8.matchtracker.activities.TabTournamentBracketFragment;
 import group8.matchtracker.activities.TabMatchFeedFragment;
 import group8.matchtracker.activities.TabTournamentFeedFragment;
 
-
 public class PagerAdapter extends FragmentStatePagerAdapter {
 
     int mNumOfTabs;

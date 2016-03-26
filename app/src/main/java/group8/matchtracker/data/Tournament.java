@@ -11,8 +11,9 @@ import java.util.List;
 public class Tournament {
     private final String TAG = getClass().toString();
 
-    private int id;
+    private long id;
     private String name;
+    private String url;
     private List<Player> players;
     private List<Match> matches;
 
@@ -20,9 +21,10 @@ public class Tournament {
         // Empty :)
     }
 
-    public Tournament(int id, String name) {
+    public Tournament(long id, String name, String url) {
         this.id = id;
         this.name = name;
+        this.url = url;
         this.players = new ArrayList<>();
         this.matches = new ArrayList<>();
     }
@@ -30,6 +32,7 @@ public class Tournament {
     public Tournament(Cursor cursor){
         this.id = cursor.getInt(cursor.getColumnIndex("id"));
         this.name = cursor.getString(cursor.getColumnIndex("name"));
+        this.url = cursor.getString(cursor.getColumnIndex("url"));
         this.players = new ArrayList<>();
         this.matches = new ArrayList<>();
     }
@@ -42,9 +45,38 @@ public class Tournament {
         this.matches.add(match);
     }
 
+    /* SETTERS */
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public void setPlayers(List<Player> players) {
+        this.players = players;
+    }
+
+    public void setMatches(List<Match> matches) {
+        this.matches = matches;
+    }
+
     /* GETTERS */
+    public long getId() {
+        return id;
+    }
+
     public String getName() {
         return name;
+    }
+
+    public String getUrl() {
+        return url;
     }
 
     public List<Player> getPlayers() {
