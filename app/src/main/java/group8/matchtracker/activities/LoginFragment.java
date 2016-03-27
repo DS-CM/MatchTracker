@@ -50,7 +50,8 @@ public class LoginFragment extends Fragment implements SearchView.OnQueryTextLis
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         v = inflater.inflate(R.layout.player_login_fragment, container, false);
-        tid = getActivity().getIntent().getIntExtra(DatabaseHelper.EVENT_ID, 0);
+        //tid = getActivity().getIntent().getIntExtra(DatabaseHelper.EVENT_ID, 0);
+        tid = getActivity().getIntent().getLongExtra(DatabaseHelper.TOURNAMENT_ID, 0);
 
         recyclerView = (RecyclerView) v.findViewById(R.id.player_login_fragment_recycler_view);
         LinearLayoutManager layoutManager = new LinearLayoutManager(v.getContext());
@@ -144,10 +145,15 @@ public class LoginFragment extends Fragment implements SearchView.OnQueryTextLis
                 mDbHelper.mPlayerTable.clearTable();
                 try {
                     for (int i = 0; i < jsonArray.length(); i++) {
-                        JSONObject object = jsonArray.getJSONObject(i);
-                        object = object.getJSONObject("participant");
-                        if(!(mDbHelper.mPlayerTable.isInTable(object.getString("name")))) {
-                            mPlayers.add(mDbHelper.mPlayerTable.createPlayer(object.getString("username"), object.getString("name")));
+                        JSONObject jsonPlayer = jsonArray.getJSONObject(i).getJSONObject("participant");
+
+                        if(!(mDbHelper.mPlayerTable.isInTable(jsonPlayer.getString("name")))) {
+                            int challongeId = jsonPlayer.getInt("id");
+                            String name = jsonPlayer.getString("username");
+                            String ign = jsonPlayer.getString("name");
+                            Player player = mDbHelper.mPlayerTable.createPlayer(challongeId, name, ign);
+
+                            mPlayers.add(player);
                         }
                     }
                     populateList(v);

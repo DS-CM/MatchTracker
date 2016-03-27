@@ -46,11 +46,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     // Tournament
     public static final String TOURNAMENT_ID = "id";
+    public static final String TOURNAMENT_CHALLONGE_ID = "challongeId";
     public static final String TOURNAMENT_NAME = "name";
     public static final String TOURNAMENT_URL = "url";
 
     // Match
     public static final String MATCH_ID = "id";
+    public static final String MATCH_CHALLONGE_ID = "challongeId";
     public static final String MATCH_ROUND = "round";
     public static final String MATCH_IDENTIFIER = "identifier";
     public static final String MATCH_RESULT_1 = "result1";
@@ -61,6 +63,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     // Player
     public static final String PLAYER_ID = "id";
+    public static final String PLAYER_CHALLONGE_ID = "challongeId";
     public static final String PLAYER_NAME = "name";
     public static final String PLAYER_IGN = "ign";
 
@@ -90,11 +93,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String SQL_CREATE_TABLE_PLAYERS = "CREATE TABLE "+TABLE_PLAYER+" ("
             +PLAYER_ID+" INTEGER PRIMARY KEY ASC NOT NULL, "
+            + PLAYER_CHALLONGE_ID + " INTEGER NOT NULL, "
             +PLAYER_NAME+" STRING, "
             +PLAYER_IGN+" STRING)";
 
     public static final String SQL_CREATE_TABLE_MATCHES = "CREATE TABLE "+TABLE_MATCH+" ("
             +MATCH_ID+" INTEGER PRIMARY KEY ASC, "
+            + MATCH_CHALLONGE_ID + " INTEGER NOT NULL, "
             +MATCH_ROUND+" INTEGER, "
             +MATCH_IDENTIFIER+" STRING, "
             +MATCH_RESULT_1+" INTEGER, "
@@ -105,6 +110,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String SQL_CREATE_TABLE_TOURNAMENTS = "CREATE TABLE "+ TABLE_TOURNAMENT +" ("
             + TOURNAMENT_ID + " INTEGER PRIMARY KEY ASC, "
+            + TOURNAMENT_CHALLONGE_ID + " INTEGER NOT NULL, "
             + TOURNAMENT_NAME + " STRING, "
             + TOURNAMENT_URL + " STRING)";
 

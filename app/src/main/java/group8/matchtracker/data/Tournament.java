@@ -1,7 +1,5 @@
 package group8.matchtracker.data;
 
-import android.database.Cursor;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +10,7 @@ public class Tournament {
     private final String TAG = getClass().toString();
 
     private long id;
+    private int challongeId;
     private String name;
     private String url;
     private List<Player> players;
@@ -21,18 +20,11 @@ public class Tournament {
         // Empty :)
     }
 
-    public Tournament(long id, String name, String url) {
+    public Tournament(long id, int challongeId, String name, String url) {
         this.id = id;
+        this.challongeId = challongeId;
         this.name = name;
         this.url = url;
-        this.players = new ArrayList<>();
-        this.matches = new ArrayList<>();
-    }
-
-    public Tournament(Cursor cursor){
-        this.id = cursor.getInt(cursor.getColumnIndex("id"));
-        this.name = cursor.getString(cursor.getColumnIndex("name"));
-        this.url = cursor.getString(cursor.getColumnIndex("url"));
         this.players = new ArrayList<>();
         this.matches = new ArrayList<>();
     }
@@ -48,6 +40,10 @@ public class Tournament {
     /* SETTERS */
     public void setId(int id) {
         this.id = id;
+    }
+
+    public void setChallongeId(int challongeId) {
+        this.challongeId = challongeId;
     }
 
     public void setName(String name) {
@@ -69,6 +65,10 @@ public class Tournament {
     /* GETTERS */
     public long getId() {
         return id;
+    }
+
+    public int getChallongeId() {
+        return challongeId;
     }
 
     public String getName() {

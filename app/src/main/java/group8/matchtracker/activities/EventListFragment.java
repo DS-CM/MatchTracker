@@ -50,9 +50,9 @@ public class EventListFragment extends Fragment {
         mRecyclerView.setLayoutManager(layoutManager);
         mDbHelper = new DatabaseHelper(v.getContext());
 
-        mDbHelper.mTournamentInEventTable.deleteAll(); // TODO - remove
+        //mDbHelper.mTournamentInEventTable.deleteAll(); // TODO - remove
         mDbHelper.mEventTable.removeAllEvents(); // TODO - remove
-        mDbHelper.mTournamentTable.deleteAll(); // TODO - remove
+        //mDbHelper.mTournamentTable.deleteAll(); // TODO - remove
 
         RetrieveTournamentsTask rt = new RetrieveTournamentsTask();
         rt.setJsonDownloadListener(new RetrieveTournamentsTask.JsonDownloadListener() {
@@ -62,11 +62,12 @@ public class EventListFragment extends Fragment {
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject jsonTournament = jsonArray.getJSONObject(i).getJSONObject("tournament");
 
+                        int tChallongeId = jsonTournament.getInt("id");
                         String tName = jsonTournament.getString("name");
                         String tUrl = jsonTournament.getString("url");
 
                         Event event = mDbHelper.mEventTable.createEvent(tName, 0, 0, "Ohio Union", "esi");
-                        Tournament tournament = mDbHelper.mTournamentTable.createTournament(tName, tUrl);
+                        Tournament tournament = mDbHelper.mTournamentTable.createTournament(tChallongeId, tName, tUrl);
                         mDbHelper.mTournamentInEventTable.createTIE(event.getId(), tournament.getId());
 
                         event.addTournament(tournament);
@@ -74,7 +75,8 @@ public class EventListFragment extends Fragment {
                         populateList(v);
                     }
                 } catch (JSONException e) {
-                    e.printStackTrace();
+                    Log.d(TAG, "ERROR: When retrieving tournaments");
+                    Log.d(TAG, "Report: " + e.toString());
                 }
             }
         });
