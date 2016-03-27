@@ -83,36 +83,36 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 
     // Create Strings
-    public static final String SQL_CREATE_TABLE_EVENTS = "CREATE TABLE "+ TABLE_EVENT +" ("
-            + EVENT_ID +" INTEGER PRIMARY KEY ASC, "
-            + EVENT_NAME +" STRING, "
-            + EVENT_START +" INTEGER, "
-            + EVENT_END +" INTEGER, "
-            + EVENT_LOCATION +" STRING, "
-            + EVENT_ORGANIZER +" STRING)";
+    public static final String SQL_CREATE_TABLE_EVENTS = "CREATE TABLE " + TABLE_EVENT + " ("
+            + EVENT_ID + " INTEGER PRIMARY KEY ASC, "
+            + EVENT_NAME + " STRING, "
+            + EVENT_START + " INTEGER, "
+            + EVENT_END + " INTEGER, "
+            + EVENT_LOCATION + " STRING, "
+            + EVENT_ORGANIZER + " STRING)";
 
-    private static final String SQL_CREATE_TABLE_PLAYERS = "CREATE TABLE "+TABLE_PLAYER+" ("
-            +PLAYER_ID+" INTEGER PRIMARY KEY ASC NOT NULL, "
-            + PLAYER_CHALLONGE_ID + " INTEGER NOT NULL, "
-            +PLAYER_NAME+" STRING, "
-            +PLAYER_IGN+" STRING)";
-
-    public static final String SQL_CREATE_TABLE_MATCHES = "CREATE TABLE "+TABLE_MATCH+" ("
-            +MATCH_ID+" INTEGER PRIMARY KEY ASC, "
-            + MATCH_CHALLONGE_ID + " INTEGER NOT NULL, "
-            +MATCH_ROUND+" INTEGER, "
-            +MATCH_IDENTIFIER+" STRING, "
-            +MATCH_RESULT_1+" INTEGER, "
-            +MATCH_RESULT_2+" INTEGER, "
-            +MATCH_TYPE+" STRING, "
-            +MATCH_LOCATION+" STRING, "
-            +MATCH_TIME+ " STRING)";
-
-    private static final String SQL_CREATE_TABLE_TOURNAMENTS = "CREATE TABLE "+ TABLE_TOURNAMENT +" ("
+    private static final String SQL_CREATE_TABLE_TOURNAMENTS = "CREATE TABLE " + TABLE_TOURNAMENT + " ("
             + TOURNAMENT_ID + " INTEGER PRIMARY KEY ASC, "
             + TOURNAMENT_CHALLONGE_ID + " INTEGER NOT NULL, "
             + TOURNAMENT_NAME + " STRING, "
             + TOURNAMENT_URL + " STRING)";
+
+    public static final String SQL_CREATE_TABLE_MATCHES = "CREATE TABLE " + TABLE_MATCH + " ("
+            + MATCH_ID + " INTEGER PRIMARY KEY ASC, "
+            + MATCH_CHALLONGE_ID + " INTEGER NOT NULL, "
+            + MATCH_ROUND + " INTEGER, "
+            + MATCH_IDENTIFIER + " STRING, "
+            + MATCH_RESULT_1 + " INTEGER, "
+            + MATCH_RESULT_2 + " INTEGER, "
+            + MATCH_TYPE + " STRING, "
+            + MATCH_LOCATION + " STRING, "
+            + MATCH_TIME + " STRING)";
+
+    private static final String SQL_CREATE_TABLE_PLAYERS = "CREATE TABLE " + TABLE_PLAYER + " ("
+            + PLAYER_ID + " INTEGER PRIMARY KEY ASC NOT NULL, "
+            + PLAYER_CHALLONGE_ID + " INTEGER NOT NULL, "
+            + PLAYER_NAME + " STRING, "
+            + PLAYER_IGN + " STRING)";
 
 
     private static final String SQL_CREATE_TABLE_MATCHS_IN_TOURNAMENT = "CREATE Table " + TABLE_MATCHES_IN_TOURNAMENT + " ("
@@ -144,7 +144,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         this.insertStmt = this.db.compileStatement(INSERT);*/
     }
 
-    public void deleteAll(){
+    public void deleteAll() {
         db.delete(TABLE_EVENT, null, null);
         db.delete(TABLE_TOURNAMENT, null, null);
         db.delete(TABLE_MATCH, null, null);
@@ -165,7 +165,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        Log.w(TAG,"Upgrading the database from version " + oldVersion + " to "+ newVersion);
+        Log.w(TAG, "Upgrading the database from version " + oldVersion + " to " + newVersion);
 
         // TODO (David): Better update method with data retention
         deleteAll();
