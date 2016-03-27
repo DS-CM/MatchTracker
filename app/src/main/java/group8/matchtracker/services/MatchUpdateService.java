@@ -72,9 +72,9 @@ public class MatchUpdateService extends IntentService {
         String location = "setup #13";
         String time = "12:00pm";
 
-        dbHelper.mMatchTable.clearTable(); /*TODO: Get rid of this line eventually*/
+        dbHelper.mMatchesInTournamentTable.deleteAll(); // TODO - remove
+        dbHelper.mMatchTable.clearTable(); // TODO - remove
 
-        //long[] matchsOfEvent = dbHelper.
 
         try {
             for (int i = 0; i < jArray.length(); i++) {

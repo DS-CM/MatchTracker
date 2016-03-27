@@ -50,7 +50,9 @@ public class EventListFragment extends Fragment {
         mRecyclerView.setLayoutManager(layoutManager);
         mDbHelper = new DatabaseHelper(v.getContext());
 
-        mDbHelper.mEventTable.removeAllEvents(); /*TODO: remove*/
+        mDbHelper.mTournamentInEventTable.deleteAll(); // TODO - remove
+        mDbHelper.mEventTable.removeAllEvents(); // TODO - remove
+        mDbHelper.mTournamentTable.deleteAll(); // TODO - remove
 
         RetrieveTournamentsTask rt = new RetrieveTournamentsTask();
         rt.setJsonDownloadListener(new RetrieveTournamentsTask.JsonDownloadListener() {

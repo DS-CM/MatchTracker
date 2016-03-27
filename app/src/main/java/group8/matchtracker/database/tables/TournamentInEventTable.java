@@ -21,4 +21,8 @@ public class TournamentInEventTable extends DBTable {
 
         mDatabase.insert(DatabaseHelper.TABLE_TOURNAMENT_IN_EVENT, null, values);
     }
+
+    public void deleteAll() {
+        mDatabase.execSQL("delete from " + DatabaseHelper.TABLE_TOURNAMENT_IN_EVENT);
+    }
 }

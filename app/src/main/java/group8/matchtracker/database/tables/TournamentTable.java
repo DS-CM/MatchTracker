@@ -31,7 +31,7 @@ public class TournamentTable extends DBTable {
 
     public ArrayList<Tournament> getAllTournaments(){
         ArrayList<Tournament> listTournaments = new ArrayList<>();
-        Cursor cursor = mDatabase.query(mDbHelper.TABLE_TOURNAMENT, mAllColumns, null,null,null,null,null);
+        Cursor cursor = mDatabase.query(mDbHelper.TABLE_TOURNAMENT, mAllColumns, null, null, null, null, null);
 
         if(cursor != null){
             cursor.moveToFirst();
@@ -55,5 +55,9 @@ public class TournamentTable extends DBTable {
         }
 
         return t;
+    }
+
+    public void deleteAll() {
+        mDatabase.execSQL("delete from " + mDbHelper.TABLE_TOURNAMENT);
     }
 }

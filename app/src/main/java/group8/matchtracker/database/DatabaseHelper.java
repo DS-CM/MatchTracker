@@ -5,6 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import group8.matchtracker.database.tables.MatchesInTournamentTable;
 import group8.matchtracker.database.tables.TournamentInEventTable;
 import group8.matchtracker.database.tables.TournamentTable;
 import group8.matchtracker.database.tables.EventTable;
@@ -32,6 +33,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public final PlayerTable mPlayerTable;
     public final TournamentTable mTournamentTable;
     public final MatchTable mMatchTable;
+    public final MatchesInTournamentTable mMatchesInTournamentTable;
     public final TournamentInEventTable mTournamentInEventTable;
 
     // Event
@@ -128,6 +130,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         mPlayerTable = new PlayerTable(context, this);
         mTournamentTable = new TournamentTable(context, this);
         mMatchTable = new MatchTable(context, this);
+        mMatchesInTournamentTable = new MatchesInTournamentTable(context, this);
         mTournamentInEventTable = new TournamentInEventTable(context, this);
         /*this.context = context;
         MatchTrackerOpenHelper openHelper = new MatchTrackerOpenHelper(this.context);
