@@ -13,7 +13,7 @@ public class MatchesInTournamentTable extends DBTable {
         super(context, database, tableName, columns);
     }
 
-    public void createMIT(long tid, long mid) {
+    public void create(long tid, long mid) {
         ContentValues values = new ContentValues();
         values.put(DatabaseHelper.MIT_TOURNAMENT_ID, tid);
         values.put(DatabaseHelper.MIT_MATCH_ID, mid);

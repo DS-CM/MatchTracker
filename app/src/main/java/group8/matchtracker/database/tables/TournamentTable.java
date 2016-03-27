@@ -17,7 +17,7 @@ public class TournamentTable extends DBTable {
         super(context, database, tableName, columns);
     }
 
-    public Tournament createTournament(int challongeId, String name, String url){
+    public Tournament create(int challongeId, String name, String url){
         ContentValues values = new ContentValues();
         values.put(DatabaseHelper.TOURNAMENT_CHALLONGE_ID, challongeId);
         values.put(DatabaseHelper.TOURNAMENT_NAME, name);
@@ -28,7 +28,27 @@ public class TournamentTable extends DBTable {
         return new Tournament(insertId, challongeId, name, url);
     }
 
-    public ArrayList<Tournament> getAllTournaments(){
+    public Tournament read(long id) {
+        Tournament tournament = null;
+        Cursor cursor = mDatabase.query(mTableName, mAllColumns, DatabaseHelper.TOURNAMENT_ID
+                + " = ?", new String[]{String.valueOf(id)}, null, null, null);
+
+        if(cursor != null){
+            cursor.moveToFirst();
+
+            if (!cursor.isAfterLast()) {
+                int challongeId = cursor.getInt(cursor.getColumnIndex(DatabaseHelper.TOURNAMENT_CHALLONGE_ID));
+                String name = cursor.getString(cursor.getColumnIndex(DatabaseHelper.TOURNAMENT_NAME));
+                String url = cursor.getString(cursor.getColumnIndex(DatabaseHelper.TOURNAMENT_URL));
+                tournament = new Tournament(id, challongeId, name, url);
+            }
+            cursor.close();
+        }
+
+        return tournament;
+    }
+
+    public ArrayList<Tournament> readAll(){
         ArrayList<Tournament> listTournaments = new ArrayList<>();
         Cursor cursor = mDatabase.query(mTableName, mAllColumns, null, null, null, null, null);
 
@@ -46,25 +66,5 @@ public class TournamentTable extends DBTable {
             cursor.close();
         }
         return listTournaments;
-    }
-
-    public Tournament getTournament(long id) {
-        Tournament tournament = null;
-        Cursor cursor = mDatabase.query(mTableName, mAllColumns, DatabaseHelper.TOURNAMENT_ID
-                + " = ?", new String[]{String.valueOf(id)},null,null,null);
-
-        if(cursor != null){
-            cursor.moveToFirst();
-
-            if (!cursor.isAfterLast()) {
-                int challongeId = cursor.getInt(cursor.getColumnIndex(DatabaseHelper.TOURNAMENT_CHALLONGE_ID));
-                String name = cursor.getString(cursor.getColumnIndex(DatabaseHelper.TOURNAMENT_NAME));
-                String url = cursor.getString(cursor.getColumnIndex(DatabaseHelper.TOURNAMENT_URL));
-                tournament = new Tournament(id, challongeId, name, url);
-            }
-            cursor.close();
-        }
-
-        return tournament;
     }
 }

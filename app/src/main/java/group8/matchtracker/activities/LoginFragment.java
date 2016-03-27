@@ -58,12 +58,12 @@ public class LoginFragment extends Fragment implements SearchView.OnQueryTextLis
         mDbHelper = new DatabaseHelper(v.getContext());
         executeRetrievePlayerTask();
 
-//        mDbHelper.mPlayerTable.createPlayer("Name1", "MrToast");
-//        mDbHelper.mPlayerTable.createPlayer("Name2", "MsButter");
-//        mDbHelper.mPlayerTable.createPlayer("Name3", "3ygun");
-//        mDbHelper.mPlayerTable.createPlayer("Name4", "J3rn");
+//        mDbHelper.mPlayerTable.create("Name1", "MrToast");
+//        mDbHelper.mPlayerTable.create("Name2", "MsButter");
+//        mDbHelper.mPlayerTable.create("Name3", "3ygun");
+//        mDbHelper.mPlayerTable.create("Name4", "J3rn");
 
-        //mPlayers = mDbHelper.mPlayerTable.getAllPlayers();
+        //mPlayers = mDbHelper.mPlayerTable.readAll();
         populateList(v);
 
 
@@ -72,7 +72,7 @@ public class LoginFragment extends Fragment implements SearchView.OnQueryTextLis
     }
 
     public void populateList(View v) {
-        mPlayers = mDbHelper.mPlayerTable.getAllPlayers();
+        mPlayers = mDbHelper.mPlayerTable.readAll();
         mPlayerListAdapter = new PlayerListAdapter(v.getContext(), mPlayers);
         recyclerView.setAdapter(mPlayerListAdapter);
     }
@@ -149,7 +149,7 @@ public class LoginFragment extends Fragment implements SearchView.OnQueryTextLis
                             int challongeId = jsonPlayer.getInt("id");
                             String name = jsonPlayer.getString("username");
                             String ign = jsonPlayer.getString("name");
-                            Player player = mDbHelper.mPlayerTable.createPlayer(challongeId, name, ign);
+                            Player player = mDbHelper.mPlayerTable.create(challongeId, name, ign);
 
                             mPlayers.add(player);
                         }
@@ -160,6 +160,6 @@ public class LoginFragment extends Fragment implements SearchView.OnQueryTextLis
                 }
             }
         });
-        rp.execute(mDbHelper.mTournamentTable.getTournament(tid).getUrl());
+        rp.execute(mDbHelper.mTournamentTable.read(tid).getUrl());
     }
 }

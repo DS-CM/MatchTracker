@@ -66,9 +66,9 @@ public class EventListFragment extends Fragment {
                         String tName = jsonTournament.getString("name");
                         String tUrl = jsonTournament.getString("url");
 
-                        Event event = mDbHelper.mEventTable.createEvent(tName, 0, 0, "Ohio Union", "esi");
-                        Tournament tournament = mDbHelper.mTournamentTable.createTournament(tChallongeId, tName, tUrl);
-                        mDbHelper.mTournamentInEventTable.createTIE(event.getId(), tournament.getId());
+                        Event event = mDbHelper.mEventTable.create(tName, 0, 0, "Ohio Union", "esi");
+                        Tournament tournament = mDbHelper.mTournamentTable.create(tChallongeId, tName, tUrl);
+                        mDbHelper.mTournamentInEventTable.create(event.getId(), tournament.getId());
 
                         event.addTournament(tournament);
                         mEvents.add(event);
@@ -83,11 +83,11 @@ public class EventListFragment extends Fragment {
         rt.execute();
 
         // TODO - Remove
-/*        mDbHelper.mEventTable.createEvent("Shuffle VIII", 03122016, 03132016, "Ohio Union", "eSports Initiative");
-        mDbHelper.mEventTable.createEvent("Big House", 05032016, 05042016, "U of M", "The school up north");
-        mDbHelper.mEventTable.createEvent("EVO", 22, 23, "Cali", "EVO LLC");*/
+/*        mDbHelper.mEventTable.create("Shuffle VIII", 03122016, 03132016, "Ohio Union", "eSports Initiative");
+        mDbHelper.mEventTable.create("Big House", 05032016, 05042016, "U of M", "The school up north");
+        mDbHelper.mEventTable.create("EVO", 22, 23, "Cali", "EVO LLC");*/
 
-        mEvents = mDbHelper.mEventTable.getAllEvents();
+        mEvents = mDbHelper.mEventTable.readAll();
         populateList(v);
 
 

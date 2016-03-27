@@ -36,7 +36,7 @@ public class MatchUpdateService extends IntentService {
 
         Log.d("INFO",""+tid);
 
-        mTournament = dbHelper.mTournamentTable.getTournament(tid);
+        mTournament = dbHelper.mTournamentTable.read(tid);
         tournamentName = mTournament.getUrl();
 
         try{
@@ -82,8 +82,8 @@ public class MatchUpdateService extends IntentService {
                 int round = jsonMatch.getInt("round");
                 String identifier = jsonMatch.getString("identifier");
 
-                Match match  = dbHelper.mMatchTable.createMatch(challongeId, round, identifier, result, type, location, time);
-                dbHelper.mMatchesInTournamentTable.createMIT(mTournament.getId(), match.getId());
+                Match match  = dbHelper.mMatchTable.create(challongeId, round, identifier, result, type, location, time);
+                dbHelper.mMatchesInTournamentTable.create(mTournament.getId(), match.getId());
             }
         }catch(JSONException e){
             e.printStackTrace();

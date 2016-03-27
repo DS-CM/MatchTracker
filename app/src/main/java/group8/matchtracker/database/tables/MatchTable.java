@@ -18,7 +18,7 @@ public class MatchTable extends DBTable {
         super(context, database, tableName, columns);
     }
 
-    public Match createMatch(int challongeId, int round, String identifier, int[] result, String type, String location, String time) {
+    public Match create(int challongeId, int round, String identifier, int[] result, String type, String location, String time) {
         ContentValues values = new ContentValues();
         values.put(DatabaseHelper.MATCH_CHALLONGE_ID, challongeId);
         values.put(DatabaseHelper.MATCH_ROUND, round);
@@ -40,7 +40,7 @@ public class MatchTable extends DBTable {
         return new Match(insertId, challongeId, eventId, round, identifier, result, type, location, time, players);
     }
 
-    public ArrayList<Match> getAllMatches() {
+    public ArrayList<Match> readAll() {
         ArrayList<Match> listMatches = new ArrayList<>();
         Cursor cursor = mDatabase.query(mTableName, mAllColumns, null, null, null, null, null);
 

@@ -18,7 +18,7 @@ public class PlayerTable extends DBTable {
         deleteAll(); /*TODO: Get rid of this line eventually*/
     }
 
-    public Player createPlayer(int challongeId, String name, String ign){
+    public Player create(int challongeId, String name, String ign){
         ContentValues values = new ContentValues();
         values.put(DatabaseHelper.PLAYER_CHALLONGE_ID, challongeId);
         values.put(DatabaseHelper.PLAYER_NAME, name);
@@ -29,7 +29,7 @@ public class PlayerTable extends DBTable {
         return new Player(insertId, challongeId, name, ign);
     }
 
-    public Player getPlayer(long id){
+    public Player read(long id){
         Player player = null;
         Cursor cursor = mDatabase.query(mTableName, mAllColumns, DatabaseHelper.PLAYER_ID
                 + " = ?", new String[]{String.valueOf(id)},null,null,null);
@@ -47,7 +47,7 @@ public class PlayerTable extends DBTable {
         return player;
     }
 
-    public Player getPlayer(String ign){
+    public Player read(String ign){
         Cursor cursor = mDatabase.query(mTableName, mAllColumns, DatabaseHelper.PLAYER_IGN
                 + " = ?", new String[]{ign},null,null,null);
         Player currentPlayer = null;
@@ -65,7 +65,7 @@ public class PlayerTable extends DBTable {
         return currentPlayer;
     }
 
-    public ArrayList<Player> getAllPlayers(){
+    public ArrayList<Player> readAll(){
         ArrayList<Player> listPlayers = new ArrayList<>();
         Cursor cursor = mDatabase.query(mTableName, mAllColumns, null,null,null,null,null);
 

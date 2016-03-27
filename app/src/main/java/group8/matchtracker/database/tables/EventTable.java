@@ -20,7 +20,7 @@ public class EventTable extends DBTable {
         //mDatabase.execSQL(DatabaseHelper.SQL_CREATE_TABLE_EVENTS);
     }
 
-    public Event createEvent(String name, int start, int end, String location, String organizer) {
+    public Event create(String name, int start, int end, String location, String organizer) {
         ContentValues values = new ContentValues();
         values.put(DatabaseHelper.EVENT_NAME, name);
         values.put(DatabaseHelper.EVENT_START, start);
@@ -33,7 +33,7 @@ public class EventTable extends DBTable {
         return new Event(insertId, name, start, end, location, organizer);
     }
 
-    public Event getEvent(long id) {
+    public Event read(long id) {
         Event event = new Event();
         Cursor cursor = mDatabase.query(mTableName, mAllColumns, DatabaseHelper.EVENT_ID + " = ?",
                 new String[]{String.valueOf(id)}, null, null, null);
@@ -54,7 +54,28 @@ public class EventTable extends DBTable {
         return event;
     }
 
-    public ArrayList<Event> getAllEvents() {
+    public Event read(String name) {
+        Event event = new Event();
+        Cursor cursor = mDatabase.query(mTableName, mAllColumns,
+                DatabaseHelper.EVENT_NAME + " = ?", new String[]{name}, null, null, null);
+
+        if (cursor != null) {
+            cursor.moveToFirst();
+
+            event.setId(cursor.getInt(cursor.getColumnIndex("id")));
+            event.setName(name);
+            event.setStartTime(cursor.getInt(cursor.getColumnIndex("start")));
+            event.setEndTime(cursor.getInt(cursor.getColumnIndex("end")));
+            event.setLocation(cursor.getString(cursor.getColumnIndex("location")));
+            event.setOrganizer(cursor.getString(cursor.getColumnIndex("organizer")));
+
+            cursor.close();
+        }
+
+        return event;
+    }
+
+    public ArrayList<Event> readAll() {
         ArrayList<Event> listEvents = new ArrayList<>();
         Cursor cursor = mDatabase.query(mTableName, mAllColumns, null, null, null, null, null);
 
@@ -76,26 +97,5 @@ public class EventTable extends DBTable {
             cursor.close();
         }
         return listEvents;
-    }
-
-    public Event getEventByName(String name) {
-        Event event = new Event();
-        Cursor cursor = mDatabase.query(mTableName, mAllColumns,
-                DatabaseHelper.EVENT_NAME + " = ?", new String[]{name}, null, null, null);
-
-        if (cursor != null) {
-            cursor.moveToFirst();
-
-            event.setId(cursor.getInt(cursor.getColumnIndex("id")));
-            event.setName(name);
-            event.setStartTime(cursor.getInt(cursor.getColumnIndex("start")));
-            event.setEndTime(cursor.getInt(cursor.getColumnIndex("end")));
-            event.setLocation(cursor.getString(cursor.getColumnIndex("location")));
-            event.setOrganizer(cursor.getString(cursor.getColumnIndex("organizer")));
-
-            cursor.close();
-        }
-
-        return event;
     }
 }

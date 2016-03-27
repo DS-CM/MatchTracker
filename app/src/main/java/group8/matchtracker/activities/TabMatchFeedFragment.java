@@ -55,9 +55,9 @@ public class TabMatchFeedFragment extends Fragment {
 
         //TODO - Change away from this
         mDbHelper = new DatabaseHelper(v.getContext());
-        //mDbHelper.mMatchTable.createMatch(0, "A", new int[]{0, 0}, "BO5", "Seat 33", "12:00pm");
+        //mDbHelper.mMatchTable.create(0, "A", new int[]{0, 0}, "BO5", "Seat 33", "12:00pm");
 
-        mMatches = mDbHelper.mMatchTable.getAllMatches();
+        mMatches = mDbHelper.mMatchTable.readAll();
         populateList(v);
 
         Log.d(TAG, "onCreateView");
@@ -72,7 +72,7 @@ public class TabMatchFeedFragment extends Fragment {
     BroadcastReceiver matchBroadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            mMatches = mDbHelper.mMatchTable.getAllMatches();
+            mMatches = mDbHelper.mMatchTable.readAll();
             populateList(v);
         }
     };

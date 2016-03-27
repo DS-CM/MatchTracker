@@ -13,7 +13,7 @@ public class TournamentInEventTable extends DBTable {
         super(context, database, tableName, columns);
     }
 
-    public void createTIE(long eid, long tid) {
+    public void create(long eid, long tid) {
         ContentValues values = new ContentValues();
         values.put(DatabaseHelper.TIE_EVENT_ID, eid);
         values.put(DatabaseHelper.TIE_TOURNAMENT_ID, tid);
