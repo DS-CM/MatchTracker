@@ -3,8 +3,6 @@ package group8.matchtracker.activities;
 
 import android.app.Fragment;
 
-import android.app.SearchManager;
-import android.content.ClipData;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.LinearLayoutManager;
@@ -50,7 +48,8 @@ public class LoginFragment extends Fragment implements SearchView.OnQueryTextLis
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         v = inflater.inflate(R.layout.player_login_fragment, container, false);
-        tid = getActivity().getIntent().getIntExtra(DatabaseHelper.EVENT_ID, 0);
+        //tid = getActivity().getIntent().getIntExtra(DatabaseHelper.EVENT_ID, 0);
+        tid = getActivity().getIntent().getLongExtra(DatabaseHelper.TOURNAMENT_ID, 0);
 
         recyclerView = (RecyclerView) v.findViewById(R.id.player_login_fragment_recycler_view);
         LinearLayoutManager layoutManager = new LinearLayoutManager(v.getContext());
@@ -59,12 +58,12 @@ public class LoginFragment extends Fragment implements SearchView.OnQueryTextLis
         mDbHelper = new DatabaseHelper(v.getContext());
         executeRetrievePlayerTask();
 
-//        mDbHelper.mPlayerTable.createPlayer("Name1", "MrToast");
-//        mDbHelper.mPlayerTable.createPlayer("Name2", "MsButter");
-//        mDbHelper.mPlayerTable.createPlayer("Name3", "3ygun");
-//        mDbHelper.mPlayerTable.createPlayer("Name4", "J3rn");
+//        mDbHelper.mPlayerTable.create("Name1", "MrToast");
+//        mDbHelper.mPlayerTable.create("Name2", "MsButter");
+//        mDbHelper.mPlayerTable.create("Name3", "3ygun");
+//        mDbHelper.mPlayerTable.create("Name4", "J3rn");
 
-        //mPlayers = mDbHelper.mPlayerTable.getAllPlayers();
+        //mPlayers = mDbHelper.mPlayerTable.readAll();
         populateList(v);
 
 
@@ -73,7 +72,7 @@ public class LoginFragment extends Fragment implements SearchView.OnQueryTextLis
     }
 
     public void populateList(View v) {
-        mPlayers = mDbHelper.mPlayerTable.getAllPlayers();
+        mPlayers = mDbHelper.mPlayerTable.readAll();
         mPlayerListAdapter = new PlayerListAdapter(v.getContext(), mPlayers);
         recyclerView.setAdapter(mPlayerListAdapter);
     }
@@ -141,13 +140,18 @@ public class LoginFragment extends Fragment implements SearchView.OnQueryTextLis
         rp.setJsonDownloadListener(new RetrievePlayersTask.JsonDownloadListener() {
             @Override
             public void jsonDownloadedSuccessfully(JSONArray jsonArray) {
-                mDbHelper.mPlayerTable.clearTable();
+                mDbHelper.mPlayerTable.deleteAll();
                 try {
                     for (int i = 0; i < jsonArray.length(); i++) {
-                        JSONObject object = jsonArray.getJSONObject(i);
-                        object = object.getJSONObject("participant");
-                        if(!(mDbHelper.mPlayerTable.isInTable(object.getString("name")))) {
-                            mPlayers.add(mDbHelper.mPlayerTable.createPlayer(object.getString("username"), object.getString("name")));
+                        JSONObject jsonPlayer = jsonArray.getJSONObject(i).getJSONObject("participant");
+
+                        if(!(mDbHelper.mPlayerTable.isInTable(jsonPlayer.getString("name")))) {
+                            int challongeId = jsonPlayer.getInt("id");
+                            String name = jsonPlayer.getString("username");
+                            String ign = jsonPlayer.getString("name");
+                            Player player = mDbHelper.mPlayerTable.create(challongeId, name, ign);
+
+                            mPlayers.add(player);
                         }
                     }
                     populateList(v);
@@ -156,6 +160,6 @@ public class LoginFragment extends Fragment implements SearchView.OnQueryTextLis
                 }
             }
         });
-        rp.execute(mDbHelper.mTournamentTable.getTournament(tid).getUrl());
+        rp.execute(mDbHelper.mTournamentTable.read(tid).getUrl());
     }
 }

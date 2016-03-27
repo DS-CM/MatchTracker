@@ -16,7 +16,7 @@ import group8.matchtracker.database.DatabaseHelper;
 
 public class TabbedActivity extends AppCompatActivity {
     private final String TAG = getClass().getSimpleName();
-    private int tid;
+    private long tid;
     private int playerid;
 
     @Override
@@ -28,7 +28,7 @@ public class TabbedActivity extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
         if(extras != null) {
-            tid = extras.getInt(DatabaseHelper.TOURNAMENT_ID);
+            tid = extras.getLong(DatabaseHelper.TOURNAMENT_ID);
             playerid = extras.getInt(DatabaseHelper.PLAYER_ID);
             Log.d(TAG, DatabaseHelper.TOURNAMENT_ID + ": " + String.valueOf(tid));
             Log.d(TAG, DatabaseHelper.PLAYER_ID + ": " + String.valueOf(playerid));
@@ -133,7 +133,7 @@ public class TabbedActivity extends AppCompatActivity {
         Log.d(TAG, "onDestroy");
     }
 
-    public int getTid(){
+    public long getTid(){
         return tid;
     }
 }

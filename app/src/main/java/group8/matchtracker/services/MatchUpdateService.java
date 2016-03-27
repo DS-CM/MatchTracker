@@ -14,6 +14,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import group8.matchtracker.data.Match;
 import group8.matchtracker.data.Tournament;
 import group8.matchtracker.database.DatabaseHelper;
 
@@ -21,6 +22,7 @@ public class MatchUpdateService extends IntentService {
 
     DatabaseHelper dbHelper;
     String tournamentName;
+    Tournament mTournament;
 
     public MatchUpdateService(){
         super("MatchUpdateService");
@@ -29,13 +31,13 @@ public class MatchUpdateService extends IntentService {
     @Override
     protected void onHandleIntent(Intent intent) {
         String API_KEY = "JSDvdSusuXhmamjxPcukkXOhw8fnDeTAyMYroYIV";//intent.getStringExtra("API_KEY");
-        long tid = intent.getIntExtra(DatabaseHelper.TOURNAMENT_ID, 0);
+        long tid = intent.getLongExtra(DatabaseHelper.TOURNAMENT_ID, 0);
         dbHelper = new DatabaseHelper(this);
 
         Log.d("INFO",""+tid);
 
-        Tournament t = dbHelper.mTournamentTable.getTournament(tid);
-        tournamentName = t.getUrl();
+        mTournament = dbHelper.mTournamentTable.read(tid);
+        tournamentName = mTournament.getUrl();
 
         try{
             String API_URL = "https://api.challonge.com/v1/tournaments/"+tournamentName+"/matches.json?api_key="+API_KEY;
@@ -61,29 +63,27 @@ public class MatchUpdateService extends IntentService {
     }
 
     private void parseJSON(JSONArray jArray){
-        JSONObject match = null;
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
-        int round;
-        String identifier;
         // TODO (David): \/ replace with real data \/
         int[] result = new int[]{0,0};
         String type = "1 v 1";
         String location = "setup #13";
         String time = "12:00pm";
 
-        dbHelper.mMatchTable.clearTable(); /*TODO: Get rid of this line eventually*/
-
-        //long[] matchsOfEvent = dbHelper.
+        dbHelper.mMatchesInTournamentTable.deleteAll(); // TODO - remove
+        dbHelper.mMatchTable.deleteAll(); // TODO - remove
 
         try {
             for (int i = 0; i < jArray.length(); i++) {
-                match = jArray.getJSONObject(i).getJSONObject("match");
+                JSONObject jsonMatch = jArray.getJSONObject(i).getJSONObject("match");
 
-                round = match.getInt("round");
-                identifier = match.getString("identifier");
+                int challongeId = jsonMatch.getInt("id");
+                int round = jsonMatch.getInt("round");
+                String identifier = jsonMatch.getString("identifier");
 
-                dbHelper.mMatchTable.createMatch(round, identifier, result, type, location, time);
+                Match match  = dbHelper.mMatchTable.create(challongeId, round, identifier, result, type, location, time);
+                dbHelper.mMatchesInTournamentTable.create(mTournament.getId(), match.getId());
             }
         }catch(JSONException e){
             e.printStackTrace();

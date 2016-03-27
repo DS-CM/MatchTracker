@@ -1,7 +1,5 @@
 package group8.matchtracker.data;
 
-import android.database.Cursor;
-
 import java.util.ArrayList;
 
 /**
@@ -13,6 +11,7 @@ public class Match {
     private final static String AND = " & ";
 
     private long id;
+    private int challongeId;
     private long eventId;
     private int round;
     private String identifier;
@@ -27,8 +26,9 @@ public class Match {
         // Empty :)
     }
 
-    public Match(long id, long eventId, int round, String identifier, int[] result, String type, String location, String time, ArrayList<Player> players) {
+    public Match(long id, int challongeId, long eventId, int round, String identifier, int[] result, String type, String location, String time, ArrayList<Player> players) {
         this.id = id;
+        this.challongeId = challongeId;
         this.eventId = eventId;
         this.round = round;
         this.identifier = identifier;
@@ -43,16 +43,6 @@ public class Match {
         } else {
             throw new RuntimeException("Error - Match not created with proper player numbers (2 or 4)");
         }
-    }
-
-    public Match(Cursor cursor){
-        this.id = cursor.getInt(cursor.getColumnIndex("id"));
-        this.round = cursor.getInt(cursor.getColumnIndex("round"));
-        this.identifier = cursor.getString(cursor.getColumnIndex("identifier"));
-        this.result[0] = cursor.getInt(cursor.getColumnIndex("result1"));
-        this.result[1] = cursor.getInt(cursor.getColumnIndex("result2"));
-        this.location = cursor.getString(cursor.getColumnIndex("location"));
-        this.time = cursor.getString(cursor.getColumnIndex("time"));
     }
 
     public String getVersingPlayers() {
@@ -83,6 +73,10 @@ public class Match {
     /* SETTERS */
     public void setId(long id) {
         this.id = id;
+    }
+
+    public void setChallongeId(int challongeId) {
+        this.challongeId = challongeId;
     }
 
     public void setEventId(long eventId) {
@@ -120,6 +114,10 @@ public class Match {
     /* GETTERS */
     public long getId() {
         return id;
+    }
+
+    public int getChallongeId() {
+        return challongeId;
     }
 
     public int getRound() {

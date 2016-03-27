@@ -50,7 +50,9 @@ public class EventListFragment extends Fragment {
         mRecyclerView.setLayoutManager(layoutManager);
         mDbHelper = new DatabaseHelper(v.getContext());
 
-        mDbHelper.mEventTable.removeAllEvents(); /*TODO: remove*/
+        //mDbHelper.mTournamentInEventTable.deleteAll(); // TODO - remove
+        mDbHelper.mEventTable.deleteAll(); // TODO - remove
+        //mDbHelper.mTournamentTable.deleteAll(); // TODO - remove
 
         RetrieveTournamentsTask rt = new RetrieveTournamentsTask();
         rt.setJsonDownloadListener(new RetrieveTournamentsTask.JsonDownloadListener() {
@@ -58,28 +60,34 @@ public class EventListFragment extends Fragment {
             public void jsonDownloadedSuccessfully(JSONArray jsonArray) {
                 try {
                     for (int i = 0; i < jsonArray.length(); i++) {
-                        JSONObject object = jsonArray.getJSONObject(i);
-                        object = object.getJSONObject("tournament");
-                        Event event = mDbHelper.mEventTable.createEvent(object.getString("name"), 0, 0, "Ohio Union", "esi");
-                        Tournament tournament = mDbHelper.mTournamentTable.createTournament(object.getString("name"), object.getString("url"));
+                        JSONObject jsonTournament = jsonArray.getJSONObject(i).getJSONObject("tournament");
+
+                        int tChallongeId = jsonTournament.getInt("id");
+                        String tName = jsonTournament.getString("name");
+                        String tUrl = jsonTournament.getString("url");
+
+                        Event event = mDbHelper.mEventTable.create(tName, 0, 0, "Ohio Union", "esi");
+                        Tournament tournament = mDbHelper.mTournamentTable.create(tChallongeId, tName, tUrl);
+                        mDbHelper.mTournamentInEventTable.create(event.getId(), tournament.getId());
 
                         event.addTournament(tournament);
                         mEvents.add(event);
                         populateList(v);
                     }
                 } catch (JSONException e) {
-                    e.printStackTrace();
+                    Log.d(TAG, "ERROR: When retrieving tournaments");
+                    Log.d(TAG, "Report: " + e.toString());
                 }
             }
         });
         rt.execute();
 
         // TODO - Remove
-/*        mDbHelper.mEventTable.createEvent("Shuffle VIII", 03122016, 03132016, "Ohio Union", "eSports Initiative");
-        mDbHelper.mEventTable.createEvent("Big House", 05032016, 05042016, "U of M", "The school up north");
-        mDbHelper.mEventTable.createEvent("EVO", 22, 23, "Cali", "EVO LLC");*/
+/*        mDbHelper.mEventTable.create("Shuffle VIII", 03122016, 03132016, "Ohio Union", "eSports Initiative");
+        mDbHelper.mEventTable.create("Big House", 05032016, 05042016, "U of M", "The school up north");
+        mDbHelper.mEventTable.create("EVO", 22, 23, "Cali", "EVO LLC");*/
 
-        mEvents = mDbHelper.mEventTable.getAllEvents();
+        mEvents = mDbHelper.mEventTable.readAll();
         populateList(v);
 
 

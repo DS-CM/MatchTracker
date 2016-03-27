@@ -3,9 +3,8 @@ package group8.matchtracker.database.tables;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.util.Log;
+import android.database.sqlite.SQLiteDatabase;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import group8.matchtracker.data.Match;
@@ -15,60 +14,62 @@ import group8.matchtracker.database.DatabaseHelper;
 
 public class MatchTable extends DBTable {
 
-    private String[] mAllColumns = {mDbHelper.MATCH_ID, mDbHelper.MATCH_ROUND,
-            mDbHelper.MATCH_IDENTIFIER, mDbHelper.MATCH_RESULT_1, mDbHelper.MATCH_RESULT_2,
-            mDbHelper.MATCH_TYPE, mDbHelper.MATCH_LOCATION, mDbHelper.MATCH_TIME};
-
-    public MatchTable(Context context, DatabaseHelper dbHelper) {
-        super(context, dbHelper);
-
-        //mDatabase.execSQL("DROP TABLE IF EXISTS " + dbHelper.TABLE_MATCH);
-        //mDatabase.execSQL(mDbHelper.SQL_CREATE_TABLE_MATCHES);
-/*
-        StringBuilder columns = new StringBuilder();
-        String[] cNames = mDatabase.query(mDbHelper.TABLE_MATCH,null,null,null,null,null,null).getColumnNames();
-        for(int i = 0;i<cNames.length;i++){
-            columns.append(cNames[i]+" ");
-        }
-        Log.d("COLUMN NAMES", columns.toString());*/
+    public MatchTable(Context context, SQLiteDatabase database, String tableName, String[] columns) {
+        super(context, database, tableName, columns);
     }
 
-    public Match createMatch(int round, String identifier, int[] result, String type, String location, String time) {
+    public Match create(int challongeId, int round, String identifier, int[] result, String type, String location, String time) {
         ContentValues values = new ContentValues();
-        values.put(mDbHelper.MATCH_ROUND, round);
-        values.put(mDbHelper.MATCH_IDENTIFIER, identifier);
-        values.put(mDbHelper.MATCH_RESULT_1, result[0]);
-        values.put(mDbHelper.MATCH_RESULT_2, result[1]);
-        values.put(mDbHelper.MATCH_TYPE, type);
-        values.put(mDbHelper.MATCH_LOCATION, location);
-        values.put(mDbHelper.MATCH_TIME, time);
+        values.put(DatabaseHelper.MATCH_CHALLONGE_ID, challongeId);
+        values.put(DatabaseHelper.MATCH_ROUND, round);
+        values.put(DatabaseHelper.MATCH_IDENTIFIER, identifier);
+        values.put(DatabaseHelper.MATCH_RESULT_1, result[0]);
+        values.put(DatabaseHelper.MATCH_RESULT_2, result[1]);
+        values.put(DatabaseHelper.MATCH_TYPE, type);
+        values.put(DatabaseHelper.MATCH_LOCATION, location);
+        values.put(DatabaseHelper.MATCH_TIME, time);
 
-        long insertId = mDatabase.insert(mDbHelper.TABLE_MATCH, null, values);
+        long insertId = mDatabase.insert(mTableName, null, values);
 
         // TODO - Fill players and eventID
         ArrayList<Player> players = new ArrayList<>();
-        players.add(new Player(0, "David", "3ygun"));
-        players.add(new Player(1, "Chris", "cmj"));
+        players.add(new Player(0, 123, "David", "3ygun"));
+        players.add(new Player(1, 321, "Chris", "cmj"));
+        long eventId = 0;
 
-        return new Match(insertId, 0, round, identifier, result, type, location, time, players);
+        return new Match(insertId, challongeId, eventId, round, identifier, result, type, location, time, players);
     }
 
-    public ArrayList<Match> getAllMatches() {
+    public ArrayList<Match> readAll() {
         ArrayList<Match> listMatches = new ArrayList<>();
-        Cursor cursor = mDatabase.query(mDbHelper.TABLE_MATCH, mAllColumns, null, null, null, null, null);
+        Cursor cursor = mDatabase.query(mTableName, mAllColumns, null, null, null, null, null);
+
+        // TODO - Fill players and eventID
+        ArrayList<Player> players = new ArrayList<>();
+        players.add(new Player(0, 123, "David", "3ygun"));
+        players.add(new Player(1, 321, "Chris", "cmj"));
+        long eventId = 0;
 
         if (cursor != null) {
             cursor.moveToFirst();
             while (!cursor.isAfterLast()) {
-                listMatches.add(new Match(cursor));
+                int[] result = new int[2];
+
+                long id = cursor.getInt(cursor.getColumnIndex(DatabaseHelper.MATCH_ID));
+                int challongeId = cursor.getInt(cursor.getColumnIndex(DatabaseHelper.MATCH_CHALLONGE_ID));
+                int round = cursor.getInt(cursor.getColumnIndex(DatabaseHelper.MATCH_ROUND));
+                String identifier = cursor.getString(cursor.getColumnIndex(DatabaseHelper.MATCH_IDENTIFIER));
+                result[0] = cursor.getInt(cursor.getColumnIndex(DatabaseHelper.MATCH_RESULT_1));
+                result[1] = cursor.getInt(cursor.getColumnIndex(DatabaseHelper.MATCH_RESULT_2));
+                String type = cursor.getString(cursor.getColumnIndex(DatabaseHelper.MATCH_TYPE));
+                String location = cursor.getString(cursor.getColumnIndex(DatabaseHelper.MATCH_LOCATION));
+                String time = cursor.getString(cursor.getColumnIndex(DatabaseHelper.MATCH_TIME));
+
+                listMatches.add(new Match(id, challongeId, eventId, round, identifier, result, type, location, time, players));
                 cursor.moveToNext();
             }
             cursor.close();
         }
         return listMatches;
-    }
-
-    public void clearTable(){
-        mDatabase.execSQL("delete from " + mDbHelper.TABLE_MATCH);
     }
 }
