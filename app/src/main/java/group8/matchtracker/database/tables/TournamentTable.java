@@ -67,8 +67,4 @@ public class TournamentTable extends DBTable {
 
         return tournament;
     }
-
-    public void deleteAll() {
-        mDatabase.execSQL("delete from " + mTableName);
-    }
 }

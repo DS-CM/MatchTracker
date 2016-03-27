@@ -20,8 +20,4 @@ public class MatchesInTournamentTable extends DBTable {
 
         mDatabase.insert(DatabaseHelper.TABLE_MATCHES_IN_TOURNAMENT, null, values);
     }
-
-    public void deleteAll() {
-        mDatabase.execSQL("delete from " + DatabaseHelper.TABLE_MATCHES_IN_TOURNAMENT);
-    }
 }

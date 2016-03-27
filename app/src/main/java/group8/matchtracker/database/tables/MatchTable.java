@@ -72,8 +72,4 @@ public class MatchTable extends DBTable {
         }
         return listMatches;
     }
-
-    public void clearTable(){
-        mDatabase.execSQL("delete from " + mTableName);
-    }
 }

@@ -51,7 +51,7 @@ public class EventListFragment extends Fragment {
         mDbHelper = new DatabaseHelper(v.getContext());
 
         //mDbHelper.mTournamentInEventTable.deleteAll(); // TODO - remove
-        mDbHelper.mEventTable.removeAllEvents(); // TODO - remove
+        mDbHelper.mEventTable.deleteAll(); // TODO - remove
         //mDbHelper.mTournamentTable.deleteAll(); // TODO - remove
 
         RetrieveTournamentsTask rt = new RetrieveTournamentsTask();

@@ -3,8 +3,6 @@ package group8.matchtracker.activities;
 
 import android.app.Fragment;
 
-import android.app.SearchManager;
-import android.content.ClipData;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.LinearLayoutManager;
@@ -142,7 +140,7 @@ public class LoginFragment extends Fragment implements SearchView.OnQueryTextLis
         rp.setJsonDownloadListener(new RetrievePlayersTask.JsonDownloadListener() {
             @Override
             public void jsonDownloadedSuccessfully(JSONArray jsonArray) {
-                mDbHelper.mPlayerTable.clearTable();
+                mDbHelper.mPlayerTable.deleteAll();
                 try {
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject jsonPlayer = jsonArray.getJSONObject(i).getJSONObject("participant");

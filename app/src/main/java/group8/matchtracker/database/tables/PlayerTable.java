@@ -15,7 +15,7 @@ public class PlayerTable extends DBTable {
 
     public PlayerTable(Context context, SQLiteDatabase database, String tableName, String[] columns){
         super(context, database, tableName, columns);
-        clearTable(); /*TODO: Get rid of this line eventually*/
+        deleteAll(); /*TODO: Get rid of this line eventually*/
     }
 
     public Player createPlayer(int challongeId, String name, String ign){
@@ -90,9 +90,5 @@ public class PlayerTable extends DBTable {
                 + " = ?", new String[]{ign},null,null,null);
 
         return cursor.getCount() > 0;
-    }
-
-    public void clearTable(){
-        mDatabase.execSQL("delete from " + mTableName);
     }
 }

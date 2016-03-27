@@ -15,4 +15,8 @@ public abstract class DBTable {
         this.mTableName = tableName;
         this.mAllColumns = columns;
     }
+
+    public void deleteAll() {
+        mDatabase.execSQL("delete from " + mTableName);
+    }
 }

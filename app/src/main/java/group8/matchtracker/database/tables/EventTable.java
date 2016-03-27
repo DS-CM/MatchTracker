@@ -98,8 +98,4 @@ public class EventTable extends DBTable {
 
         return event;
     }
-
-    public void removeAllEvents() {
-        mDatabase.execSQL("delete from " + mTableName);
-    }
 }
