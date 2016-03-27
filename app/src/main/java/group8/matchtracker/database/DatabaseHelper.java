@@ -44,12 +44,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String EVENT_END = "end";
     public static final String EVENT_LOCATION = "location";
     public static final String EVENT_ORGANIZER = "organizer";
+    private static final String[] TABLE_EVENT_COLUMNS = {
+            EVENT_ID, EVENT_NAME,
+            EVENT_START, EVENT_END,
+            EVENT_LOCATION, EVENT_ORGANIZER
+    };
 
     // Tournament
     public static final String TOURNAMENT_ID = "id";
     public static final String TOURNAMENT_CHALLONGE_ID = "challongeId";
     public static final String TOURNAMENT_NAME = "name";
     public static final String TOURNAMENT_URL = "url";
+    private static final String[] TABLE_TOURNAMENT_COLUMNS = {
+            TOURNAMENT_ID, TOURNAMENT_CHALLONGE_ID,
+            TOURNAMENT_NAME, TOURNAMENT_URL
+    };
 
     // Match
     public static final String MATCH_ID = "id";
@@ -61,12 +70,23 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String MATCH_TYPE = "type";
     public static final String MATCH_LOCATION = "location";
     public static final String MATCH_TIME = "time";
+    private static final String[] TABLE_MATCH_COLUMNS = {
+            MATCH_ID, MATCH_CHALLONGE_ID,
+            MATCH_ROUND, MATCH_IDENTIFIER,
+            MATCH_RESULT_1, MATCH_RESULT_2,
+            MATCH_TYPE, MATCH_LOCATION,
+            MATCH_TIME
+    };
 
     // Player
     public static final String PLAYER_ID = "id";
     public static final String PLAYER_CHALLONGE_ID = "challongeId";
     public static final String PLAYER_NAME = "name";
     public static final String PLAYER_IGN = "ign";
+    private static final String[] TABLE_PLAYER_COLUMNS = {
+            PLAYER_ID, PLAYER_CHALLONGE_ID,
+            PLAYER_NAME, PLAYER_IGN
+    };
 
     // p_i_t
 
@@ -77,10 +97,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     // m_i_t
     public static final String MIT_TOURNAMENT_ID = "tid";
     public static final String MIT_MATCH_ID = "mid";
+    private static final String[] TABLE_MATCHS_IN_TOURNAMENT_COLUMNS = {
+            MIT_TOURNAMENT_ID, MIT_MATCH_ID
+    };
 
     // t_i_e
     public static final String TIE_EVENT_ID = "eid";
     public static final String TIE_TOURNAMENT_ID = "tid";
+    private static final String[] TABLE_TOURNAMENT_IN_EVENT_COLUMNS = {
+            TIE_EVENT_ID, TIE_TOURNAMENT_ID
+    };
 
 
     // Create Strings
@@ -143,12 +169,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             // TODO - Should probably end the app if this happens...
         }
 
-        mEventTable = new EventTable(context, database);
-        mPlayerTable = new PlayerTable(context, database);
-        mTournamentTable = new TournamentTable(context, database);
-        mMatchTable = new MatchTable(context, database);
-        mMatchesInTournamentTable = new MatchesInTournamentTable(context, database);
-        mTournamentInEventTable = new TournamentInEventTable(context, database);
+        mEventTable = new EventTable(context, database, TABLE_EVENT, TABLE_EVENT_COLUMNS);
+        mPlayerTable = new PlayerTable(context, database, TABLE_PLAYER, TABLE_PLAYER_COLUMNS);
+        mTournamentTable = new TournamentTable(context, database, TABLE_TOURNAMENT, TABLE_TOURNAMENT_COLUMNS);
+        mMatchTable = new MatchTable(context, database, TABLE_MATCH, TABLE_MATCH_COLUMNS);
+        mMatchesInTournamentTable = new MatchesInTournamentTable(context, database, TABLE_MATCHES_IN_TOURNAMENT, TABLE_MATCHS_IN_TOURNAMENT_COLUMNS);
+        mTournamentInEventTable = new TournamentInEventTable(context, database, TABLE_TOURNAMENT_IN_EVENT, TABLE_TOURNAMENT_IN_EVENT_COLUMNS);
     }
 
     public void deleteAll() {

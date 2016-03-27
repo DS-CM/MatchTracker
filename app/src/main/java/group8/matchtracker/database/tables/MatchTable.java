@@ -14,12 +14,8 @@ import group8.matchtracker.database.DatabaseHelper;
 
 public class MatchTable extends DBTable {
 
-    private String[] mAllColumns = {DatabaseHelper.MATCH_ID, DatabaseHelper.MATCH_CHALLONGE_ID, DatabaseHelper.MATCH_ROUND,
-            DatabaseHelper.MATCH_IDENTIFIER, DatabaseHelper.MATCH_RESULT_1, DatabaseHelper.MATCH_RESULT_2,
-            DatabaseHelper.MATCH_TYPE, DatabaseHelper.MATCH_LOCATION, DatabaseHelper.MATCH_TIME};
-
-    public MatchTable(Context context, SQLiteDatabase database) {
-        super(context, database);
+    public MatchTable(Context context, SQLiteDatabase database, String tableName, String[] columns) {
+        super(context, database, tableName, columns);
     }
 
     public Match createMatch(int challongeId, int round, String identifier, int[] result, String type, String location, String time) {
@@ -33,7 +29,7 @@ public class MatchTable extends DBTable {
         values.put(DatabaseHelper.MATCH_LOCATION, location);
         values.put(DatabaseHelper.MATCH_TIME, time);
 
-        long insertId = mDatabase.insert(DatabaseHelper.TABLE_MATCH, null, values);
+        long insertId = mDatabase.insert(mTableName, null, values);
 
         // TODO - Fill players and eventID
         ArrayList<Player> players = new ArrayList<>();
@@ -46,7 +42,7 @@ public class MatchTable extends DBTable {
 
     public ArrayList<Match> getAllMatches() {
         ArrayList<Match> listMatches = new ArrayList<>();
-        Cursor cursor = mDatabase.query(DatabaseHelper.TABLE_MATCH, mAllColumns, null, null, null, null, null);
+        Cursor cursor = mDatabase.query(mTableName, mAllColumns, null, null, null, null, null);
 
         // TODO - Fill players and eventID
         ArrayList<Player> players = new ArrayList<>();
@@ -78,6 +74,6 @@ public class MatchTable extends DBTable {
     }
 
     public void clearTable(){
-        mDatabase.execSQL("delete from " + DatabaseHelper.TABLE_MATCH);
+        mDatabase.execSQL("delete from " + mTableName);
     }
 }

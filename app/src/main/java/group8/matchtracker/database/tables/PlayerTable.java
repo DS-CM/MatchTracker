@@ -13,10 +13,8 @@ import group8.matchtracker.database.DatabaseHelper;
 
 public class PlayerTable extends DBTable {
 
-    private String[] mAllColumns = {DatabaseHelper.PLAYER_ID, DatabaseHelper.PLAYER_CHALLONGE_ID, DatabaseHelper.PLAYER_NAME, DatabaseHelper.PLAYER_IGN};
-
-    public PlayerTable(Context context, SQLiteDatabase database){
-        super(context, database);
+    public PlayerTable(Context context, SQLiteDatabase database, String tableName, String[] columns){
+        super(context, database, tableName, columns);
         clearTable(); /*TODO: Get rid of this line eventually*/
     }
 
@@ -26,14 +24,14 @@ public class PlayerTable extends DBTable {
         values.put(DatabaseHelper.PLAYER_NAME, name);
         values.put(DatabaseHelper.PLAYER_IGN, ign);
 
-        int insertId = (int)mDatabase.insert(DatabaseHelper.TABLE_PLAYER, null, values);
+        int insertId = (int)mDatabase.insert(mTableName, null, values);
 
         return new Player(insertId, challongeId, name, ign);
     }
 
     public Player getPlayer(long id){
         Player player = null;
-        Cursor cursor = mDatabase.query(DatabaseHelper.TABLE_PLAYER, mAllColumns, DatabaseHelper.PLAYER_ID
+        Cursor cursor = mDatabase.query(mTableName, mAllColumns, DatabaseHelper.PLAYER_ID
                 + " = ?", new String[]{String.valueOf(id)},null,null,null);
 
         if(cursor != null){
@@ -50,7 +48,7 @@ public class PlayerTable extends DBTable {
     }
 
     public Player getPlayer(String ign){
-        Cursor cursor = mDatabase.query(DatabaseHelper.TABLE_PLAYER, mAllColumns, DatabaseHelper.PLAYER_IGN
+        Cursor cursor = mDatabase.query(mTableName, mAllColumns, DatabaseHelper.PLAYER_IGN
                 + " = ?", new String[]{ign},null,null,null);
         Player currentPlayer = null;
 
@@ -69,7 +67,7 @@ public class PlayerTable extends DBTable {
 
     public ArrayList<Player> getAllPlayers(){
         ArrayList<Player> listPlayers = new ArrayList<>();
-        Cursor cursor = mDatabase.query(DatabaseHelper.TABLE_PLAYER, mAllColumns, null,null,null,null,null);
+        Cursor cursor = mDatabase.query(mTableName, mAllColumns, null,null,null,null,null);
 
         if(cursor != null){
             cursor.moveToFirst();
@@ -88,13 +86,13 @@ public class PlayerTable extends DBTable {
     }
 
     public boolean isInTable(String ign){
-        Cursor cursor = mDatabase.query(DatabaseHelper.TABLE_PLAYER, mAllColumns, DatabaseHelper.PLAYER_IGN
+        Cursor cursor = mDatabase.query(mTableName, mAllColumns, DatabaseHelper.PLAYER_IGN
                 + " = ?", new String[]{ign},null,null,null);
 
         return cursor.getCount() > 0;
     }
 
     public void clearTable(){
-        mDatabase.execSQL("delete from "+DatabaseHelper.TABLE_PLAYER);
+        mDatabase.execSQL("delete from " + mTableName);
     }
 }

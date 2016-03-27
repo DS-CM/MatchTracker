@@ -14,13 +14,9 @@ import group8.matchtracker.database.DatabaseHelper;
 public class EventTable extends DBTable {
     public final String TAG = getClass().getSimpleName();
 
-    private String[] mAllColumns = {DatabaseHelper.EVENT_ID, DatabaseHelper.EVENT_NAME,
-            DatabaseHelper.EVENT_START, DatabaseHelper.EVENT_END, DatabaseHelper.EVENT_LOCATION,
-            DatabaseHelper.EVENT_ORGANIZER};
-
-    public EventTable(Context context, SQLiteDatabase database) {
-        super(context, database);
-        //mDatabase.execSQL("DROP TABLE IF EXISTS " + dbHelper.TABLE_EVENT);
+    public EventTable(Context context, SQLiteDatabase database, String tableName, String[] columns) {
+        super(context, database, tableName, columns);
+        //mDatabase.execSQL("DROP TABLE IF EXISTS " + mTableName);
         //mDatabase.execSQL(DatabaseHelper.SQL_CREATE_TABLE_EVENTS);
     }
 
@@ -32,14 +28,14 @@ public class EventTable extends DBTable {
         values.put(DatabaseHelper.EVENT_LOCATION, location);
         values.put(DatabaseHelper.EVENT_ORGANIZER, organizer);
 
-        long insertId =  mDatabase.insert(DatabaseHelper.TABLE_EVENT, null, values);
+        long insertId =  mDatabase.insert(mTableName, null, values);
 
         return new Event(insertId, name, start, end, location, organizer);
     }
 
     public Event getEvent(long id) {
         Event event = new Event();
-        Cursor cursor = mDatabase.query(DatabaseHelper.TABLE_EVENT, mAllColumns, DatabaseHelper.EVENT_ID + " = ?",
+        Cursor cursor = mDatabase.query(mTableName, mAllColumns, DatabaseHelper.EVENT_ID + " = ?",
                 new String[]{String.valueOf(id)}, null, null, null);
 
         if (cursor != null) {
@@ -60,7 +56,7 @@ public class EventTable extends DBTable {
 
     public ArrayList<Event> getAllEvents() {
         ArrayList<Event> listEvents = new ArrayList<>();
-        Cursor cursor = mDatabase.query(DatabaseHelper.TABLE_EVENT, mAllColumns, null, null, null, null, null);
+        Cursor cursor = mDatabase.query(mTableName, mAllColumns, null, null, null, null, null);
 
         if (cursor != null) {
             cursor.moveToFirst();
@@ -84,7 +80,7 @@ public class EventTable extends DBTable {
 
     public Event getEventByName(String name) {
         Event event = new Event();
-        Cursor cursor = mDatabase.query(DatabaseHelper.TABLE_EVENT, mAllColumns,
+        Cursor cursor = mDatabase.query(mTableName, mAllColumns,
                 DatabaseHelper.EVENT_NAME + " = ?", new String[]{name}, null, null, null);
 
         if (cursor != null) {
@@ -104,6 +100,6 @@ public class EventTable extends DBTable {
     }
 
     public void removeAllEvents() {
-        mDatabase.execSQL("delete from " + DatabaseHelper.TABLE_EVENT);
+        mDatabase.execSQL("delete from " + mTableName);
     }
 }

@@ -9,10 +9,8 @@ import group8.matchtracker.database.DatabaseHelper;
 
 public class MatchesInTournamentTable extends DBTable {
 
-    private final String[] mAllColumns = {DatabaseHelper.MIT_TOURNAMENT_ID, DatabaseHelper.MIT_MATCH_ID};
-
-    public MatchesInTournamentTable(Context context, SQLiteDatabase database) {
-        super(context, database);
+    public MatchesInTournamentTable(Context context, SQLiteDatabase database, String tableName, String[] columns) {
+        super(context, database, tableName, columns);
     }
 
     public void createMIT(long tid, long mid) {

@@ -13,10 +13,8 @@ import group8.matchtracker.database.DatabaseHelper;
 
 public class TournamentTable extends DBTable {
 
-    private String[] mAllColumns = {DatabaseHelper.TOURNAMENT_ID, DatabaseHelper.TOURNAMENT_CHALLONGE_ID, DatabaseHelper.TOURNAMENT_NAME, DatabaseHelper.TOURNAMENT_URL};
-
-    public TournamentTable(Context context, SQLiteDatabase database){
-        super(context, database);
+    public TournamentTable(Context context, SQLiteDatabase database, String tableName, String[] columns){
+        super(context, database, tableName, columns);
     }
 
     public Tournament createTournament(int challongeId, String name, String url){
@@ -25,14 +23,14 @@ public class TournamentTable extends DBTable {
         values.put(DatabaseHelper.TOURNAMENT_NAME, name);
         values.put(DatabaseHelper.TOURNAMENT_URL, url);
 
-        long insertId = mDatabase.insert(DatabaseHelper.TABLE_TOURNAMENT, null, values);
+        long insertId = mDatabase.insert(mTableName, null, values);
 
         return new Tournament(insertId, challongeId, name, url);
     }
 
     public ArrayList<Tournament> getAllTournaments(){
         ArrayList<Tournament> listTournaments = new ArrayList<>();
-        Cursor cursor = mDatabase.query(DatabaseHelper.TABLE_TOURNAMENT, mAllColumns, null, null, null, null, null);
+        Cursor cursor = mDatabase.query(mTableName, mAllColumns, null, null, null, null, null);
 
         if(cursor != null){
             cursor.moveToFirst();
@@ -52,7 +50,7 @@ public class TournamentTable extends DBTable {
 
     public Tournament getTournament(long id) {
         Tournament tournament = null;
-        Cursor cursor = mDatabase.query(DatabaseHelper.TABLE_TOURNAMENT, mAllColumns, DatabaseHelper.TOURNAMENT_ID
+        Cursor cursor = mDatabase.query(mTableName, mAllColumns, DatabaseHelper.TOURNAMENT_ID
                 + " = ?", new String[]{String.valueOf(id)},null,null,null);
 
         if(cursor != null){
@@ -71,6 +69,6 @@ public class TournamentTable extends DBTable {
     }
 
     public void deleteAll() {
-        mDatabase.execSQL("delete from " + DatabaseHelper.TABLE_TOURNAMENT);
+        mDatabase.execSQL("delete from " + mTableName);
     }
 }
