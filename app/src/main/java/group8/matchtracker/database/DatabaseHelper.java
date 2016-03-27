@@ -69,7 +69,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 
     // m_i_t
-
+    public static final String MIT_TOURNAMENT_ID = "tid";
+    public static final String MIT_MATCH_ID = "mid";
 
     // t_i_e
     public static final String TIE_EVENT_ID = "eid";
@@ -106,6 +107,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + TOURNAMENT_URL + " STRING)";
 
 
+    private static final String SQL_CREATE_TABLE_MATCHS_IN_TOURNAMENT = "CREATE Table " + TABLE_MATCHES_IN_TOURNAMENT + " ("
+            + MIT_TOURNAMENT_ID + " INTEGER NOT NULL, "
+            + MIT_MATCH_ID + " INTEGER NOT NULL, "
+            + "FOREIGN KEY (" + MIT_TOURNAMENT_ID + ") REFERENCES " + TABLE_TOURNAMENT + "(" + TOURNAMENT_ID + "), "
+            + "FOREIGN KEY (" + MIT_MATCH_ID + ") REFERENCES " + TABLE_MATCH + "(" + MATCH_ID + "), "
+            + "PRIMARY KEY (" + MIT_TOURNAMENT_ID + ", " + MIT_MATCH_ID + "))";
+
     private static final String SQL_CREATE_TABLE_TOURNAMENT_IN_EVENT = "CREATE Table " + TABLE_TOURNAMENT_IN_EVENT + " ("
             + TIE_EVENT_ID + " INTEGER NOT NULL, "
             + TIE_TOURNAMENT_ID + " INTEGER NOT NULL, "
@@ -132,6 +140,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.delete(TABLE_TOURNAMENT, null, null);
         db.delete(TABLE_MATCH, null, null);
         db.delete(TABLE_PLAYER, null, null);
+        db.delete(TABLE_MATCHES_IN_TOURNAMENT, null, null);
         db.delete(TABLE_TOURNAMENT_IN_EVENT, null, null);
     }
 
@@ -141,6 +150,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(SQL_CREATE_TABLE_PLAYERS);
         db.execSQL(SQL_CREATE_TABLE_MATCHES);
         db.execSQL(SQL_CREATE_TABLE_TOURNAMENTS);
+        db.execSQL(SQL_CREATE_TABLE_MATCHS_IN_TOURNAMENT);
         db.execSQL(SQL_CREATE_TABLE_TOURNAMENT_IN_EVENT);
     }
 
