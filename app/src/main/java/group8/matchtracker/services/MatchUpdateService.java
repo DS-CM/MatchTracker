@@ -14,6 +14,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import group8.matchtracker.data.Match;
 import group8.matchtracker.data.Tournament;
 import group8.matchtracker.database.DatabaseHelper;
 
@@ -21,6 +22,7 @@ public class MatchUpdateService extends IntentService {
 
     DatabaseHelper dbHelper;
     String tournamentName;
+    Tournament mTournament;
 
     public MatchUpdateService(){
         super("MatchUpdateService");
@@ -34,8 +36,8 @@ public class MatchUpdateService extends IntentService {
 
         Log.d("INFO",""+tid);
 
-        Tournament t = dbHelper.mTournamentTable.getTournament(tid);
-        tournamentName = t.getUrl();
+        mTournament = dbHelper.mTournamentTable.getTournament(tid);
+        tournamentName = mTournament.getUrl();
 
         try{
             String API_URL = "https://api.challonge.com/v1/tournaments/"+tournamentName+"/matches.json?api_key="+API_KEY;
@@ -61,7 +63,6 @@ public class MatchUpdateService extends IntentService {
     }
 
     private void parseJSON(JSONArray jArray){
-        JSONObject match = null;
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
         int round;
@@ -75,15 +76,15 @@ public class MatchUpdateService extends IntentService {
         dbHelper.mMatchesInTournamentTable.deleteAll(); // TODO - remove
         dbHelper.mMatchTable.clearTable(); // TODO - remove
 
-
         try {
             for (int i = 0; i < jArray.length(); i++) {
-                match = jArray.getJSONObject(i).getJSONObject("match");
+                JSONObject jsonMatch = jArray.getJSONObject(i).getJSONObject("match");
 
-                round = match.getInt("round");
-                identifier = match.getString("identifier");
+                round = jsonMatch.getInt("round");
+                identifier = jsonMatch.getString("identifier");
 
-                dbHelper.mMatchTable.createMatch(round, identifier, result, type, location, time);
+                Match match  = dbHelper.mMatchTable.createMatch(round, identifier, result, type, location, time);
+                dbHelper.mMatchesInTournamentTable.createMIT(mTournament.getId(), match.getId());
             }
         }catch(JSONException e){
             e.printStackTrace();
