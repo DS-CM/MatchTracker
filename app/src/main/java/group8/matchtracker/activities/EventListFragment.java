@@ -58,10 +58,14 @@ public class EventListFragment extends Fragment {
             public void jsonDownloadedSuccessfully(JSONArray jsonArray) {
                 try {
                     for (int i = 0; i < jsonArray.length(); i++) {
-                        JSONObject object = jsonArray.getJSONObject(i);
-                        object = object.getJSONObject("tournament");
-                        Event event = mDbHelper.mEventTable.createEvent(object.getString("name"), 0, 0, "Ohio Union", "esi");
-                        Tournament tournament = mDbHelper.mTournamentTable.createTournament(object.getString("name"), object.getString("url"));
+                        JSONObject jsonTournament = jsonArray.getJSONObject(i).getJSONObject("tournament");
+
+                        String tName = jsonTournament.getString("name");
+                        String tUrl = jsonTournament.getString("url");
+
+                        Event event = mDbHelper.mEventTable.createEvent(tName, 0, 0, "Ohio Union", "esi");
+                        Tournament tournament = mDbHelper.mTournamentTable.createTournament(tName, tUrl);
+                        mDbHelper.mTournamentInEventTable.createTIE(event.getId(), tournament.getId());
 
                         event.addTournament(tournament);
                         mEvents.add(event);
