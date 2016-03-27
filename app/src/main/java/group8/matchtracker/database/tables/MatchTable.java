@@ -14,8 +14,8 @@ import group8.matchtracker.database.DatabaseHelper;
 
 public class MatchTable extends DBTable {
 
-    public MatchTable(Context context, SQLiteDatabase database, String tableName, String[] columns) {
-        super(context, database, tableName, columns);
+    public MatchTable(Context context, SQLiteDatabase database, String tableName, String[] columns, DatabaseHelper dbHelper) {
+        super(context, database, tableName, columns, dbHelper);
     }
 
     public Match create(int challongeId, int round, String identifier, int[] result, String type, String location, String time) {
@@ -38,6 +38,36 @@ public class MatchTable extends DBTable {
         long eventId = 0;
 
         return new Match(insertId, challongeId, eventId, round, identifier, result, type, location, time, players);
+    }
+
+    public Match read(long id){
+        Match match = new Match();
+        Cursor cursor = mDatabase.query(mTableName, mAllColumns, DatabaseHelper.MATCH_ID + " = ?",
+                new String[]{String.valueOf(id)}, null, null, null);
+        if(cursor != null) {
+            cursor.moveToFirst();
+            int[] result = new int[]{cursor.getInt(cursor.getColumnIndex(DatabaseHelper.MATCH_RESULT_1)),
+                    cursor.getInt(cursor.getColumnIndex(DatabaseHelper.MATCH_RESULT_2))};
+
+            // TODO - Fill players and eventID
+            ArrayList<Player> players = new ArrayList<>();
+            players.add(new Player(0, 123, "David", "3ygun"));
+            players.add(new Player(1, 321, "Chris", "cmj"));
+            long eventId = 0;
+
+            match = new Match(cursor.getLong(cursor.getColumnIndex(DatabaseHelper.MATCH_ID)),
+                    cursor.getInt(cursor.getColumnIndex(DatabaseHelper.MATCH_CHALLONGE_ID)),
+                    eventId,
+                    cursor.getInt(cursor.getColumnIndex(DatabaseHelper.MATCH_ROUND)),
+                    cursor.getString(cursor.getColumnIndex(DatabaseHelper.MATCH_IDENTIFIER)),
+                    result,
+                    cursor.getString(cursor.getColumnIndex(DatabaseHelper.MATCH_TYPE)),
+                    cursor.getString(cursor.getColumnIndex(DatabaseHelper.MATCH_LOCATION)),
+                    cursor.getString(cursor.getColumnIndex(DatabaseHelper.MATCH_TIME)),
+                    players);
+        }
+        cursor.close();
+        return match;
     }
 
     public ArrayList<Match> readAll() {

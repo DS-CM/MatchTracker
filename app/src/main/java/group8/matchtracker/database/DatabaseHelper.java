@@ -17,7 +17,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private final String TAG = getClass().getSimpleName();
 
     private static final String DATABASE_NAME = "MatchTracker.db";
-    private static final int DATABASE_VERSION = 5;
+    private static final int DATABASE_VERSION = 6;
     public static final String TABLE_EVENT = "events";
     public static final String TABLE_TOURNAMENT = "tournaments";
     public static final String TABLE_MATCH = "matches";
@@ -169,21 +169,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             // TODO - Should probably end the app if this happens...
         }
 
-        mEventTable = new EventTable(context, database, TABLE_EVENT, TABLE_EVENT_COLUMNS);
-        mPlayerTable = new PlayerTable(context, database, TABLE_PLAYER, TABLE_PLAYER_COLUMNS);
-        mTournamentTable = new TournamentTable(context, database, TABLE_TOURNAMENT, TABLE_TOURNAMENT_COLUMNS);
-        mMatchTable = new MatchTable(context, database, TABLE_MATCH, TABLE_MATCH_COLUMNS);
-        mMatchesInTournamentTable = new MatchesInTournamentTable(context, database, TABLE_MATCHES_IN_TOURNAMENT, TABLE_MATCHS_IN_TOURNAMENT_COLUMNS);
-        mTournamentInEventTable = new TournamentInEventTable(context, database, TABLE_TOURNAMENT_IN_EVENT, TABLE_TOURNAMENT_IN_EVENT_COLUMNS);
+        mEventTable = new EventTable(context, database, TABLE_EVENT, TABLE_EVENT_COLUMNS, this);
+        mPlayerTable = new PlayerTable(context, database, TABLE_PLAYER, TABLE_PLAYER_COLUMNS, this);
+        mTournamentTable = new TournamentTable(context, database, TABLE_TOURNAMENT, TABLE_TOURNAMENT_COLUMNS, this);
+        mMatchTable = new MatchTable(context, database, TABLE_MATCH, TABLE_MATCH_COLUMNS, this);
+        mMatchesInTournamentTable = new MatchesInTournamentTable(context, database, TABLE_MATCHES_IN_TOURNAMENT, TABLE_MATCHS_IN_TOURNAMENT_COLUMNS, this);
+        mTournamentInEventTable = new TournamentInEventTable(context, database, TABLE_TOURNAMENT_IN_EVENT, TABLE_TOURNAMENT_IN_EVENT_COLUMNS, this);
     }
 
-    public void deleteAll() {
-        db.delete(TABLE_EVENT, null, null);
-        db.delete(TABLE_TOURNAMENT, null, null);
-        db.delete(TABLE_MATCH, null, null);
-        db.delete(TABLE_PLAYER, null, null);
-        db.delete(TABLE_MATCHES_IN_TOURNAMENT, null, null);
-        db.delete(TABLE_TOURNAMENT_IN_EVENT, null, null);
+    public void dropAll(SQLiteDatabase db) {
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_EVENT);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_TOURNAMENT);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_MATCH);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_PLAYER);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_MATCHES_IN_TOURNAMENT);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_TOURNAMENT_IN_EVENT);
     }
 
     @Override
@@ -201,7 +201,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Log.w(TAG, "Upgrading the database from version " + oldVersion + " to " + newVersion);
 
         // TODO (David): Better update method with data retention
-        deleteAll();
+        dropAll(db);
         onCreate(db);
     }
 }

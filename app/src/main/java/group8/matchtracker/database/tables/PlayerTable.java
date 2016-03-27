@@ -13,8 +13,8 @@ import group8.matchtracker.database.DatabaseHelper;
 
 public class PlayerTable extends DBTable {
 
-    public PlayerTable(Context context, SQLiteDatabase database, String tableName, String[] columns){
-        super(context, database, tableName, columns);
+    public PlayerTable(Context context, SQLiteDatabase database, String tableName, String[] columns, DatabaseHelper dbHelper){
+        super(context, database, tableName, columns, dbHelper);
         deleteAll(); /*TODO: Get rid of this line eventually*/
     }
 
@@ -63,6 +63,28 @@ public class PlayerTable extends DBTable {
             cursor.close();
         }
         return currentPlayer;
+    }
+
+    //needs tested
+    public ArrayList<Player> readPlayers(long... ids){
+        ArrayList<Player> players = new ArrayList<>();
+
+        for(int i=0; i < ids.length; i++){
+            Cursor cursor = mDatabase.query(mTableName, mAllColumns, DatabaseHelper.PLAYER_ID + " = ?",
+                    new String[]{String.valueOf(ids[i])}, null, null, null);
+            if(cursor != null) {
+                cursor.moveToFirst();
+                long id = cursor.getLong(cursor.getColumnIndex(DatabaseHelper.PLAYER_ID));
+                int challongeId = cursor.getInt(cursor.getColumnIndex(DatabaseHelper.PLAYER_CHALLONGE_ID));
+                String name = cursor.getString(cursor.getColumnIndex(DatabaseHelper.PLAYER_NAME));
+                String ign = cursor.getString(cursor.getColumnIndex(DatabaseHelper.PLAYER_IGN));
+                players.add(new Player(id, challongeId, name, ign));
+
+                cursor.close();
+            }
+        }
+
+        return players;
     }
 
     public ArrayList<Player> readAll(){

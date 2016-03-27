@@ -10,6 +10,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.io.InputStream;
+
 import group8.matchtracker.R;
 import group8.matchtracker.adapters.PagerAdapter;
 import group8.matchtracker.database.DatabaseHelper;
@@ -17,7 +19,7 @@ import group8.matchtracker.database.DatabaseHelper;
 public class TabbedActivity extends AppCompatActivity {
     private final String TAG = getClass().getSimpleName();
     private long tid;
-    private int playerid;
+    private long playerid;
 
     @Override
     public void onCreate(Bundle saveInstanceState) {
@@ -29,7 +31,7 @@ public class TabbedActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         if(extras != null) {
             tid = extras.getLong(DatabaseHelper.TOURNAMENT_ID);
-            playerid = extras.getInt(DatabaseHelper.PLAYER_ID);
+            playerid = extras.getLong(DatabaseHelper.PLAYER_ID);
             Log.d(TAG, DatabaseHelper.TOURNAMENT_ID + ": " + String.valueOf(tid));
             Log.d(TAG, DatabaseHelper.PLAYER_ID + ": " + String.valueOf(playerid));
         }
@@ -83,6 +85,10 @@ public class TabbedActivity extends AppCompatActivity {
                 break;
             case R.id.action_settings:
                 break;
+            case R.id.new_event:
+                Intent x = new Intent(this, EventList.class);
+                x.putExtra("RESET", true);
+                startActivity(x);
         }
 
         Log.d(TAG, "onOptionsItemSelected");

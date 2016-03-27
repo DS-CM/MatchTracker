@@ -13,8 +13,8 @@ import group8.matchtracker.database.DatabaseHelper;
 
 public class TournamentTable extends DBTable {
 
-    public TournamentTable(Context context, SQLiteDatabase database, String tableName, String[] columns){
-        super(context, database, tableName, columns);
+    public TournamentTable(Context context, SQLiteDatabase database, String tableName, String[] columns, DatabaseHelper dbHelper){
+        super(context, database, tableName, columns, dbHelper);
     }
 
     public Tournament create(int challongeId, String name, String url){

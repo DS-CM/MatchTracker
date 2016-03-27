@@ -54,17 +54,17 @@ public class Match {
         }
 
         if (players.size() == 2) {
-            verses.append(players.get(0));
+            verses.append(players.get(0).getIgn());
             verses.append(VS);
-            verses.append(players.get(1));
+            verses.append(players.get(1).getIgn());
         } else { // 4 players
-            verses.append(players.get(0));
+            verses.append(players.get(0).getIgn());
             verses.append(AND);
-            verses.append(players.get(1));
+            verses.append(players.get(1).getIgn());
             verses.append(VS);
-            verses.append(players.get(2));
+            verses.append(players.get(2).getIgn());
             verses.append(AND);
-            verses.append(players.get(3));
+            verses.append(players.get(3).getIgn());
         }
 
         return verses.toString();

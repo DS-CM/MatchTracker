@@ -10,4 +10,7 @@
     <item
         android:id="@+id/directions"
         android:title="@string/directions_option" />
+    <item
+        android:id="@+id/new_event"
+        android:title="New Event" />
 </menu>

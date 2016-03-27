@@ -14,8 +14,8 @@ import group8.matchtracker.database.DatabaseHelper;
 public class EventTable extends DBTable {
     public final String TAG = getClass().getSimpleName();
 
-    public EventTable(Context context, SQLiteDatabase database, String tableName, String[] columns) {
-        super(context, database, tableName, columns);
+    public EventTable(Context context, SQLiteDatabase database, String tableName, String[] columns, DatabaseHelper dbHelper) {
+        super(context, database, tableName, columns, dbHelper);
         //mDatabase.execSQL("DROP TABLE IF EXISTS " + mTableName);
         //mDatabase.execSQL(DatabaseHelper.SQL_CREATE_TABLE_EVENTS);
     }

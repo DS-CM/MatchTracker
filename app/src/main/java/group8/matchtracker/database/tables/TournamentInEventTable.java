@@ -9,8 +9,8 @@ import group8.matchtracker.database.DatabaseHelper;
 
 public class TournamentInEventTable extends DBTable {
 
-    public TournamentInEventTable(Context context, SQLiteDatabase database, String tableName, String[] columns) {
-        super(context, database, tableName, columns);
+    public TournamentInEventTable(Context context, SQLiteDatabase database, String tableName, String[] columns, DatabaseHelper dbHelper) {
+        super(context, database, tableName, columns, dbHelper);
     }
 
     public void create(long eid, long tid) {
