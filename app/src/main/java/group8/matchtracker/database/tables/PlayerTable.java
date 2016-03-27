@@ -3,6 +3,7 @@ package group8.matchtracker.database.tables;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 
 import java.util.ArrayList;
 
@@ -14,8 +15,8 @@ public class PlayerTable extends DBTable {
 
     private String[] mAllColumns = {DatabaseHelper.PLAYER_ID, DatabaseHelper.PLAYER_CHALLONGE_ID, DatabaseHelper.PLAYER_NAME, DatabaseHelper.PLAYER_IGN};
 
-    public PlayerTable(Context context, DatabaseHelper dbHelper){
-        super(context, dbHelper);
+    public PlayerTable(Context context, SQLiteDatabase database){
+        super(context, database);
         clearTable(); /*TODO: Get rid of this line eventually*/
     }
 
@@ -73,10 +74,10 @@ public class PlayerTable extends DBTable {
         if(cursor != null){
             cursor.moveToFirst();
             while(!cursor.isAfterLast()){
-                long id = cursor.getLong(cursor.getColumnIndex(mDbHelper.PLAYER_ID));
-                int challongeId = cursor.getInt(cursor.getColumnIndex(mDbHelper.PLAYER_CHALLONGE_ID));
-                String name = cursor.getString(cursor.getColumnIndex(mDbHelper.PLAYER_NAME));
-                String ign = cursor.getString(cursor.getColumnIndex(mDbHelper.PLAYER_IGN));
+                long id = cursor.getLong(cursor.getColumnIndex(DatabaseHelper.PLAYER_ID));
+                int challongeId = cursor.getInt(cursor.getColumnIndex(DatabaseHelper.PLAYER_CHALLONGE_ID));
+                String name = cursor.getString(cursor.getColumnIndex(DatabaseHelper.PLAYER_NAME));
+                String ign = cursor.getString(cursor.getColumnIndex(DatabaseHelper.PLAYER_IGN));
                 listPlayers.add(new Player(id, challongeId, name, ign));
 
                 cursor.moveToNext();

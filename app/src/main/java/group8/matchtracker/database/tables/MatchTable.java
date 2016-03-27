@@ -3,6 +3,7 @@ package group8.matchtracker.database.tables;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 
 import java.util.ArrayList;
 
@@ -17,8 +18,8 @@ public class MatchTable extends DBTable {
             DatabaseHelper.MATCH_IDENTIFIER, DatabaseHelper.MATCH_RESULT_1, DatabaseHelper.MATCH_RESULT_2,
             DatabaseHelper.MATCH_TYPE, DatabaseHelper.MATCH_LOCATION, DatabaseHelper.MATCH_TIME};
 
-    public MatchTable(Context context, DatabaseHelper dbHelper) {
-        super(context, dbHelper);
+    public MatchTable(Context context, SQLiteDatabase database) {
+        super(context, database);
     }
 
     public Match createMatch(int challongeId, int round, String identifier, int[] result, String type, String location, String time) {
@@ -32,7 +33,7 @@ public class MatchTable extends DBTable {
         values.put(DatabaseHelper.MATCH_LOCATION, location);
         values.put(DatabaseHelper.MATCH_TIME, time);
 
-        long insertId = mDatabase.insert(mDbHelper.TABLE_MATCH, null, values);
+        long insertId = mDatabase.insert(DatabaseHelper.TABLE_MATCH, null, values);
 
         // TODO - Fill players and eventID
         ArrayList<Player> players = new ArrayList<>();

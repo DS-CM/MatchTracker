@@ -3,7 +3,7 @@ package group8.matchtracker.database.tables;
 import android.content.Context;
 import android.content.ContentValues;
 import android.database.Cursor;
-import android.database.SQLException;
+import android.database.sqlite.SQLiteDatabase;
 
 import java.util.ArrayList;
 
@@ -14,39 +14,31 @@ import group8.matchtracker.database.DatabaseHelper;
 public class EventTable extends DBTable {
     public final String TAG = getClass().getSimpleName();
 
-    private String[] mAllColumns = {mDbHelper.EVENT_ID, mDbHelper.EVENT_NAME,
-            mDbHelper.EVENT_START, mDbHelper.EVENT_END, mDbHelper.EVENT_LOCATION,
-            mDbHelper.EVENT_ORGANIZER};
+    private String[] mAllColumns = {DatabaseHelper.EVENT_ID, DatabaseHelper.EVENT_NAME,
+            DatabaseHelper.EVENT_START, DatabaseHelper.EVENT_END, DatabaseHelper.EVENT_LOCATION,
+            DatabaseHelper.EVENT_ORGANIZER};
 
-    public EventTable(Context context, DatabaseHelper dbHelper) {
-        super(context, dbHelper);
+    public EventTable(Context context, SQLiteDatabase database) {
+        super(context, database);
         //mDatabase.execSQL("DROP TABLE IF EXISTS " + dbHelper.TABLE_EVENT);
-        //mDatabase.execSQL(mDbHelper.SQL_CREATE_TABLE_EVENTS);
-    }
-
-    public void open() throws SQLException {
-        mDatabase = mDbHelper.getWritableDatabase();
-    }
-
-    public void close() {
-        mDbHelper.close();
+        //mDatabase.execSQL(DatabaseHelper.SQL_CREATE_TABLE_EVENTS);
     }
 
     public Event createEvent(String name, int start, int end, String location, String organizer) {
         ContentValues values = new ContentValues();
-        values.put(mDbHelper.EVENT_NAME, name);
-        values.put(mDbHelper.EVENT_START, start);
-        values.put(mDbHelper.EVENT_END, end);
-        values.put(mDbHelper.EVENT_LOCATION, location);
-        values.put(mDbHelper.EVENT_ORGANIZER, organizer);
+        values.put(DatabaseHelper.EVENT_NAME, name);
+        values.put(DatabaseHelper.EVENT_START, start);
+        values.put(DatabaseHelper.EVENT_END, end);
+        values.put(DatabaseHelper.EVENT_LOCATION, location);
+        values.put(DatabaseHelper.EVENT_ORGANIZER, organizer);
 
-        long insertId =  mDatabase.insert(mDbHelper.TABLE_EVENT, null, values);
+        long insertId =  mDatabase.insert(DatabaseHelper.TABLE_EVENT, null, values);
 
         return new Event(insertId, name, start, end, location, organizer);
     }
 
     public Event getEvent(long id) {
-        Cursor cursor = mDatabase.query(mDbHelper.TABLE_EVENT, mAllColumns, mDbHelper.EVENT_ID + " = ?",
+        Cursor cursor = mDatabase.query(DatabaseHelper.TABLE_EVENT, mAllColumns, DatabaseHelper.EVENT_ID + " = ?",
                 new String[]{String.valueOf(id)}, null, null, null);
 
         if (cursor != null) {
@@ -64,7 +56,7 @@ public class EventTable extends DBTable {
 
     public ArrayList<Event> getAllEvents() {
         ArrayList<Event> listEvents = new ArrayList<>();
-        Cursor cursor = mDatabase.query(mDbHelper.TABLE_EVENT, mAllColumns, null, null, null, null, null);
+        Cursor cursor = mDatabase.query(DatabaseHelper.TABLE_EVENT, mAllColumns, null, null, null, null, null);
 
         if (cursor != null) {
             cursor.moveToFirst();
@@ -83,8 +75,8 @@ public class EventTable extends DBTable {
     }
 
     public Event getEventByName(String name) {
-        Cursor cursor = mDatabase.query(mDbHelper.TABLE_EVENT, mAllColumns,
-                mDbHelper.EVENT_NAME + " = ?", new String[]{name}, null, null, null);
+        Cursor cursor = mDatabase.query(DatabaseHelper.TABLE_EVENT, mAllColumns,
+                DatabaseHelper.EVENT_NAME + " = ?", new String[]{name}, null, null, null);
         if (cursor != null)
             cursor.moveToFirst();
 
@@ -97,7 +89,7 @@ public class EventTable extends DBTable {
     }
 
     public void removeAllEvents() {
-        mDatabase.execSQL("delete from " + mDbHelper.TABLE_EVENT);
+        mDatabase.execSQL("delete from " + DatabaseHelper.TABLE_EVENT);
     }
 
 }

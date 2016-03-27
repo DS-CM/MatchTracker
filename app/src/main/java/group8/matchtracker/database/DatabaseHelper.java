@@ -1,6 +1,7 @@
 package group8.matchtracker.database;
 
 import android.content.Context;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
@@ -132,16 +133,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
-        mEventTable = new EventTable(context, this);
-        mPlayerTable = new PlayerTable(context, this);
-        mTournamentTable = new TournamentTable(context, this);
-        mMatchTable = new MatchTable(context, this);
-        mMatchesInTournamentTable = new MatchesInTournamentTable(context, this);
-        mTournamentInEventTable = new TournamentInEventTable(context, this);
-        /*this.context = context;
-        MatchTrackerOpenHelper openHelper = new MatchTrackerOpenHelper(this.context);
-        this.db = openHelper.getWritableDatabase();
-        this.insertStmt = this.db.compileStatement(INSERT);*/
+        SQLiteDatabase database = null;
+
+        try {
+            database = this.getWritableDatabase();
+        } catch (SQLException e) {
+            Log.e("DBTable", "SQLException on opening database " + e.getMessage());
+            e.printStackTrace();
+            // TODO - Should probably end the app if this happens...
+        }
+
+        mEventTable = new EventTable(context, database);
+        mPlayerTable = new PlayerTable(context, database);
+        mTournamentTable = new TournamentTable(context, database);
+        mMatchTable = new MatchTable(context, database);
+        mMatchesInTournamentTable = new MatchesInTournamentTable(context, database);
+        mTournamentInEventTable = new TournamentInEventTable(context, database);
     }
 
     public void deleteAll() {

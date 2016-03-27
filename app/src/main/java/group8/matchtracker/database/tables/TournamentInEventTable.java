@@ -2,6 +2,7 @@ package group8.matchtracker.database.tables;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 
 import group8.matchtracker.database.DatabaseHelper;
 
@@ -10,8 +11,8 @@ public class TournamentInEventTable extends DBTable {
 
     private final String[] mAllColumns = {DatabaseHelper.TIE_EVENT_ID, DatabaseHelper.TIE_TOURNAMENT_ID};
 
-    public TournamentInEventTable(Context context, DatabaseHelper dbHelper) {
-        super(context, dbHelper);
+    public TournamentInEventTable(Context context, SQLiteDatabase database) {
+        super(context, database);
     }
 
     public void createTIE(long eid, long tid) {

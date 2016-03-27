@@ -3,6 +3,7 @@ package group8.matchtracker.database.tables;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 
 import java.util.ArrayList;
 
@@ -14,8 +15,8 @@ public class TournamentTable extends DBTable {
 
     private String[] mAllColumns = {DatabaseHelper.TOURNAMENT_ID, DatabaseHelper.TOURNAMENT_CHALLONGE_ID, DatabaseHelper.TOURNAMENT_NAME, DatabaseHelper.TOURNAMENT_URL};
 
-    public TournamentTable(Context context, DatabaseHelper dbHelper){
-        super(context, dbHelper);
+    public TournamentTable(Context context, SQLiteDatabase database){
+        super(context, database);
     }
 
     public Tournament createTournament(int challongeId, String name, String url){
