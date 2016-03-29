@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import group8.matchtracker.database.tables.MatchesInTournamentTable;
+import group8.matchtracker.database.tables.PlayersInMatchTable;
 import group8.matchtracker.database.tables.PlayersInTournamentTable;
 import group8.matchtracker.database.tables.TournamentInEventTable;
 import group8.matchtracker.database.tables.TournamentTable;
@@ -36,6 +37,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public final TournamentTable mTournamentTable;
     public final MatchTable mMatchTable;
     public final PlayersInTournamentTable mPlayersInTournamentTable;
+    public final PlayersInMatchTable mPlayersInMatchTable;
     public final MatchesInTournamentTable mMatchesInTournamentTable;
     public final TournamentInEventTable mTournamentInEventTable;
 
@@ -98,7 +100,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     };
 
     // p_i_m
-
+    public static final String PIM_MATCH_ID = "mid";
+    public static final String PIM_PLAYER_ID = "pid";
+    private static final String[] TABLE_PLAYERS_IN_MATCH_COLUMNS = {
+            PIM_MATCH_ID, PIM_PLAYER_ID
+    };
 
     // m_i_t
     public static final String MIT_TOURNAMENT_ID = "tid";
@@ -154,6 +160,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + "FOREIGN KEY (" + PIT_PLAYER_ID + ") REFERENCES " + TABLE_PLAYER + "(" + PLAYER_ID + "), "
             + "PRIMARY KEY (" + PIT_TOURNAMENT_ID + ", " + PIT_PLAYER_ID + "))";
 
+    private static final String SQL_CREATE_TABLE_PLAYERS_IN_MATCH = "CREATE Table " + TABLE_PLAYERS_IN_MATCH + " ("
+            + PIM_MATCH_ID + " INTEGER NOT NULL, "
+            + PIM_PLAYER_ID + " INTEGER NOT NULL, "
+            + "FOREIGN KEY (" + PIM_MATCH_ID + ") REFERENCES " + TABLE_MATCH + "(" + MATCH_ID + "), "
+            + "FOREIGN KEY (" + PIM_PLAYER_ID + ") REFERENCES " + TABLE_PLAYER + "(" + PLAYER_ID + "), "
+            + "PRIMARY KEY (" + PIM_MATCH_ID + ", " + PIM_PLAYER_ID + "))";
 
     private static final String SQL_CREATE_TABLE_MATCHS_IN_TOURNAMENT = "CREATE Table " + TABLE_MATCHES_IN_TOURNAMENT + " ("
             + MIT_TOURNAMENT_ID + " INTEGER NOT NULL, "
@@ -187,6 +199,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         mTournamentTable = new TournamentTable(context, database, TABLE_TOURNAMENT, TABLE_TOURNAMENT_COLUMNS, this);
         mMatchTable = new MatchTable(context, database, TABLE_MATCH, TABLE_MATCH_COLUMNS, this);
         mPlayersInTournamentTable = new PlayersInTournamentTable(context, database, TABLE_PLAYERS_IN_TOURNAMENT, TABLE_PLAYERS_IN_TOURNAMENT_COLUMNS, this);
+        mPlayersInMatchTable = new PlayersInMatchTable(context, database, TABLE_PLAYERS_IN_MATCH, TABLE_PLAYERS_IN_MATCH_COLUMNS, this);
         mMatchesInTournamentTable = new MatchesInTournamentTable(context, database, TABLE_MATCHES_IN_TOURNAMENT, TABLE_MATCHS_IN_TOURNAMENT_COLUMNS, this);
         mTournamentInEventTable = new TournamentInEventTable(context, database, TABLE_TOURNAMENT_IN_EVENT, TABLE_TOURNAMENT_IN_EVENT_COLUMNS, this);
     }
@@ -197,6 +210,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_MATCH);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_PLAYER);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_PLAYERS_IN_TOURNAMENT);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_PLAYERS_IN_MATCH);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_MATCHES_IN_TOURNAMENT);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_TOURNAMENT_IN_EVENT);
     }
@@ -208,6 +222,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(SQL_CREATE_TABLE_MATCHES);
         db.execSQL(SQL_CREATE_TABLE_TOURNAMENTS);
         db.execSQL(SQL_CREATE_TABLE_PLAYERS_IN_TOURNAMENT);
+        db.execSQL(SQL_CREATE_TABLE_PLAYERS_IN_MATCH);
         db.execSQL(SQL_CREATE_TABLE_MATCHS_IN_TOURNAMENT);
         db.execSQL(SQL_CREATE_TABLE_TOURNAMENT_IN_EVENT);
     }
