@@ -56,6 +56,8 @@ public class LoginFragment extends Fragment implements SearchView.OnQueryTextLis
         recyclerView.setLayoutManager(layoutManager);
         // TODO - Change away from this
         mDbHelper = new DatabaseHelper(v.getContext());
+
+        Log.d(TAG, "No tournaments: "+mDbHelper.mTournamentTable.hasData());
         executeRetrievePlayerTask();
 
 //        mDbHelper.mPlayerTable.create("Name1", "MrToast");
@@ -163,5 +165,12 @@ public class LoginFragment extends Fragment implements SearchView.OnQueryTextLis
             }
         });
         rp.execute(mDbHelper.mTournamentTable.read(tid).getUrl());
+    }
+
+    @Override
+    public void onPause(){
+        super.onPause();
+        Log.d(TAG, "onPause");
+        Log.d(TAG, "OnPause does it gots data: " +mDbHelper.mPlayerTable.hasData());
     }
 }

@@ -19,7 +19,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private final String TAG = getClass().getSimpleName();
 
     private static final String DATABASE_NAME = "MatchTracker.db";
-    private static final int DATABASE_VERSION = 8;
+    private static final int DATABASE_VERSION = 10;
     public static final String TABLE_EVENT = "events";
     public static final String TABLE_TOURNAMENT = "tournaments";
     public static final String TABLE_MATCH = "matches";

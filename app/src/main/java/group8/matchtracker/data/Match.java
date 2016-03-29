@@ -84,6 +84,10 @@ public class Match {
         return verses.toString();
     }
 
+    public void addPlayer(Player player) {
+        this.players.add(player);
+    }
+
     /* SETTERS */
     public void setId(long id) {
         this.id = id;

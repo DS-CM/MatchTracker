@@ -4,7 +4,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,13 +13,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 import group8.matchtracker.R;
 import group8.matchtracker.adapters.MatchAdapter;
+import group8.matchtracker.async.RetrieveMatchesForPlayerTask;
+import group8.matchtracker.async.RetrievePlayersTask;
 import group8.matchtracker.data.Match;
+import group8.matchtracker.data.Player;
 import group8.matchtracker.database.DatabaseHelper;
-import group8.matchtracker.services.MatchUpdateService;
 
 public class TabMatchFeedFragment extends Fragment {
     private final String TAG = getClass().getSimpleName();
@@ -29,7 +34,9 @@ public class TabMatchFeedFragment extends Fragment {
     private DatabaseHelper mDbHelper;
     private RecyclerView mRecyclerView;
     protected View v;
+    private long tid;
     protected long pid;
+    protected Player player;
 
     public TabMatchFeedFragment() {
 
@@ -44,7 +51,6 @@ public class TabMatchFeedFragment extends Fragment {
             Log.d(TAG, "Event ID: "+extras.getLong("EID"));
             Log.d(TAG, "Tournament ID: "+extras.getLong("TID"));
             Log.d(TAG, "Player ID: "+extras.getLong("PID"));
-            pid = extras.getLong("PID");
         }
         Log.d(TAG, "onCreate");
     }
@@ -59,11 +65,19 @@ public class TabMatchFeedFragment extends Fragment {
 
         //TODO - Change away from this
         mDbHelper = new DatabaseHelper(v.getContext());
+
+        tid = getActivity().getIntent().getLongExtra("TID", 0);
+        pid = getActivity().getIntent().getLongExtra("PID", 0);
+        Log.d(TAG, "Tournament ID 3: "+tid);
+        Log.d(TAG, "Player ID 3: "+pid);
+        Log.d(TAG, "Has any players: " + mDbHelper.mPlayerTable.hasData());
+        player = mDbHelper.mPlayerTable.read(pid);
+        executeRetrieveMatchTask();
         //mDbHelper.mMatchTable.createMatch(0, "A", new int[]{0, 0}, "BO5", "Seat 33", "12:00pm");
 
-        Intent updateEvent = new Intent(this.getContext(),MatchUpdateService.class);
-        updateEvent.putExtra(DatabaseHelper.TOURNAMENT_ID, ((TabbedActivity) getActivity()).getTid());
-        getContext().startService(updateEvent);
+        //Intent updateEvent = new Intent(this.getContext(),MatchUpdateService.class);
+        //updateEvent.putExtra(DatabaseHelper.TOURNAMENT_ID, ((TabbedActivity) getActivity()).getTid());
+        //getContext().startService(updateEvent);
 
         //mMatches = mDbHelper.query.readMatchesOfPlayer(pid);
         populateList(v);
@@ -73,6 +87,7 @@ public class TabMatchFeedFragment extends Fragment {
     }
 
     public void populateList(View v){
+        mMatches = mDbHelper.mMatchTable.readAll();
         mMatchAdapter = new MatchAdapter(v.getContext(), mMatches);
         mRecyclerView.setAdapter(mMatchAdapter);
     }
@@ -90,5 +105,56 @@ public class TabMatchFeedFragment extends Fragment {
     public void onDestroy(){
         super.onDestroy();
         getActivity().unregisterReceiver(matchBroadcastReceiver);
+    }
+
+    private void executeRetrieveMatchTask(){
+        RetrieveMatchesForPlayerTask rp = new RetrieveMatchesForPlayerTask();
+        rp.setJsonDownloadListener(new RetrieveMatchesForPlayerTask.JsonDownloadListener() {
+            @Override
+            public void jsonDownloadedSuccessfully(JSONArray jsonArray) {
+                // TODO (David): \/ replace with real data \/
+                int[] result = new int[]{2,3};
+                String location = "setup #25";
+                String time = "12:01pm";
+
+                mDbHelper.mPlayersInMatchTable.deleteAll(); // TODO - remove
+                mDbHelper.mMatchesInTournamentTable.deleteAll(); // TODO - remove
+                mDbHelper.mMatchTable.deleteAll(); // TODO - remove
+
+                try {
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject jsonMatch = jsonArray.getJSONObject(i).getJSONObject("match");
+                        Log.d(TAG, "Match: "+jsonMatch.toString());
+
+                        int challongeId = jsonMatch.getInt("id");
+                        int round = jsonMatch.getInt("round");
+                        String identifier = jsonMatch.getString("identifier");
+                        int p1ChallongeId = jsonMatch.getInt("player1_id");
+                        int p2ChallongeId = jsonMatch.getInt("player2_id");
+                        String type = jsonMatch.getString("scores_csv");
+
+                        Log.d(TAG, "Got here " + type);
+
+                        Match match  = mDbHelper.mMatchTable.create(challongeId, round, identifier, result, type, location, time);
+                        mDbHelper.mMatchesInTournamentTable.create(tid, match.getId());
+
+                        //Player p1 = mDbHelper.mPlayerTable.readPlayerByChallongeId(p1ChallongeId);
+                        //Player p2 = mDbHelper.mPlayerTable.readPlayerByChallongeId(p2ChallongeId);
+                        Player n = new Player(0, 123, "Joe", "joe");
+                        match.addPlayer(n);
+                        match.addPlayer(n);
+
+                        Log.d(TAG, "Match: "+match.getId()+", "+match.getType());
+
+                        //mDbHelper.mPlayersInMatchTable.create(match.getId(), p1.getId());
+                        //mDbHelper.mPlayersInMatchTable.create(match.getId(), p2.getId());
+                    }
+                    populateList(v);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        rp.execute(mDbHelper.mTournamentTable.read(tid).getUrl(), String.valueOf(player.getChallongeId()));
     }
 }
