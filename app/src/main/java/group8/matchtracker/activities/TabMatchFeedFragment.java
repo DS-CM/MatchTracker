@@ -61,17 +61,11 @@ public class TabMatchFeedFragment extends Fragment {
         mDbHelper = new DatabaseHelper(v.getContext());
         //mDbHelper.mMatchTable.createMatch(0, "A", new int[]{0, 0}, "BO5", "Seat 33", "12:00pm");
 
-        if(!(mDbHelper.mMatchesInTournamentTable.hasData())){
-            Intent updateEvent = new Intent(this.getContext(),MatchUpdateService.class);
-            updateEvent.putExtra(DatabaseHelper.TOURNAMENT_ID, ((TabbedActivity) getActivity()).getTid());
-            getContext().startService(updateEvent);
+        Intent updateEvent = new Intent(this.getContext(),MatchUpdateService.class);
+        updateEvent.putExtra(DatabaseHelper.TOURNAMENT_ID, ((TabbedActivity) getActivity()).getTid());
+        getContext().startService(updateEvent);
 
-            mMatches = mDbHelper.mMatchTable.readAll();
-        }else{
-            mMatches = mDbHelper.mMatchesInTournamentTable.repopulateData();
-        }
-
-
+        mMatches = mDbHelper.query.readMatchesOfPlayer(pid);
         populateList(v);
 
         Log.d(TAG, "onCreateView");
