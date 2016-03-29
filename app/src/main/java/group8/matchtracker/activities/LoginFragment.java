@@ -140,6 +140,7 @@ public class LoginFragment extends Fragment implements SearchView.OnQueryTextLis
         rp.setJsonDownloadListener(new RetrievePlayersTask.JsonDownloadListener() {
             @Override
             public void jsonDownloadedSuccessfully(JSONArray jsonArray) {
+                mDbHelper.mPlayersInTournamentTable.deleteAll();
                 mDbHelper.mPlayerTable.deleteAll();
                 try {
                     for (int i = 0; i < jsonArray.length(); i++) {
@@ -152,6 +153,7 @@ public class LoginFragment extends Fragment implements SearchView.OnQueryTextLis
                             Player player = mDbHelper.mPlayerTable.create(challongeId, name, ign);
 
                             mPlayers.add(player);
+                            mDbHelper.mPlayersInTournamentTable.create(tid, player.getId());
                         }
                     }
                     populateList(v);

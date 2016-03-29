@@ -71,6 +71,7 @@ public class MatchUpdateService extends IntentService {
         String location = "setup #13";
         String time = "12:00pm";
 
+        dbHelper.mPlayersInMatchTable.deleteAll(); // TODO - remove
         dbHelper.mMatchesInTournamentTable.deleteAll(); // TODO - remove
         dbHelper.mMatchTable.deleteAll(); // TODO - remove
 
@@ -81,9 +82,13 @@ public class MatchUpdateService extends IntentService {
                 int challongeId = jsonMatch.getInt("id");
                 int round = jsonMatch.getInt("round");
                 String identifier = jsonMatch.getString("identifier");
+                int p1ChallongeId = jsonMatch.getInt("player1_id");
+                int p2ChallongeId = jsonMatch.getInt("player2_id");
 
                 Match match  = dbHelper.mMatchTable.create(challongeId, round, identifier, result, type, location, time);
                 dbHelper.mMatchesInTournamentTable.create(mTournament.getId(), match.getId());
+                dbHelper.mPlayersInMatchTable.create(match.getId(), dbHelper.mPlayerTable.readPlayerByChallongeId(p1ChallongeId).getId());
+                dbHelper.mPlayersInMatchTable.create(match.getId(), dbHelper.mPlayerTable.readPlayerByChallongeId(p2ChallongeId).getId());
             }
         }catch(JSONException e){
             e.printStackTrace();

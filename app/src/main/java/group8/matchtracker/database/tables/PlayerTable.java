@@ -47,6 +47,24 @@ public class PlayerTable extends DBTable {
         return player;
     }
 
+    public Player readPlayerByChallongeId(int challongeId){
+        Player player = new Player();
+        Cursor cursor = mDatabase.query(mTableName, mAllColumns, DatabaseHelper.PLAYER_CHALLONGE_ID
+                + " = ?", new String[]{String.valueOf(challongeId)},null,null,null);
+
+        if(cursor != null){
+            cursor.moveToFirst();
+
+            long id = cursor.getLong(cursor.getColumnIndex(DatabaseHelper.PLAYER_ID));
+            String name = cursor.getString(cursor.getColumnIndex(DatabaseHelper.PLAYER_NAME));
+            String ign = cursor.getString(cursor.getColumnIndex(DatabaseHelper.PLAYER_IGN));
+            player = new Player(id, challongeId, name, ign);
+
+            cursor.close();
+        }
+        return player;
+    }
+
     public Player read(String ign){
         Cursor cursor = mDatabase.query(mTableName, mAllColumns, DatabaseHelper.PLAYER_IGN
                 + " = ?", new String[]{ign},null,null,null);
