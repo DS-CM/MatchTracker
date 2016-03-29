@@ -8,7 +8,6 @@ import android.database.sqlite.SQLiteDatabase;
 import java.util.ArrayList;
 
 import group8.matchtracker.data.Match;
-import group8.matchtracker.data.Player;
 import group8.matchtracker.database.DatabaseHelper;
 
 
@@ -32,12 +31,9 @@ public class MatchTable extends DBTable {
         long insertId = mDatabase.insert(mTableName, null, values);
 
         // TODO - Fill players and eventID
-        ArrayList<Player> players = new ArrayList<>();
-        players.add(new Player(0, 123, "David", "3ygun"));
-        players.add(new Player(1, 321, "Chris", "cmj"));
         long eventId = 0;
 
-        return new Match(insertId, challongeId, eventId, round, identifier, result, type, location, time, players);
+        return new Match(insertId, challongeId, eventId, round, identifier, result, type, location, time);
     }
 
     public Match read(long id){
@@ -49,10 +45,6 @@ public class MatchTable extends DBTable {
             int[] result = new int[]{cursor.getInt(cursor.getColumnIndex(DatabaseHelper.MATCH_RESULT_1)),
                     cursor.getInt(cursor.getColumnIndex(DatabaseHelper.MATCH_RESULT_2))};
 
-            // TODO - Fill players and eventID
-            ArrayList<Player> players = new ArrayList<>();
-            players.add(new Player(0, 123, "David", "3ygun"));
-            players.add(new Player(1, 321, "Chris", "cmj"));
             long eventId = 0;
 
             match = new Match(cursor.getLong(cursor.getColumnIndex(DatabaseHelper.MATCH_ID)),
@@ -63,8 +55,7 @@ public class MatchTable extends DBTable {
                     result,
                     cursor.getString(cursor.getColumnIndex(DatabaseHelper.MATCH_TYPE)),
                     cursor.getString(cursor.getColumnIndex(DatabaseHelper.MATCH_LOCATION)),
-                    cursor.getString(cursor.getColumnIndex(DatabaseHelper.MATCH_TIME)),
-                    players);
+                    cursor.getString(cursor.getColumnIndex(DatabaseHelper.MATCH_TIME)));
         }
         cursor.close();
         return match;
@@ -74,10 +65,6 @@ public class MatchTable extends DBTable {
         ArrayList<Match> listMatches = new ArrayList<>();
         Cursor cursor = mDatabase.query(mTableName, mAllColumns, null, null, null, null, null);
 
-        // TODO - Fill players and eventID
-        ArrayList<Player> players = new ArrayList<>();
-        players.add(new Player(0, 123, "David", "3ygun"));
-        players.add(new Player(1, 321, "Chris", "cmj"));
         long eventId = 0;
 
         if (cursor != null) {
@@ -95,7 +82,7 @@ public class MatchTable extends DBTable {
                 String location = cursor.getString(cursor.getColumnIndex(DatabaseHelper.MATCH_LOCATION));
                 String time = cursor.getString(cursor.getColumnIndex(DatabaseHelper.MATCH_TIME));
 
-                listMatches.add(new Match(id, challongeId, eventId, round, identifier, result, type, location, time, players));
+                listMatches.add(new Match(id, challongeId, eventId, round, identifier, result, type, location, time));
                 cursor.moveToNext();
             }
             cursor.close();

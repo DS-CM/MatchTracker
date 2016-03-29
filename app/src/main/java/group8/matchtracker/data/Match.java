@@ -26,6 +26,20 @@ public class Match {
         // Empty :)
     }
 
+    public Match(long id, int challongeId, long eventId, int round, String identifier, int[] result, String type, String location, String time) {
+        this.id = id;
+        this.challongeId = challongeId;
+        this.eventId = eventId;
+        this.round = round;
+        this.identifier = identifier;
+        this.result = result; // int[2] - with score 1, score 2
+        this.type = type;
+        this.location = location;
+        this.time = time;
+
+        this.players = new ArrayList<>();
+    }
+
     public Match(long id, int challongeId, long eventId, int round, String identifier, int[] result, String type, String location, String time, ArrayList<Player> players) {
         this.id = id;
         this.challongeId = challongeId;
@@ -57,7 +71,7 @@ public class Match {
             verses.append(players.get(0).getIgn());
             verses.append(VS);
             verses.append(players.get(1).getIgn());
-        } else { // 4 players
+        } else if (players.size() == 4) { // 4 players
             verses.append(players.get(0).getIgn());
             verses.append(AND);
             verses.append(players.get(1).getIgn());
