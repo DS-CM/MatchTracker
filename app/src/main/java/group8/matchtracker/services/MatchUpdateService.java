@@ -21,6 +21,7 @@ import group8.matchtracker.data.Tournament;
 import group8.matchtracker.database.DatabaseHelper;
 
 public class MatchUpdateService extends IntentService {
+    private final String TAG = getClass().getSimpleName();
 
     DatabaseHelper dbHelper;
     String tournamentName;
@@ -68,10 +69,10 @@ public class MatchUpdateService extends IntentService {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
         // TODO (David): \/ replace with real data \/
-        int[] result = new int[]{0,0};
-        String type = "1 v 1";
-        String location = "setup #13";
-        String time = "12:00pm";
+        int[] result = new int[]{2,3};
+        String type = "2 v 1";
+        String location = "setup #25";
+        String time = "12:01pm";
 
         dbHelper.mPlayersInMatchTable.deleteAll(); // TODO - remove
         dbHelper.mMatchesInTournamentTable.deleteAll(); // TODO - remove
@@ -90,19 +91,21 @@ public class MatchUpdateService extends IntentService {
                 Match match  = dbHelper.mMatchTable.create(challongeId, round, identifier, result, type, location, time);
                 dbHelper.mMatchesInTournamentTable.create(mTournament.getId(), match.getId());
 
-                Player p1 = dbHelper.mPlayerTable.readPlayerByChallongeId(p1ChallongeId);
-                Player p2 = dbHelper.mPlayerTable.readPlayerByChallongeId(p2ChallongeId);
-                ArrayList<Player> players = new ArrayList<Player>();
-                players.add(p1);
-                players.add(p2);
-                match.setPlayers(players);
+                //Player p1 = dbHelper.mPlayerTable.readPlayerByChallongeId(p1ChallongeId);
+                //Player p2 = dbHelper.mPlayerTable.readPlayerByChallongeId(p2ChallongeId);
+                //ArrayList<Player> players = new ArrayList<Player>();
+                //players.add(p1);
+                //players.add(p2);
+                //match.setPlayers(players);
 
-                dbHelper.mPlayersInMatchTable.create(match.getId(), p1.getId());
-                dbHelper.mPlayersInMatchTable.create(match.getId(), p2.getId());
+                //dbHelper.mPlayersInMatchTable.create(match.getId(), p1.getId());
+                //dbHelper.mPlayersInMatchTable.create(match.getId(), p2.getId());
             }
         }catch(JSONException e){
             e.printStackTrace();
-        }catch (Exception e){}
+        }catch (Exception e){
+            e.printStackTrace();
+        }
 
         this.sendBroadcast(new Intent().setAction("bcReceiver"));
     }

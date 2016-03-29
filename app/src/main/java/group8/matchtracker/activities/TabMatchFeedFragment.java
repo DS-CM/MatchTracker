@@ -65,7 +65,7 @@ public class TabMatchFeedFragment extends Fragment {
         updateEvent.putExtra(DatabaseHelper.TOURNAMENT_ID, ((TabbedActivity) getActivity()).getTid());
         getContext().startService(updateEvent);
 
-        mMatches = mDbHelper.query.readMatchesOfPlayer(pid);
+        //mMatches = mDbHelper.query.readMatchesOfPlayer(pid);
         populateList(v);
 
         Log.d(TAG, "onCreateView");
@@ -80,7 +80,8 @@ public class TabMatchFeedFragment extends Fragment {
     BroadcastReceiver matchBroadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            mMatches = mDbHelper.query.readMatchesOfPlayer(pid);
+            //mMatches = mDbHelper.query.readMatchesOfPlayer(pid);
+            mMatches = mDbHelper.mMatchTable.readAll();
             populateList(v);
         }
     };
