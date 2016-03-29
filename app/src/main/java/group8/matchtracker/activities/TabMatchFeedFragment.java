@@ -29,6 +29,7 @@ public class TabMatchFeedFragment extends Fragment {
     private DatabaseHelper mDbHelper;
     private RecyclerView mRecyclerView;
     protected View v;
+    protected long pid;
 
     public TabMatchFeedFragment() {
 
@@ -43,6 +44,7 @@ public class TabMatchFeedFragment extends Fragment {
             Log.d(TAG, "Event ID: "+extras.getLong("EID"));
             Log.d(TAG, "Tournament ID: "+extras.getLong("TID"));
             Log.d(TAG, "Player ID: "+extras.getLong("PID"));
+            pid = extras.getLong("PID");
         }
         Log.d(TAG, "onCreate");
     }
@@ -68,6 +70,8 @@ public class TabMatchFeedFragment extends Fragment {
         }else{
             mMatches = mDbHelper.mMatchesInTournamentTable.repopulateData();
         }
+
+
         populateList(v);
 
         Log.d(TAG, "onCreateView");
@@ -82,7 +86,7 @@ public class TabMatchFeedFragment extends Fragment {
     BroadcastReceiver matchBroadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            mMatches = mDbHelper.mMatchTable.readAll();
+            mMatches = mDbHelper.query.readMatchesOfPlayer(pid);
             populateList(v);
         }
     };

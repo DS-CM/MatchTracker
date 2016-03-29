@@ -18,8 +18,8 @@ public class QueryHelper {
         mDbHelper = dbHelper;
     }
 
-    public List<Match> readMatchesOfPlayer(long pid){
-        List<Match> matches = new ArrayList<>();
+    public ArrayList<Match> readMatchesOfPlayer(long pid){
+        ArrayList<Match> matches = new ArrayList<>();
 
         Cursor cursor = mDatabase.query(DatabaseHelper.TABLE_PLAYERS_IN_MATCH,
                 DatabaseHelper.TABLE_PLAYERS_IN_MATCH_COLUMNS,

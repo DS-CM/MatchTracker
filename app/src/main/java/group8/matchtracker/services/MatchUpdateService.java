@@ -13,8 +13,10 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 
 import group8.matchtracker.data.Match;
+import group8.matchtracker.data.Player;
 import group8.matchtracker.data.Tournament;
 import group8.matchtracker.database.DatabaseHelper;
 
@@ -87,8 +89,16 @@ public class MatchUpdateService extends IntentService {
 
                 Match match  = dbHelper.mMatchTable.create(challongeId, round, identifier, result, type, location, time);
                 dbHelper.mMatchesInTournamentTable.create(mTournament.getId(), match.getId());
-                dbHelper.mPlayersInMatchTable.create(match.getId(), dbHelper.mPlayerTable.readPlayerByChallongeId(p1ChallongeId).getId());
-                dbHelper.mPlayersInMatchTable.create(match.getId(), dbHelper.mPlayerTable.readPlayerByChallongeId(p2ChallongeId).getId());
+
+                Player p1 = dbHelper.mPlayerTable.readPlayerByChallongeId(p1ChallongeId);
+                Player p2 = dbHelper.mPlayerTable.readPlayerByChallongeId(p2ChallongeId);
+                ArrayList<Player> players = new ArrayList<Player>();
+                players.add(p1);
+                players.add(p2);
+                match.setPlayers(players);
+
+                dbHelper.mPlayersInMatchTable.create(match.getId(), p1.getId());
+                dbHelper.mPlayersInMatchTable.create(match.getId(), p2.getId());
             }
         }catch(JSONException e){
             e.printStackTrace();
