@@ -62,9 +62,9 @@ public class EventListFragment extends Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(v.getContext());
         mRecyclerView.setLayoutManager(layoutManager);
 
-        //mDbHelper.mTournamentInEventTable.deleteAll(); // TODO - remove
+        mDbHelper.mTournamentInEventTable.deleteAll(); // TODO - remove
         mDbHelper.mEventTable.deleteAll(); // TODO - remove
-        //mDbHelper.mTournamentTable.deleteAll(); // TODO - remove
+        mDbHelper.mTournamentTable.deleteAll(); // TODO - remove
 
         RetrieveTournamentsTask rt = new RetrieveTournamentsTask();
         rt.setJsonDownloadListener(new RetrieveTournamentsTask.JsonDownloadListener() {

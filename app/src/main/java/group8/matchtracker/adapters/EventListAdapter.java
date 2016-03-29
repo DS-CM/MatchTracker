@@ -43,7 +43,9 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.View
                 Intent i = new Intent(context, Login.class);
                 // TODO (David): Fix to send Event_ID as it would give all tournaments
                 //i.putExtra(DatabaseHelper.EVENT_ID, mEvents.get(getLayoutPosition()).getId());
-                i.putExtra(DatabaseHelper.TOURNAMENT_ID, mEvents.get(getLayoutPosition()).getTournaments().get(0).getId());
+                i.putExtra("EID", mEvents.get(getLayoutPosition()).getId());
+                i.putExtra("TID", mEvents.get(getLayoutPosition()).getTournaments().get(0).getId());
+
                 context.startActivity(i);
             //}
         }

@@ -49,7 +49,7 @@ public class LoginFragment extends Fragment implements SearchView.OnQueryTextLis
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         v = inflater.inflate(R.layout.player_login_fragment, container, false);
         //tid = getActivity().getIntent().getIntExtra(DatabaseHelper.EVENT_ID, 0);
-        tid = getActivity().getIntent().getLongExtra(DatabaseHelper.TOURNAMENT_ID, 0);
+        tid = getActivity().getIntent().getLongExtra("TID", 0);
 
         recyclerView = (RecyclerView) v.findViewById(R.id.player_login_fragment_recycler_view);
         LinearLayoutManager layoutManager = new LinearLayoutManager(v.getContext());

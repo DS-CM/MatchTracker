@@ -2,6 +2,7 @@ package group8.matchtracker.data;
 
 import android.database.Cursor;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 

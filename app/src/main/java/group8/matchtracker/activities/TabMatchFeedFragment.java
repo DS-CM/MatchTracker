@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -37,7 +38,12 @@ public class TabMatchFeedFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         getActivity().registerReceiver(this.matchBroadcastReceiver, new IntentFilter("bcReceiver"));
-
+        Bundle extras = getActivity().getIntent().getExtras();
+        if(extras != null){
+            Log.d(TAG, "Event ID: "+extras.getLong("EID"));
+            Log.d(TAG, "Tournament ID: "+extras.getLong("TID"));
+            Log.d(TAG, "Player ID: "+extras.getLong("PID"));
+        }
         Log.d(TAG, "onCreate");
     }
 

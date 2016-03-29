@@ -30,10 +30,8 @@ public class TabbedActivity extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
         if(extras != null) {
-            tid = extras.getLong(DatabaseHelper.TOURNAMENT_ID);
-            playerid = extras.getLong(DatabaseHelper.PLAYER_ID);
-            Log.d(TAG, DatabaseHelper.TOURNAMENT_ID + ": " + String.valueOf(tid));
-            Log.d(TAG, DatabaseHelper.PLAYER_ID + ": " + String.valueOf(playerid));
+            tid = extras.getLong("TID");
+            playerid = extras.getLong("PID");
         }
 
         TabLayout tabLayout = (TabLayout)findViewById(R.id.tab_layout);
