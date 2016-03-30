@@ -78,6 +78,8 @@ public class MatchUpdateService extends IntentService {
         dbHelper.mMatchesInTournamentTable.deleteAll(); // TODO - remove
         dbHelper.mMatchTable.deleteAll(); // TODO - remove
 
+
+
         try {
             for (int i = 0; i < jArray.length(); i++) {
                 JSONObject jsonMatch = jArray.getJSONObject(i).getJSONObject("match");
@@ -91,15 +93,15 @@ public class MatchUpdateService extends IntentService {
                 Match match  = dbHelper.mMatchTable.create(challongeId, round, identifier, result, type, location, time);
                 dbHelper.mMatchesInTournamentTable.create(mTournament.getId(), match.getId());
 
-                //Player p1 = dbHelper.mPlayerTable.readPlayerByChallongeId(p1ChallongeId);
-                //Player p2 = dbHelper.mPlayerTable.readPlayerByChallongeId(p2ChallongeId);
-                //ArrayList<Player> players = new ArrayList<Player>();
-                //players.add(p1);
-                //players.add(p2);
-                //match.setPlayers(players);
+                Player p1 = dbHelper.mPlayerTable.readPlayerByChallongeId(p1ChallongeId);
+                Player p2 = dbHelper.mPlayerTable.readPlayerByChallongeId(p2ChallongeId);
+                ArrayList<Player> players = new ArrayList<Player>();
+                players.add(p1);
+                players.add(p2);
+                match.setPlayers(players);
 
-                //dbHelper.mPlayersInMatchTable.create(match.getId(), p1.getId());
-                //dbHelper.mPlayersInMatchTable.create(match.getId(), p2.getId());
+                dbHelper.mPlayersInMatchTable.create(match.getId(), p1.getId());
+                dbHelper.mPlayersInMatchTable.create(match.getId(), p2.getId());
             }
         }catch(JSONException e){
             e.printStackTrace();

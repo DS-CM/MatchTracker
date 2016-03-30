@@ -80,8 +80,8 @@ public class TabMatchFeedFragment extends Fragment {
     BroadcastReceiver matchBroadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            //mMatches = mDbHelper.query.readMatchesOfPlayer(pid);
-            mMatches = mDbHelper.mMatchTable.readAll();
+            mMatches = mDbHelper.query.readMatchesOfPlayer(pid);
+            //mMatches = mDbHelper.mMatchTable.readAll();
             populateList(v);
         }
     };

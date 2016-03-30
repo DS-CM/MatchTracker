@@ -55,10 +55,12 @@ public class PlayerTable extends DBTable {
         if(cursor != null){
             cursor.moveToFirst();
 
-            long id = cursor.getLong(cursor.getColumnIndex(DatabaseHelper.PLAYER_ID));
-            String name = cursor.getString(cursor.getColumnIndex(DatabaseHelper.PLAYER_NAME));
-            String ign = cursor.getString(cursor.getColumnIndex(DatabaseHelper.PLAYER_IGN));
-            player = new Player(id, challongeId, name, ign);
+            if(!cursor.isAfterLast()) {
+                long id = cursor.getLong(cursor.getColumnIndex(DatabaseHelper.PLAYER_ID));
+                String name = cursor.getString(cursor.getColumnIndex(DatabaseHelper.PLAYER_NAME));
+                String ign = cursor.getString(cursor.getColumnIndex(DatabaseHelper.PLAYER_IGN));
+                player = new Player(id, challongeId, name, ign);
+            }
 
             cursor.close();
         }

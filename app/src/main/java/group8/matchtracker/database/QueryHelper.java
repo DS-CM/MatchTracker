@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import group8.matchtracker.data.Match;
+import group8.matchtracker.data.Player;
 
 public class QueryHelper {
     private SQLiteDatabase mDatabase;
@@ -36,6 +37,14 @@ public class QueryHelper {
         }
 
         return matches;
+    }
+
+    public ArrayList<Player> readPlayersInTournament(long tid){
+        ArrayList<Player> players = new ArrayList<>();
+
+
+
+        return players;
     }
 
 }
