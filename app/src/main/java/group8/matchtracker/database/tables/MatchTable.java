@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import java.util.ArrayList;
 
 import group8.matchtracker.data.Match;
+import group8.matchtracker.data.Player;
 import group8.matchtracker.database.DatabaseHelper;
 
 
@@ -17,7 +18,7 @@ public class MatchTable extends DBTable {
         super(context, database, tableName, columns, dbHelper);
     }
 
-    public Match create(int challongeId, int round, String identifier, int[] result, String type, String location, String time) {
+    public Match create(int challongeId, int round, String identifier, int[] result, String type, String location, String time, int[] pids) {
         ContentValues values = new ContentValues();
         values.put(DatabaseHelper.MATCH_CHALLONGE_ID, challongeId);
         values.put(DatabaseHelper.MATCH_ROUND, round);
@@ -27,6 +28,9 @@ public class MatchTable extends DBTable {
         values.put(DatabaseHelper.MATCH_TYPE, type);
         values.put(DatabaseHelper.MATCH_LOCATION, location);
         values.put(DatabaseHelper.MATCH_TIME, time);
+        values.put(DatabaseHelper.MATCH_PLAYER_1, pids[0]);
+        values.put(DatabaseHelper.MATCH_PLAYER_2, pids[1]);
+
 
         long insertId = mDatabase.insert(mTableName, null, values);
 
@@ -44,8 +48,23 @@ public class MatchTable extends DBTable {
             cursor.moveToFirst();
             int[] result = new int[]{cursor.getInt(cursor.getColumnIndex(DatabaseHelper.MATCH_RESULT_1)),
                     cursor.getInt(cursor.getColumnIndex(DatabaseHelper.MATCH_RESULT_2))};
-
+            int[] pids = new int[]{cursor.getInt(cursor.getColumnIndex(DatabaseHelper.MATCH_PLAYER_1)),
+                    cursor.getInt(cursor.getColumnIndex(DatabaseHelper.MATCH_PLAYER_2))};
             long eventId = 0;
+
+            ArrayList<Player> players = new ArrayList<>();
+            for(int i=0; i<pids.length; i++) {
+                Cursor pCursor = mDatabase.query(DatabaseHelper.TABLE_PLAYER, DatabaseHelper.TABLE_PLAYER_COLUMNS,
+                        DatabaseHelper.PLAYER_CHALLONGE_ID + " = ?", new String[]{String.valueOf(pids[i])}, null, null, null);
+                if(pCursor != null){
+                    pCursor.moveToFirst();
+                    players.add(new Player(pCursor.getLong(pCursor.getColumnIndex(DatabaseHelper.PLAYER_ID)),
+                            pCursor.getInt(pCursor.getColumnIndex(DatabaseHelper.PLAYER_CHALLONGE_ID)),
+                            pCursor.getString(pCursor.getColumnIndex(DatabaseHelper.PLAYER_NAME)),
+                            pCursor.getString(pCursor.getColumnIndex(DatabaseHelper.PLAYER_IGN))));
+                }
+                pCursor.close();
+            }
 
             match = new Match(cursor.getLong(cursor.getColumnIndex(DatabaseHelper.MATCH_ID)),
                     cursor.getInt(cursor.getColumnIndex(DatabaseHelper.MATCH_CHALLONGE_ID)),
@@ -55,7 +74,8 @@ public class MatchTable extends DBTable {
                     result,
                     cursor.getString(cursor.getColumnIndex(DatabaseHelper.MATCH_TYPE)),
                     cursor.getString(cursor.getColumnIndex(DatabaseHelper.MATCH_LOCATION)),
-                    cursor.getString(cursor.getColumnIndex(DatabaseHelper.MATCH_TIME)));
+                    cursor.getString(cursor.getColumnIndex(DatabaseHelper.MATCH_TIME)),
+                    players);
         }
         cursor.close();
         return match;
@@ -71,7 +91,8 @@ public class MatchTable extends DBTable {
             cursor.moveToFirst();
             while (!cursor.isAfterLast()) {
                 int[] result = new int[2];
-
+                int[] pids = new int[]{cursor.getInt(cursor.getColumnIndex(DatabaseHelper.MATCH_PLAYER_1)),
+                        cursor.getInt(cursor.getColumnIndex(DatabaseHelper.MATCH_PLAYER_2))};
                 long id = cursor.getInt(cursor.getColumnIndex(DatabaseHelper.MATCH_ID));
                 int challongeId = cursor.getInt(cursor.getColumnIndex(DatabaseHelper.MATCH_CHALLONGE_ID));
                 int round = cursor.getInt(cursor.getColumnIndex(DatabaseHelper.MATCH_ROUND));
@@ -82,7 +103,21 @@ public class MatchTable extends DBTable {
                 String location = cursor.getString(cursor.getColumnIndex(DatabaseHelper.MATCH_LOCATION));
                 String time = cursor.getString(cursor.getColumnIndex(DatabaseHelper.MATCH_TIME));
 
-                listMatches.add(new Match(id, challongeId, eventId, round, identifier, result, type, location, time));
+                ArrayList<Player> players = new ArrayList<>();
+                for(int i=0; i<pids.length; i++) {
+                    Cursor pCursor = mDatabase.query(DatabaseHelper.TABLE_PLAYER, DatabaseHelper.TABLE_PLAYER_COLUMNS,
+                            DatabaseHelper.PLAYER_CHALLONGE_ID + " = ?", new String[]{String.valueOf(pids[i])}, null, null, null);
+                    if(pCursor != null){
+                        pCursor.moveToFirst();
+                        players.add(new Player(pCursor.getLong(pCursor.getColumnIndex(DatabaseHelper.PLAYER_ID)),
+                                pCursor.getInt(pCursor.getColumnIndex(DatabaseHelper.PLAYER_CHALLONGE_ID)),
+                                pCursor.getString(pCursor.getColumnIndex(DatabaseHelper.PLAYER_NAME)),
+                                pCursor.getString(pCursor.getColumnIndex(DatabaseHelper.PLAYER_IGN))));
+                    }
+                    pCursor.close();
+                }
+
+                listMatches.add(new Match(id, challongeId, eventId, round, identifier, result, type, location, time, players));
                 cursor.moveToNext();
             }
             cursor.close();

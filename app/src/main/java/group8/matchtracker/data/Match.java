@@ -1,5 +1,7 @@
 package group8.matchtracker.data;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 
 /**

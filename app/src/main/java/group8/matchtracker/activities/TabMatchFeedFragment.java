@@ -113,7 +113,8 @@ public class TabMatchFeedFragment extends Fragment {
             @Override
             public void jsonDownloadedSuccessfully(JSONArray jsonArray) {
                 // TODO (David): \/ replace with real data \/
-                int[] result = new int[]{2,3};
+                //int[] result = new int[]{2, 3};
+                String type = "1 v 1";
                 String location = "setup #25";
                 String time = "12:01pm";
 
@@ -124,27 +125,28 @@ public class TabMatchFeedFragment extends Fragment {
                 try {
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject jsonMatch = jsonArray.getJSONObject(i).getJSONObject("match");
-                        Log.d(TAG, "Match: "+jsonMatch.toString());
+                        Log.d(TAG, "Match: " + jsonMatch.toString());
 
                         int challongeId = jsonMatch.getInt("id");
                         int round = jsonMatch.getInt("round");
                         String identifier = jsonMatch.getString("identifier");
                         int p1ChallongeId = jsonMatch.getInt("player1_id");
                         int p2ChallongeId = jsonMatch.getInt("player2_id");
-                        String type = jsonMatch.getString("scores_csv");
+                        //String type = jsonMatch.getString("scores_csv");
+                        String sResults = jsonMatch.getString("scores_csv");
 
                         Log.d(TAG, "Got here " + type);
 
-                        Match match  = mDbHelper.mMatchTable.create(challongeId, round, identifier, result, type, location, time);
+                        Match match = mDbHelper.mMatchTable.create(challongeId, round, identifier, getResults(sResults), type, location, time, new int[]{p1ChallongeId, p2ChallongeId});
                         mDbHelper.mMatchesInTournamentTable.create(tid, match.getId());
 
                         //Player p1 = mDbHelper.mPlayerTable.readPlayerByChallongeId(p1ChallongeId);
                         //Player p2 = mDbHelper.mPlayerTable.readPlayerByChallongeId(p2ChallongeId);
                         Player n = new Player(0, 123, "Joe", "joe");
-                        match.addPlayer(n);
-                        match.addPlayer(n);
+                        //match.addPlayer(n);
+                        //match.addPlayer(n);
 
-                        Log.d(TAG, "Match: "+match.getId()+", "+match.getType());
+                        Log.d(TAG, "Match: " + match.getId() + ", " + match.getType());
 
                         //mDbHelper.mPlayersInMatchTable.create(match.getId(), p1.getId());
                         //mDbHelper.mPlayersInMatchTable.create(match.getId(), p2.getId());
@@ -156,5 +158,14 @@ public class TabMatchFeedFragment extends Fragment {
             }
         });
         rp.execute(mDbHelper.mTournamentTable.read(tid).getUrl(), String.valueOf(player.getChallongeId()));
+    }
+
+    private int[] getResults(String sResults){
+        if(sResults.equals("")){
+            return new int[]{0,0};
+        }
+        int s1 = Integer.parseInt(sResults.substring(0,1));
+        int s2 = Integer.parseInt(sResults.substring(2));
+        return new int[]{s1,s2};
     }
 }
