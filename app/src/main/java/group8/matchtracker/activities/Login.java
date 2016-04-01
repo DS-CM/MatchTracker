@@ -1,5 +1,6 @@
 package group8.matchtracker.activities;
 
+import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -13,6 +14,7 @@ import group8.matchtracker.R;
 public class Login extends AppCompatActivity {
     private final String TAG = getClass().getSimpleName();
     private Toolbar toolbar;
+    private LoginFragment loginFragment;
 
     @Override
     public void onCreate(Bundle saveInstanceState){
@@ -22,10 +24,15 @@ public class Login extends AppCompatActivity {
         toolbar.inflateMenu(R.menu.search_menu);
         setSupportActionBar(toolbar);
 
+        FragmentManager fm = getFragmentManager();
+        loginFragment = (LoginFragment)fm.findFragmentById(R.id.player_login_list_fragment);
 
-        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-        fragmentTransaction.add(R.id.player_login_list_fragment, new LoginFragment());
-        fragmentTransaction.commit();
+        if(loginFragment == null) {
+            loginFragment = new LoginFragment();
+            FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+            fragmentTransaction.add(R.id.player_login_list_fragment, loginFragment);
+            fragmentTransaction.commit();
+        }
 
         Log.d(TAG, "onCreate");
     }

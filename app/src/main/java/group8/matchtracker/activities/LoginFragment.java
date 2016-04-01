@@ -42,6 +42,7 @@ public class LoginFragment extends Fragment implements SearchView.OnQueryTextLis
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        setRetainInstance(true);
         Log.d(TAG, "onCreate");
     }
 
