@@ -109,14 +109,19 @@ public class MatchTable extends DBTable {
                             DatabaseHelper.PLAYER_CHALLONGE_ID + " = ?", new String[]{String.valueOf(pids[i])}, null, null, null);
                     if(pCursor != null){
                         pCursor.moveToFirst();
-                        players.add(new Player(pCursor.getLong(pCursor.getColumnIndex(DatabaseHelper.PLAYER_ID)),
-                                pCursor.getInt(pCursor.getColumnIndex(DatabaseHelper.PLAYER_CHALLONGE_ID)),
-                                pCursor.getString(pCursor.getColumnIndex(DatabaseHelper.PLAYER_NAME)),
-                                pCursor.getString(pCursor.getColumnIndex(DatabaseHelper.PLAYER_IGN))));
+                        if(pCursor.getCount() != 0) {
+                            players.add(new Player(pCursor.getLong(pCursor.getColumnIndex(DatabaseHelper.PLAYER_ID)),
+                                    pCursor.getInt(pCursor.getColumnIndex(DatabaseHelper.PLAYER_CHALLONGE_ID)),
+                                    pCursor.getString(pCursor.getColumnIndex(DatabaseHelper.PLAYER_NAME)),
+                                    pCursor.getString(pCursor.getColumnIndex(DatabaseHelper.PLAYER_IGN))));
+                        }
                     }
                     pCursor.close();
                 }
-
+                if(players.size() == 0){
+                    players.add(new Player(150, 123456, "dummyPlayer1", "dummyPlayer1"));
+                    players.add(new Player(151, 123457, "dummyPlayer2", "dummyPlayer2"));
+                }
                 listMatches.add(new Match(id, challongeId, eventId, round, identifier, result, type, location, time, players));
                 cursor.moveToNext();
             }

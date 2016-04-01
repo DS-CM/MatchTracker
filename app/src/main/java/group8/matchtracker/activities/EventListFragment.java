@@ -30,7 +30,6 @@ public class EventListFragment extends Fragment {
     protected ArrayList<Event> mEvents = new ArrayList<>();
     protected DatabaseHelper mDbHelper;
     private RecyclerView mRecyclerView;
-    private boolean reset = false;
 
     public EventListFragment() {
         // Required empty public constructor
@@ -47,16 +46,6 @@ public class EventListFragment extends Fragment {
                              Bundle savedInstanceState) {
         final View v = inflater.inflate(R.layout.event_list_fragment, container, false);
         mDbHelper = new DatabaseHelper(v.getContext());
-
-        Bundle extras = getActivity().getIntent().getExtras();
-        if(extras != null){
-            reset = extras.getBoolean("RESET");
-        }
-        if(!reset && mDbHelper.mMatchesInTournamentTable.hasData()){
-            Intent i = new Intent(v.getContext(), TabbedActivity.class);
-            v.getContext().startActivity(i);
-            reset = false;
-        }
 
         mRecyclerView = (RecyclerView) v.findViewById(R.id.event_list_fragment_recycler_view);
         LinearLayoutManager layoutManager = new LinearLayoutManager(v.getContext());
