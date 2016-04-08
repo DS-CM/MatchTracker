@@ -1,5 +1,7 @@
 package group8.matchtracker.data;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 
 /**
@@ -82,6 +84,10 @@ public class Match {
         }
 
         return verses.toString();
+    }
+
+    public void addPlayer(Player player) {
+        this.players.add(player);
     }
 
     /* SETTERS */

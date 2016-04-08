@@ -83,10 +83,6 @@ public class TabbedActivity extends AppCompatActivity {
                 break;
             case R.id.action_settings:
                 break;
-            case R.id.new_event:
-                Intent x = new Intent(this, EventList.class);
-                x.putExtra("RESET", true);
-                startActivity(x);
         }
 
         Log.d(TAG, "onOptionsItemSelected");

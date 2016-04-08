@@ -19,7 +19,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private final String TAG = getClass().getSimpleName();
 
     private static final String DATABASE_NAME = "MatchTracker.db";
-    private static final int DATABASE_VERSION = 8;
+    private static final int DATABASE_VERSION = 11;
     public static final String TABLE_EVENT = "events";
     public static final String TABLE_TOURNAMENT = "tournaments";
     public static final String TABLE_MATCH = "matches";
@@ -73,12 +73,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String MATCH_TYPE = "type";
     public static final String MATCH_LOCATION = "location";
     public static final String MATCH_TIME = "time";
+    public static final String MATCH_PLAYER_1 = "pid_1";
+    public static final String MATCH_PLAYER_2 = "pid_2";
+    public static final String MATCH_PLAYER_3 = "pid_3";
+    public static final String MATCH_PLAYER_4 = "pid_4";
     public static final String[] TABLE_MATCH_COLUMNS = {
             MATCH_ID, MATCH_CHALLONGE_ID,
             MATCH_ROUND, MATCH_IDENTIFIER,
             MATCH_RESULT_1, MATCH_RESULT_2,
             MATCH_TYPE, MATCH_LOCATION,
-            MATCH_TIME
+            MATCH_TIME, MATCH_PLAYER_1, MATCH_PLAYER_2,
+            MATCH_PLAYER_3, MATCH_PLAYER_4
     };
 
     // Player
@@ -144,7 +149,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + MATCH_RESULT_2 + " INTEGER, "
             + MATCH_TYPE + " STRING, "
             + MATCH_LOCATION + " STRING, "
-            + MATCH_TIME + " STRING)";
+            + MATCH_TIME + " STRING, "
+            + MATCH_PLAYER_1 + " INTEGER, "
+            + MATCH_PLAYER_2 + " INTEGER, "
+            + MATCH_PLAYER_3 + " INTEGER, "
+            + MATCH_PLAYER_4 + " INTEGER)";
 
     private static final String SQL_CREATE_TABLE_PLAYERS = "CREATE TABLE " + TABLE_PLAYER + " ("
             + PLAYER_ID + " INTEGER PRIMARY KEY ASC NOT NULL, "
