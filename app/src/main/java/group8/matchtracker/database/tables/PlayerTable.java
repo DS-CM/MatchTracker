@@ -15,7 +15,6 @@ public class PlayerTable extends DBTable {
 
     public PlayerTable(Context context, SQLiteDatabase database, String tableName, String[] columns, DatabaseHelper dbHelper){
         super(context, database, tableName, columns, dbHelper);
-        deleteAll(); /*TODO: Get rid of this line eventually*/
     }
 
     public Player create(int challongeId, String name, String ign){
@@ -24,7 +23,7 @@ public class PlayerTable extends DBTable {
         values.put(DatabaseHelper.PLAYER_NAME, name);
         values.put(DatabaseHelper.PLAYER_IGN, ign);
 
-        int insertId = (int)mDatabase.insert(mTableName, null, values);
+        long insertId = mDatabase.insert(mTableName, null, values);
 
         return new Player(insertId, challongeId, name, ign);
     }
@@ -37,10 +36,12 @@ public class PlayerTable extends DBTable {
         if(cursor != null){
             cursor.moveToFirst();
 
-            int challongeId = cursor.getInt(cursor.getColumnIndex(DatabaseHelper.PLAYER_CHALLONGE_ID));
-            String name = cursor.getString(cursor.getColumnIndex(DatabaseHelper.PLAYER_NAME));
-            String ign = cursor.getString(cursor.getColumnIndex(DatabaseHelper.PLAYER_IGN));
-            player = new Player(id, challongeId, name, ign);
+            if (!cursor.isAfterLast()) {
+                int challongeId = cursor.getInt(cursor.getColumnIndex(DatabaseHelper.PLAYER_CHALLONGE_ID));
+                String name = cursor.getString(cursor.getColumnIndex(DatabaseHelper.PLAYER_NAME));
+                String ign = cursor.getString(cursor.getColumnIndex(DatabaseHelper.PLAYER_IGN));
+                player = new Player(id, challongeId, name, ign);
+            }
 
             cursor.close();
         }

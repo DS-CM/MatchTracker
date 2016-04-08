@@ -1,5 +1,6 @@
 package group8.matchtracker.activities;
 
+import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -13,6 +14,7 @@ import group8.matchtracker.R;
 
 public class EventList extends AppCompatActivity {
     private final String TAG = getClass().getSimpleName();
+    private EventListFragment eventListFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,10 +26,15 @@ public class EventList extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         // Fragment stuff
-        EventListFragment eventListFragment = new EventListFragment();
-        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-        fragmentTransaction.add(R.id.event_list_fragment, eventListFragment);
-        fragmentTransaction.commit();
+        FragmentManager fm = getFragmentManager();
+        eventListFragment = (EventListFragment)fm.findFragmentById(R.id.event_list_fragment);
+
+        if(eventListFragment == null) {
+            eventListFragment = new EventListFragment();
+            FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+            fragmentTransaction.add(R.id.event_list_fragment, eventListFragment);
+            fragmentTransaction.commit();
+        }
 
         // Search button
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);

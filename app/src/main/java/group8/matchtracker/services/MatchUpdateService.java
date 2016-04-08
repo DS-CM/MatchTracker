@@ -88,7 +88,7 @@ public class MatchUpdateService extends IntentService {
                 int p1ChallongeId = jsonMatch.getInt("player1_id");
                 int p2ChallongeId = jsonMatch.getInt("player2_id");
 
-                Match match  = dbHelper.mMatchTable.create(challongeId, round, identifier, result, type, location, time);
+                Match match  = dbHelper.mMatchTable.create(challongeId, round, identifier, result, type, location, time, new int[]{p1ChallongeId,p2ChallongeId});
                 dbHelper.mMatchesInTournamentTable.create(mTournament.getId(), match.getId());
 
                 //Player p1 = dbHelper.mPlayerTable.readPlayerByChallongeId(p1ChallongeId);
