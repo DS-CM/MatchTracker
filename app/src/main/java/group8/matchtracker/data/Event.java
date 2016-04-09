@@ -44,6 +44,14 @@ public class Event {
         this.mTournaments = new ArrayList<>();
     }
 
+    @Override
+    public boolean equals(Object event){
+        Event e = (Event) event;
+        return (id == e.getId() && name.equals(e.getName()) && startTime == e.getStartTime()
+                && endTime == e.getEndTime() && location.equals(e.getLocation())
+                && organizer.equals(e.getOrganizer()));
+    }
+
     public void addTournament(Tournament tournament) {
         this.mTournaments.add(tournament);
     }
