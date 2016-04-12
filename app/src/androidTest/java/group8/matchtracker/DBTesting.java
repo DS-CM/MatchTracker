@@ -8,7 +8,10 @@ import android.test.mock.MockContentResolver;
 import android.test.mock.MockContext;
 import android.util.Log;
 
+import java.util.ArrayList;
+
 import group8.matchtracker.data.Event;
+import group8.matchtracker.data.Player;
 import group8.matchtracker.database.DatabaseHelper;
 
 public class DBTesting extends AndroidTestCase {
@@ -48,5 +51,26 @@ public class DBTesting extends AndroidTestCase {
 
         assertTrue(dbHelper.mEventTable.hasData());
         assertEquals(eExpected, eResult);
+    }
+
+    public void testReadAll(){
+        int cId = 123456;
+        String p1_name = "player1";
+        String p2_name = "player2";
+        String p1_ign = "p1";
+        String p2_ign = "p2";
+
+        Player expectedP1 = dbHelper.mPlayerTable.create(cId, p1_name, p1_ign);
+        Player expectedP2 = dbHelper.mPlayerTable.create(cId+1, p2_name, p2_ign);
+
+        ArrayList<Player> players = dbHelper.mPlayerTable.readAll();
+
+        assertEquals(2, players.size());
+
+        Player actualP1 = players.get(0);
+        Player actualP2 = players.get(1);
+
+        assertEquals(expectedP1, actualP1);
+        assertEquals(expectedP2, actualP2);
     }
 }
