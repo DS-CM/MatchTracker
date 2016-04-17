@@ -16,6 +16,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.util.Log;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.Volley;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -37,6 +43,8 @@ public class LoginFragment extends Fragment implements SearchView.OnQueryTextLis
     private RecyclerView recyclerView;
     private View v;
     private long tid;
+    private String API_KEY = "JSDvdSusuXhmamjxPcukkXOhw8fnDeTAyMYroYIV";
+
 
     @Override
     public void onCreate(Bundle savedInstanceState){
@@ -139,6 +147,39 @@ public class LoginFragment extends Fragment implements SearchView.OnQueryTextLis
     }
 
     private void executeRetrievePlayerTask(){
+/*        String API_URL = "https://api.challonge.com/v1/tournaments/"+mDbHelper.mTournamentTable.read(tid).getUrl()+"/participants.json?api_key="+API_KEY;
+
+        JsonArrayRequest jsonRequest = new JsonArrayRequest(Request.Method.GET, API_URL, null, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray jsonArray) {
+                mDbHelper.mPlayersInTournamentTable.deleteAll();
+                mDbHelper.mPlayerTable.deleteAll();
+                try {
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject jsonPlayer = jsonArray.getJSONObject(i).getJSONObject("participant");
+
+                        if(!(mDbHelper.mPlayerTable.isInTable(jsonPlayer.getString("name")))) {
+                            int challongeId = jsonPlayer.getInt("id");
+                            String name = jsonPlayer.getString("username");
+                            String ign = jsonPlayer.getString("name");
+                            Player player = mDbHelper.mPlayerTable.create(challongeId, name, ign);
+
+                            mPlayers.add(player);
+                            mDbHelper.mPlayersInTournamentTable.create(tid, player.getId());
+                        }
+                    }
+                    populateList(v);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+            }
+        });
+        Volley.newRequestQueue(getActivity()).add(jsonRequest);*/
         RetrievePlayersTask rp = new RetrievePlayersTask();
         rp.setJsonDownloadListener(new RetrievePlayersTask.JsonDownloadListener() {
             @Override

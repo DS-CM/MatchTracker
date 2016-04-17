@@ -10,6 +10,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.Volley;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -30,6 +36,7 @@ public class EventListFragment extends Fragment {
     protected ArrayList<Event> mEvents = new ArrayList<>();
     protected DatabaseHelper mDbHelper;
     private RecyclerView mRecyclerView;
+    private String API_KEY = "JSDvdSusuXhmamjxPcukkXOhw8fnDeTAyMYroYIV";
 
     public EventListFragment() {
         // Required empty public constructor
@@ -55,6 +62,40 @@ public class EventListFragment extends Fragment {
         mDbHelper.mTournamentInEventTable.deleteAll(); // TODO - remove
         mDbHelper.mEventTable.deleteAll(); // TODO - remove
         mDbHelper.mTournamentTable.deleteAll(); // TODO - remove
+
+/*        String API_URL = "https://api.challonge.com/v1/tournaments.json?api_key="+API_KEY;
+
+        JsonArrayRequest jsonRequest = new JsonArrayRequest(Request.Method.GET, API_URL, null, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray jsonArray) {
+                try {
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject jsonTournament = jsonArray.getJSONObject(i).getJSONObject("tournament");
+
+                        int tChallongeId = jsonTournament.getInt("id");
+                        String tName = jsonTournament.getString("name");
+                        String tUrl = jsonTournament.getString("url");
+
+                        Event event = mDbHelper.mEventTable.create(tName, 0, 0, "Ohio Union", "esi");
+                        Tournament tournament = mDbHelper.mTournamentTable.create(tChallongeId, tName, tUrl);
+                        mDbHelper.mTournamentInEventTable.create(event.getId(), tournament.getId());
+
+                        event.addTournament(tournament);
+                        mEvents.add(event);
+                        populateList(v);
+                    }
+                } catch (JSONException e) {
+                    Log.d(TAG, "ERROR: When retrieving tournaments");
+                    Log.d(TAG, "Report: " + e.toString());
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+            }
+        });
+        Volley.newRequestQueue(getActivity()).add(jsonRequest);*/
 
         RetrieveTournamentsTask rt = new RetrieveTournamentsTask();
         rt.setJsonDownloadListener(new RetrieveTournamentsTask.JsonDownloadListener() {
