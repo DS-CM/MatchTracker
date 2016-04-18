@@ -74,7 +74,8 @@ public class PlayerListAdapter extends RecyclerView.Adapter<PlayerListAdapter.Vi
         Player currentPlayer = mPlayers.get(position);
 
         holder.mPlayerId = currentPlayer.getId();
-        holder.mNameTextView.setText(currentPlayer.getName());
+        //holder.mNameTextView.setText(currentPlayer.getName());
+        holder.mNameTextView.setText(currentPlayer.getIgn());
         holder.mIgnTextView.setText(currentPlayer.getIgn());
     }
 
