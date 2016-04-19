@@ -171,11 +171,11 @@ public class EventListFragment extends Fragment implements SearchView.OnQueryTex
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
-        switch (item.getItemId()){
+        /*switch (item.getItemId()){
             case R.id.action_refresh:
                 //executeRetrievePlayerTask();
                 return true;
-        }
+        }*/
 
         return super.onOptionsItemSelected(item);
     }

@@ -114,11 +114,11 @@ public class LoginFragment extends Fragment implements SearchView.OnQueryTextLis
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
-        switch (item.getItemId()){
+        /*switch (item.getItemId()){
             case R.id.action_refresh:
                 executeRetrievePlayerTask();
                 return true;
-        }
+        }*/
 
         return super.onOptionsItemSelected(item);
     }

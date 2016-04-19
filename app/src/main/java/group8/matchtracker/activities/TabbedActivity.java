@@ -81,8 +81,8 @@ public class TabbedActivity extends AppCompatActivity {
                 i.putExtra(DatabaseHelper.TOURNAMENT_ID, tid);
                 startActivity(i);
                 break;
-            case R.id.action_settings:
-                break;
+            //case R.id.action_settings:
+              //  break;
         }
 
         Log.d(TAG, "onOptionsItemSelected");
