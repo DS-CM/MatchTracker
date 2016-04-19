@@ -14,6 +14,7 @@ import group8.matchtracker.R;
 
 public class EventList extends AppCompatActivity {
     private final String TAG = getClass().getSimpleName();
+    private Toolbar toolbar;
     private EventListFragment eventListFragment;
 
     @Override
@@ -22,7 +23,8 @@ public class EventList extends AppCompatActivity {
         setContentView(R.layout.event_list_activity);
 
         // Toolbar (?_?)
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.inflateMenu(R.menu.search_menu);
         setSupportActionBar(toolbar);
 
         // Fragment stuff
@@ -37,7 +39,7 @@ public class EventList extends AppCompatActivity {
         }
 
         // Search button
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.event_list_search_fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

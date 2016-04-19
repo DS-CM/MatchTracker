@@ -1,12 +1,16 @@
 package group8.matchtracker.activities;
 
 import android.app.Fragment;
-import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -21,6 +25,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import group8.matchtracker.R;
 import group8.matchtracker.adapters.EventListAdapter;
@@ -30,7 +35,7 @@ import group8.matchtracker.data.Tournament;
 import group8.matchtracker.database.DatabaseHelper;
 
 
-public class EventListFragment extends Fragment {
+public class EventListFragment extends Fragment implements SearchView.OnQueryTextListener  {
     private final String TAG = getClass().getSimpleName();
     private EventListAdapter mEventListAdapter;
     protected ArrayList<Event> mEvents = new ArrayList<>();
@@ -45,6 +50,7 @@ public class EventListFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
         setRetainInstance(true);
         Log.d(TAG, "onCreate");
     }
@@ -63,8 +69,8 @@ public class EventListFragment extends Fragment {
         mDbHelper.mEventTable.deleteAll(); // TODO - remove
         mDbHelper.mTournamentTable.deleteAll(); // TODO - remove
 
-/*        String API_URL = "https://api.challonge.com/v1/tournaments.json?api_key="+API_KEY;
-
+        String API_URL = "https://api.challonge.com/v1/tournaments.json?api_key="+API_KEY;
+        /*
         JsonArrayRequest jsonRequest = new JsonArrayRequest(Request.Method.GET, API_URL, null, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray jsonArray) {
@@ -96,7 +102,6 @@ public class EventListFragment extends Fragment {
             }
         });
         Volley.newRequestQueue(getActivity()).add(jsonRequest);*/
-
         RetrieveTournamentsTask rt = new RetrieveTournamentsTask();
         rt.setJsonDownloadListener(new RetrieveTournamentsTask.JsonDownloadListener() {
             @Override
@@ -130,15 +135,75 @@ public class EventListFragment extends Fragment {
         mDbHelper.mEventTable.create("Big House", 05032016, 05042016, "U of M", "The school up north");
         mDbHelper.mEventTable.create("EVO", 22, 23, "Cali", "EVO LLC");*/
 
-        mEvents = mDbHelper.mEventTable.readAll();
+        //mEvents = mDbHelper.mEventTable.readAll();
         populateList(v);
-
 
         return v;
     }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater){
+        //inflater.inflate(R.menu.search_menu, menu);
+        inflater.inflate(R.menu.search_menu, menu);
+
+        //final MenuItem item = menu.findItem(R.id.search_menu_action);
+        final MenuItem item = menu.findItem(R.id.action_search);
+        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
+        searchView.setOnQueryTextListener(this);
+
+        MenuItemCompat.setOnActionExpandListener(item, new MenuItemCompat.OnActionExpandListener() {
+            @Override
+            public boolean onMenuItemActionExpand(MenuItem item) {
+                return true;
+            }
+
+            @Override
+            public boolean onMenuItemActionCollapse(MenuItem item) {
+                mEventListAdapter.setFilter(mEvents);
+                return true;
+            }
+        });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        switch (item.getItemId()){
+            case R.id.action_refresh:
+                //executeRetrievePlayerTask();
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        final List<Event> filteredPlayerList = filter(mEvents, newText);
+        mEventListAdapter.setFilter(filteredPlayerList);
+        return true;
+    }
+
     public void populateList(View v) {
+        mEvents = mDbHelper.mEventTable.readAll();
         mEventListAdapter = new EventListAdapter(v.getContext(), mEvents);
         mRecyclerView.setAdapter(mEventListAdapter);
+    }
+
+    private List<Event> filter(List<Event> events, String query){
+        query = query.toLowerCase();
+
+        final List<Event> filteredEventList = new ArrayList<>();
+        for(Event event : events){
+            final String eventName = event.getName().toLowerCase();
+            if(eventName.contains(query)){
+                filteredEventList.add(event);
+            }
+        }
+        return filteredEventList;
     }
 }
