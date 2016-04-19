@@ -11,11 +11,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import group8.matchtracker.R;
 import group8.matchtracker.activities.Login;
 import group8.matchtracker.data.Event;
-import group8.matchtracker.database.DatabaseHelper;
 
 
 public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.ViewHolder> {
@@ -43,8 +43,7 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.View
                 Intent i = new Intent(context, Login.class);
                 // TODO (David): Fix to send Event_ID as it would give all tournaments
                 //i.putExtra(DatabaseHelper.EVENT_ID, mEvents.get(getLayoutPosition()).getId());
-                i.putExtra("EID", mEvents.get(getLayoutPosition()).getId());
-                i.putExtra("TID", mEvents.get(getLayoutPosition()).getTournaments().get(0).getId());
+                i.putExtra("EID", mEventId);
 
                 context.startActivity(i);
             //}
@@ -91,5 +90,11 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.View
         holder.mLocationTextView.setText(currentEvent.getLocation());
         holder.mDateTextView.setText(dates);
         holder.mOrganizerTextView.setText("By " + currentEvent.getOrganizer());
+    }
+
+    public void setFilter(List<Event> events){
+        mEvents = new ArrayList<>();
+        mEvents.addAll(events);
+        notifyDataSetChanged();
     }
 }

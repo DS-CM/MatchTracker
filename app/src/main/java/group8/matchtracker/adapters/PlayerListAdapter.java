@@ -15,18 +15,28 @@ import java.util.List;
 import group8.matchtracker.R;
 import group8.matchtracker.activities.TabbedActivity;
 import group8.matchtracker.data.Player;
-import group8.matchtracker.database.DatabaseHelper;
 
 
 public class PlayerListAdapter extends RecyclerView.Adapter<PlayerListAdapter.ViewHolder> {
     private final String TAG = getClass().getSimpleName();
     private Context mContext;
     private static ArrayList<Player> mPlayers;
+    private long tid;
+    private long eid;
+
+    public PlayerListAdapter(Context context, ArrayList<Player> players, long eid, long tid) {
+        mContext = context;
+        mPlayers = players;
+        this.eid = eid;
+        this.tid = tid;
+    }
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public long mPlayerId;
         public TextView mNameTextView;
         public TextView mIgnTextView;
+        public long tid;
+        public long eid;
 
         public ViewHolder(View v) {
             super (v);
@@ -40,17 +50,12 @@ public class PlayerListAdapter extends RecyclerView.Adapter<PlayerListAdapter.Vi
                 Context context = itemView.getContext();
                 Intent i = new Intent(context, TabbedActivity.class);
                 Player selectedPlayer = mPlayers.get(getLayoutPosition());
-                i.putExtra("EID", ((Activity)context).getIntent().getExtras().getLong("EID"));
-                i.putExtra("TID", ((Activity)context).getIntent().getExtras().getLong("TID"));
+                i.putExtra("EID", eid);
+                i.putExtra("TID", tid);
                 i.putExtra("PID", selectedPlayer.getId());
                 context.startActivity(i);
             //}
         }
-    }
-
-    public PlayerListAdapter(Context context, ArrayList<Player> players) {
-        mContext = context;
-        mPlayers = players;
     }
 
     @Override
@@ -74,6 +79,8 @@ public class PlayerListAdapter extends RecyclerView.Adapter<PlayerListAdapter.Vi
         Player currentPlayer = mPlayers.get(position);
 
         holder.mPlayerId = currentPlayer.getId();
+        holder.eid = eid;
+        holder.tid = tid;
         //holder.mNameTextView.setText(currentPlayer.getName());
         holder.mNameTextView.setText(currentPlayer.getIgn());
         holder.mIgnTextView.setText(currentPlayer.getIgn());

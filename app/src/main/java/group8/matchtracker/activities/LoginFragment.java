@@ -43,6 +43,7 @@ public class LoginFragment extends Fragment implements SearchView.OnQueryTextLis
     private RecyclerView recyclerView;
     private View v;
     private long tid;
+    private long eid;
     private String API_KEY = "JSDvdSusuXhmamjxPcukkXOhw8fnDeTAyMYroYIV";
 
 
@@ -57,14 +58,15 @@ public class LoginFragment extends Fragment implements SearchView.OnQueryTextLis
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         v = inflater.inflate(R.layout.player_login_fragment, container, false);
-        //tid = getActivity().getIntent().getIntExtra(DatabaseHelper.EVENT_ID, 0);
-        tid = getActivity().getIntent().getLongExtra("TID", 0);
+        eid = getActivity().getIntent().getLongExtra("EID", 0);
 
         recyclerView = (RecyclerView) v.findViewById(R.id.player_login_fragment_recycler_view);
         LinearLayoutManager layoutManager = new LinearLayoutManager(v.getContext());
         recyclerView.setLayoutManager(layoutManager);
         // TODO - Change away from this
         mDbHelper = new DatabaseHelper(v.getContext());
+
+        tid = mDbHelper.mTournamentInEventTable.readTIDs(eid).get(0);
 
         Log.d(TAG, "No tournaments: "+mDbHelper.mTournamentTable.hasData());
         executeRetrievePlayerTask();
@@ -84,7 +86,7 @@ public class LoginFragment extends Fragment implements SearchView.OnQueryTextLis
 
     public void populateList(View v) {
         mPlayers = mDbHelper.mPlayerTable.readAll();
-        mPlayerListAdapter = new PlayerListAdapter(v.getContext(), mPlayers);
+        mPlayerListAdapter = new PlayerListAdapter(v.getContext(), mPlayers, eid, tid);
         recyclerView.setAdapter(mPlayerListAdapter);
     }
 
@@ -137,8 +139,8 @@ public class LoginFragment extends Fragment implements SearchView.OnQueryTextLis
         query = query.toLowerCase();
 
         final List<Player> filteredPlayerList = new ArrayList<>();
-        for(Player player:players){
-            final String ign = player.getIgn();
+        for(Player player : players){
+            final String ign = player.getIgn().toLowerCase();
             if(ign.contains(query)){
                 filteredPlayerList.add(player);
             }
@@ -147,8 +149,9 @@ public class LoginFragment extends Fragment implements SearchView.OnQueryTextLis
     }
 
     private void executeRetrievePlayerTask(){
-/*        String API_URL = "https://api.challonge.com/v1/tournaments/"+mDbHelper.mTournamentTable.read(tid).getUrl()+"/participants.json?api_key="+API_KEY;
+        String API_URL = "https://api.challonge.com/v1/tournaments/"+mDbHelper.mTournamentTable.read(tid).getUrl()+"/participants.json?api_key="+API_KEY;
 
+        /*
         JsonArrayRequest jsonRequest = new JsonArrayRequest(Request.Method.GET, API_URL, null, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray jsonArray) {
