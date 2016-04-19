@@ -2,6 +2,7 @@ package group8.matchtracker.data;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Created by dsoll on 2/19/2016.
@@ -85,5 +86,14 @@ public class Tournament {
 
     public List<Match> getMatches() {
         return matches;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        Tournament t = (Tournament) o;
+        return (id == t.getId()
+                && challongeId == t.getChallongeId()
+                && name.equals(t.getName())
+                && url.equals(t.getUrl()));
     }
 }

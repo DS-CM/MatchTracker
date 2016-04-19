@@ -22,15 +22,6 @@ public class Player {
         this.ign = ign;
     }
 
-    @Override
-    public boolean equals(Object o){
-        Player p = (Player)o;
-        return (id == p.getId()
-                && challongeId == p.getChallongeId()
-                && name.equals(p.getName())
-                && ign.equals(p.getIgn()));
-    }
-
     /* SETTERS */
     public void setId(long id) {
         this.id = id;
@@ -63,5 +54,14 @@ public class Player {
 
     public String getIgn() {
         return ign;
+    }
+
+    @Override
+    public boolean equals(Object o){
+        Player p = (Player)o;
+        return (id == p.getId()
+                && challongeId == p.getChallongeId()
+                && name.equals(p.getName())
+                && ign.equals(p.getIgn()));
     }
 }
