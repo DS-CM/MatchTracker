@@ -151,7 +151,6 @@ public class LoginFragment extends Fragment implements SearchView.OnQueryTextLis
     private void executeRetrievePlayerTask(){
         String API_URL = "https://api.challonge.com/v1/tournaments/"+mDbHelper.mTournamentTable.read(tid).getUrl()+"/participants.json?api_key="+API_KEY;
 
-        /*
         JsonArrayRequest jsonRequest = new JsonArrayRequest(Request.Method.GET, API_URL, null, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray jsonArray) {
@@ -182,7 +181,9 @@ public class LoginFragment extends Fragment implements SearchView.OnQueryTextLis
                 error.printStackTrace();
             }
         });
-        Volley.newRequestQueue(getActivity()).add(jsonRequest);*/
+        Volley.newRequestQueue(getActivity()).add(jsonRequest);
+
+        /*
         RetrievePlayersTask rp = new RetrievePlayersTask();
         rp.setJsonDownloadListener(new RetrievePlayersTask.JsonDownloadListener() {
             @Override
@@ -210,6 +211,7 @@ public class LoginFragment extends Fragment implements SearchView.OnQueryTextLis
             }
         });
         rp.execute(mDbHelper.mTournamentTable.read(tid).getUrl());
+        */
     }
 
     @Override

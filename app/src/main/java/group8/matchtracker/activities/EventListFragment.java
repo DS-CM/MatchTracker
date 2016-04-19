@@ -70,7 +70,7 @@ public class EventListFragment extends Fragment implements SearchView.OnQueryTex
         mDbHelper.mTournamentTable.deleteAll(); // TODO - remove
 
         String API_URL = "https://api.challonge.com/v1/tournaments.json?api_key="+API_KEY;
-        /*
+
         JsonArrayRequest jsonRequest = new JsonArrayRequest(Request.Method.GET, API_URL, null, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray jsonArray) {
@@ -81,8 +81,10 @@ public class EventListFragment extends Fragment implements SearchView.OnQueryTex
                         int tChallongeId = jsonTournament.getInt("id");
                         String tName = jsonTournament.getString("name");
                         String tUrl = jsonTournament.getString("url");
+                        String startString = jsonTournament.getString("created_at");
+                        String startTime = startString.substring(startString.length()-5);
 
-                        Event event = mDbHelper.mEventTable.create(tName, 0, 0, "Ohio Union", "esi");
+                        Event event = mDbHelper.mEventTable.create(tName, startTime, "00:00", "Ohio Union", "esi");
                         Tournament tournament = mDbHelper.mTournamentTable.create(tChallongeId, tName, tUrl);
                         mDbHelper.mTournamentInEventTable.create(event.getId(), tournament.getId());
 
@@ -101,7 +103,8 @@ public class EventListFragment extends Fragment implements SearchView.OnQueryTex
                 error.printStackTrace();
             }
         });
-        Volley.newRequestQueue(getActivity()).add(jsonRequest);*/
+        Volley.newRequestQueue(getActivity()).add(jsonRequest);
+        /*
         RetrieveTournamentsTask rt = new RetrieveTournamentsTask();
         rt.setJsonDownloadListener(new RetrieveTournamentsTask.JsonDownloadListener() {
             @Override
@@ -129,6 +132,7 @@ public class EventListFragment extends Fragment implements SearchView.OnQueryTex
             }
         });
         rt.execute();
+        */
 
         // TODO - Remove
 /*        mDbHelper.mEventTable.create("Shuffle VIII", 03122016, 03132016, "Ohio Union", "eSports Initiative");

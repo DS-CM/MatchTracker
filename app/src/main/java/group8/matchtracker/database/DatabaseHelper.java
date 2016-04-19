@@ -129,8 +129,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String SQL_CREATE_TABLE_EVENTS = "CREATE TABLE " + TABLE_EVENT + " ("
             + EVENT_ID + " INTEGER PRIMARY KEY ASC, "
             + EVENT_NAME + " STRING, "
-            + EVENT_START + " INTEGER, "
-            + EVENT_END + " INTEGER, "
+            + EVENT_START + " STRING, "
+            + EVENT_END + " STRING, "
             + EVENT_LOCATION + " STRING, "
             + EVENT_ORGANIZER + " STRING)";
 

@@ -20,7 +20,7 @@ public class EventTable extends DBTable {
         //mDatabase.execSQL(DatabaseHelper.SQL_CREATE_TABLE_EVENTS);
     }
 
-    public Event create(String name, int start, int end, String location, String organizer) {
+    public Event create(String name, String start, String end, String location, String organizer) {
         ContentValues values = new ContentValues();
         values.put(DatabaseHelper.EVENT_NAME, name);
         values.put(DatabaseHelper.EVENT_START, start);
@@ -43,8 +43,8 @@ public class EventTable extends DBTable {
 
             event.setId(id);
             event.setName(cursor.getString(cursor.getColumnIndex("name")));
-            event.setStartTime(cursor.getInt(cursor.getColumnIndex("start")));
-            event.setEndTime(cursor.getInt(cursor.getColumnIndex("end")));
+            event.setStartTime(cursor.getString(cursor.getColumnIndex("start")));
+            event.setEndTime(cursor.getString(cursor.getColumnIndex("end")));
             event.setLocation(cursor.getString(cursor.getColumnIndex("location")));
             event.setOrganizer(cursor.getString(cursor.getColumnIndex("organizer")));
 
@@ -64,8 +64,8 @@ public class EventTable extends DBTable {
 
             event.setId(cursor.getInt(cursor.getColumnIndex("id")));
             event.setName(name);
-            event.setStartTime(cursor.getInt(cursor.getColumnIndex("start")));
-            event.setEndTime(cursor.getInt(cursor.getColumnIndex("end")));
+            event.setStartTime(cursor.getString(cursor.getColumnIndex("start")));
+            event.setEndTime(cursor.getString(cursor.getColumnIndex("end")));
             event.setLocation(cursor.getString(cursor.getColumnIndex("location")));
             event.setOrganizer(cursor.getString(cursor.getColumnIndex("organizer")));
 
@@ -86,8 +86,8 @@ public class EventTable extends DBTable {
 
                 event.setId(cursor.getInt(cursor.getColumnIndex("id")));
                 event.setName(cursor.getString(cursor.getColumnIndex("name")));
-                event.setStartTime(cursor.getInt(cursor.getColumnIndex("start")));
-                event.setEndTime(cursor.getInt(cursor.getColumnIndex("end")));
+                event.setStartTime(cursor.getString(cursor.getColumnIndex("start")));
+                event.setEndTime(cursor.getString(cursor.getColumnIndex("end")));
                 event.setLocation(cursor.getString(cursor.getColumnIndex("location")));
                 event.setOrganizer(cursor.getString(cursor.getColumnIndex("organizer")));
 

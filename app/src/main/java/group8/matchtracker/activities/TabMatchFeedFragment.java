@@ -13,6 +13,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.Volley;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -28,6 +34,7 @@ import group8.matchtracker.data.Player;
 import group8.matchtracker.database.DatabaseHelper;
 
 public class TabMatchFeedFragment extends Fragment {
+    private String API_KEY = "JSDvdSusuXhmamjxPcukkXOhw8fnDeTAyMYroYIV";
     private final String TAG = getClass().getSimpleName();
     private MatchAdapter mMatchAdapter;
     private ArrayList<Match> mMatches = new ArrayList<>();
@@ -108,6 +115,62 @@ public class TabMatchFeedFragment extends Fragment {
     }
 
     private void executeRetrieveMatchTask(){
+        mDbHelper.mPlayersInMatchTable.deleteAll(); // TODO - remove
+        mDbHelper.mMatchesInTournamentTable.deleteAll(); // TODO - remove
+        mDbHelper.mMatchTable.deleteAll(); // TODO - remove
+
+        String API_URL = "https://api.challonge.com/v1/tournaments/"+mDbHelper.mTournamentTable.read(tid).getUrl()+"/matches.json?api_key="+API_KEY+"&participant_id="+String.valueOf(player.getChallongeId());
+
+        JsonArrayRequest jsonRequest = new JsonArrayRequest(Request.Method.GET, API_URL, null, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray jsonArray) {
+                String type = "1 v 1";
+                String location = "setup #25";
+                try {
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject jsonMatch = jsonArray.getJSONObject(i).getJSONObject("match");
+                        Log.d(TAG, "Match: " + jsonMatch.toString());
+
+                        int challongeId = jsonMatch.getInt("id");
+                        int round = jsonMatch.getInt("round");
+                        String identifier = jsonMatch.getString("identifier");
+                        int p1ChallongeId = jsonMatch.getInt("player1_id");
+                        int p2ChallongeId = jsonMatch.getInt("player2_id");
+                        //String type = jsonMatch.getString("scores_csv");
+                        String sResults = jsonMatch.getString("scores_csv");
+                        String timeString = jsonMatch.getString("created_at");
+                        String time = timeString.substring(timeString.length() - 5);
+
+                        Log.d(TAG, "Got here " + type);
+
+                        Match match = mDbHelper.mMatchTable.create(challongeId, round, identifier, getResults(sResults), type, location, time, new int[]{p1ChallongeId, p2ChallongeId});
+                        mDbHelper.mMatchesInTournamentTable.create(tid, match.getId());
+
+                        //Player p1 = mDbHelper.mPlayerTable.readPlayerByChallongeId(p1ChallongeId);
+                        //Player p2 = mDbHelper.mPlayerTable.readPlayerByChallongeId(p2ChallongeId);
+                        Player n = new Player(0, 123, "Joe", "joe");
+                        //match.addPlayer(n);
+                        //match.addPlayer(n);
+
+                        Log.d(TAG, "Match: " + match.getId() + ", " + match.getType());
+
+                        //mDbHelper.mPlayersInMatchTable.create(match.getId(), p1.getId());
+                        //mDbHelper.mPlayersInMatchTable.create(match.getId(), p2.getId());
+                    }
+                    populateList(v);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+            }
+        });
+        Volley.newRequestQueue(getActivity()).add(jsonRequest);
+
+        /*
         RetrieveMatchesForPlayerTask rp = new RetrieveMatchesForPlayerTask();
         rp.setJsonDownloadListener(new RetrieveMatchesForPlayerTask.JsonDownloadListener() {
             @Override
@@ -116,7 +179,7 @@ public class TabMatchFeedFragment extends Fragment {
                 //int[] result = new int[]{2, 3};
                 String type = "1 v 1";
                 String location = "setup #25";
-                String time = "12:01pm";
+                //String time = "12:01pm";
 
                 mDbHelper.mPlayersInMatchTable.deleteAll(); // TODO - remove
                 mDbHelper.mMatchesInTournamentTable.deleteAll(); // TODO - remove
@@ -134,6 +197,8 @@ public class TabMatchFeedFragment extends Fragment {
                         int p2ChallongeId = jsonMatch.getInt("player2_id");
                         //String type = jsonMatch.getString("scores_csv");
                         String sResults = jsonMatch.getString("scores_csv");
+                        String timeString = jsonMatch.getString("created_at");
+                        String time = timeString.substring(timeString.length()-5);
 
                         Log.d(TAG, "Got here " + type);
 
@@ -158,6 +223,7 @@ public class TabMatchFeedFragment extends Fragment {
             }
         });
         rp.execute(mDbHelper.mTournamentTable.read(tid).getUrl(), String.valueOf(player.getChallongeId()));
+        */
     }
 
     private int[] getResults(String sResults){

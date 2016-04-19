@@ -14,8 +14,8 @@ public class Event {
 
     private long id;
     private String name;
-    private int startTime;
-    private int endTime;
+    private String startTime;
+    private String endTime;
     private String location; // Change to a different data type later
     private String organizer;
     private List<Tournament> mTournaments;
@@ -24,7 +24,7 @@ public class Event {
         this.mTournaments = new ArrayList<>();
     }
 
-    public Event(long id, String name, int startTime, int endTime, String location, String organizer) {
+    public Event(long id, String name, String startTime, String endTime, String location, String organizer) {
         this.id = id;
         this.name = name;
         this.startTime = startTime;
@@ -37,8 +37,8 @@ public class Event {
     public Event(Cursor cursor){
         this.id = cursor.getInt(cursor.getColumnIndex("id"));
         this.name = cursor.getString(cursor.getColumnIndex("name"));
-        this.startTime = cursor.getInt(cursor.getColumnIndex("start"));
-        this.endTime = cursor.getInt(cursor.getColumnIndex("end"));
+        this.startTime = cursor.getString(cursor.getColumnIndex("start"));
+        this.endTime = cursor.getString(cursor.getColumnIndex("end"));
         this.location = cursor.getString(cursor.getColumnIndex("location"));
         this.organizer = cursor.getString(cursor.getColumnIndex("organizer"));
         this.mTournaments = new ArrayList<>();
@@ -47,8 +47,8 @@ public class Event {
     @Override
     public boolean equals(Object event){
         Event e = (Event) event;
-        return (id == e.getId() && name.equals(e.getName()) && startTime == e.getStartTime()
-                && endTime == e.getEndTime() && location.equals(e.getLocation())
+        return (id == e.getId() && name.equals(e.getName()) && startTime.equals(e.getStartTime())
+                && endTime.equals(e.getEndTime()) && location.equals(e.getLocation())
                 && organizer.equals(e.getOrganizer()));
     }
 
@@ -65,11 +65,11 @@ public class Event {
         this.name = name;
     }
 
-    public void setStartTime(int startTime) {
+    public void setStartTime(String startTime) {
         this.startTime = startTime;
     }
 
-    public void setEndTime(int endTime) {
+    public void setEndTime(String endTime) {
         this.endTime = endTime;
     }
 
@@ -90,11 +90,11 @@ public class Event {
         return name;
     }
 
-    public int getStartTime() {
+    public String getStartTime() {
         return startTime;
     }
 
-    public int getEndTime() {
+    public String  getEndTime() {
         return endTime;
     }
 
