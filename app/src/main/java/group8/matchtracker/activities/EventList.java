@@ -39,6 +39,7 @@ public class EventList extends AppCompatActivity {
         }
 
         // Search button
+        /*
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.event_list_search_fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,6 +48,7 @@ public class EventList extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+        */
 
         Log.d(TAG, "onCreate");
     }
