@@ -13,6 +13,6 @@
         android:id="@+id/action_refresh"
         android:title="Refresh"
         android:icon="@drawable/ic_action_refresh"
-        app:showAsAction="always"/>
+        app:showAsAction="never"/>
 
 </menu>
