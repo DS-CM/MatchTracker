@@ -1,5 +1,6 @@
 # MatchTracker
-CSE 5236 - Mobile Apps Project
+
+Started for OSU CSE 5236 - Mobile Apps Project
 
 # Goal
 
